@@ -37,10 +37,9 @@ export default class cl_vDashboard extends Cl_vGeneral {
             this.vConfiguracion.show();
         });
         this.estadistica.addEventListener('click', (e) => {
-            onclick: () => {
                 this.show({ ver: false })
                 this.vEstadisticas.show();
-            }
+            
         })
         this.dashboard.innerHTML = "";
         this.vEstadisticas.show({ ver: false });

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DumpiApp</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+
+    <section id="RegistroFormDat" hidden>
+        <nav>
+            <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
+        </nav>
+        <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
+
+        <br>
+        <h3>Nuevo Regristro: <span id="conseForm_lblTipo"></span></h3>
+
+        <div class="form-group">
+            <label for="transaccionReferencia">Referencia</label>
+            <input type="text" id="RegistroFormDat_referencia" required>
+        </div>
+
+        <div class="form-group">
+            <label for="transaccionConcepto">Concepto</label>
+            <input type="text" id="RegistroFormDat_concepto" required>
+        </div>
+
+        <div class="form-group">
+            <label for="transaccionCategoria">Categoría</label>
+            <input type="text" id="RegistroFormDat_categoria" list="dataList" required>
+        </div>
+
+        <div class="form-group">
+            <label for="transaccionMonto">Monto</label>
+            <input type="number" id="RegistroFormDat_monto" required>
+        </div>
+
+        <div class="form-group type-selector">
+            <label class="radio-label">
+                <input type="checkbox" name="tipoMovimiento" id="RegistroFormDat_tipo" value="ingreso">
+                INGRESO
+            </label>
+            <label class="radio-label">
+                <input type="checkbox" name="tipoMovimiento" id="RegistroFormDat_tipo" value="egreso">
+                EGRESO
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="transaccionFecha">Fecha</label>
+            <input type="date" id="transaccionFecha" id="RegistroFormDat_fecha" required>
+        </div>
+
+        <div class="button-group single-button">
+            <button id="RegistroFormDat_agregar" type="submit" class="accept-btn">AGREGAR</button>
+        </div>
+    </section>
+    <section id="dashboardStadis" hidden>
+        <nav>
+            <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
+        </nav>
+        <h1>Estadisticas</h1>
+        <section id="dashboardStadistCont" class="">
+            <div>
+                <h2>Cargos</h2>
+                <span>0</span>
+            </div>
+            <div>
+                <h2>Abonos</h2>
+                <span>0</span>
+            </div>
+
+            <div class="metric-card status-pending">
+                <h2>Movimientos Pendientes</h2>
+                <span>4</span>
+            </div>
+            <div class="metric-card highest-expense">
+                <h2>Mayor Gasto (Alimentación)</h2>
+                <span>$150.75</span>
+            </div>
+            <div class="summary-card credit">
+                <h2>Depósitos (Créditos)</h2>
+                <span>+ $1,500.00</span>
+            </div>
+            <div class="summary-card debit">
+                <h2>Retiros (Débitos)</h2>
+                <span>- $200.00</span>
+            </div>
+            <div class="summary-card balance-bank">
+                <h2>Saldo Estimado del Banco</h2>
+                <span>$1,300.00</span>
+            </div>
+
+
+        </section>
+
+    </section>
+   <section id="newCategoria">
+  <nav>
+    <a id="newCategoria_volver"
+      ><img
+        src="./resources/flecha.png"
+        alt="Volver"
+        style="width: 50px; height: 50px"
+    /></a>
+
+    <a id="newCategori_home"
+      ><img
+        src="./resources/hogar.png"
+        alt="Home"
+        style="width: 50px; height: 50px"
+    /></a>
+  </nav>
+
+  <h1 id="lblOpcion">NUEVA CATEGORÍA</h1>
+
+  <div class="form-group">
+    <label for="categoria_newCategori">Nombre de la Categoría</label>
+    <input type="text" id="categoria_newCategori" required />
+  </div>
+  
+  <button id="categoria_AgregarCategoria">AGREGAR</button>
+</section>
+
+        <section id="listCategoria" hidden>
+            <nav>
+                <a id="listCategoria_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+
+                
+            </nav>
+            <h1>Configuraciones</h1>
+
+            <section id="configuracionCatg" class="">
+                <table class="table-container">
+                    <thead>
+                        <tr class="-on-mobile">
+                            <th>Categoria</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="configuracionCatg_dataCatg">
+                        <tr class="card-row">
+                            <td data-label="Categoria">Electrónica</td>
+                            <td>#REF-12350</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Ropa y Accesorios</td>
+                            <td>#REF-58762</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                            
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Hogar y Jardín</td>
+                            <td>#REF-90145</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Libros y Medios</td>
+                            <td>#REF-33218</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Deportes y Ocio</td>
+                            <td>#REF-74891</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Juguetes y Niños</td>
+                            <td>#REF-61027</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                        <tr class="card-row">
+                            <td data-label="Categoria">Alimentación</td>
+                            <td>#REF-85943</td>
+                            <td>
+                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                    style="width: 30px; height: 30px;">
+                                <img src="./resources/editar-informacion.png" alt="Editar"
+                                    style="width: 30px; height: 30px;">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <h2>NUEVA CATEGORIA</h2>
+                    <a id="listCategoria_AgregarCategoria"><img src="./resources/boton-mas.png" alt="" style="width: 50px; height: 50px;"></a>
+                </div>
+            </section>
+
+    </section>
+
+    <section id="dashboardPrincipal">
+        <nav>
+            <a id="dashboardPrincipal_btnEstadistica"><img src="./resources/estadistico.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="dashboardPrincipal_btnConfiguracion"><img src="./resources/ajustes.png" alt="" style="width: 50px; height: 50px;"></a>
+        </nav>
+        <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
+        <section id="dashboard">
+            <div id="dashboardCont">
+                <h3>Operaciones Registradas</h3>
+                <p><span>20</span></p>
+            </div>
+            <div id="dashboardCont">
+                <h3>Operaciones Conciliadas</h3>
+                <p><span>17</span></p>
+            </div>
+            <button id="dashboardPrincipal_nuevoRegistro">REGISTROS</button>
+        </section>
+
+    </section>
+
+    <section id="mainFormRegistros">
+        <nav>
+            <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
+        </nav>
+        <img src="./resources/Dumpia.jpg" alt="" style="width: 90px; height: 100px;">
+        <h3>REPORTES</h3>
+        <details>
+            <summary>FILTERS</summary>
+            <section id="categorias">
+                <div class="form-group">
+                    <label for="transaccionCategoria">Categoría</label>
+                    <input type="text" id="transaccionCategoria" list="dataList" required>
+                </div>
+                <datalist id="dataList">
+                    <option value="Alimentacion"></option>
+                    <option value="Servicios"></option>
+                    <option value="Telefonica"></option>
+                    <option value="Pago Equipo Programadores"></option>
+                    <option value="Transporte"></option>
+                    <option value="Alquiler"></option>
+                    <option value="Marketing"></option>
+                    <option value="Material Oficina"></option>
+                    <option value="Suscripciones Software"></option>
+                </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputMonto">Monto</label>
+                    <input type="number" id="inputMonto" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputFecha">Fecha</label>
+                    <input type="date" id="inputFecha" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputReferencia">Referencia</label>
+                    <input type="number" id="inputReferencia" placeholder="REFERENCIA">
+                </div>
+                <button>BUSCAR REGISTROS</button>
+            </section>
+        </details>
+        <button>AGREGAR REGISTRO</button>
+        <section id="Tablas">
+            <table class="table-container">
+                <thead>
+                    <tr class="-on-mobile">
+                        <th>REFERENCIA</th>
+                        <th>CATEGORIA</th>
+                        <th>DESCRIPCION</th>
+                        <th>MONTO</th>
+                        <th>FECHA</th>
+                        <th>ESTATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="mainForm_dataConse"></tbody>
+
+
+
+
+                
+                
+            </table>
+        </section>
+    </section>
+
+    <script type="module">
+        import Cl_index from "./dist/index.js";
+        new Cl_index();
+    </script>
+</body>
+
+</html>

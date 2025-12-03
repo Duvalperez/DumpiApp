@@ -1,12 +1,12 @@
 import Cl_mRegistros from "./Cl_mRegistros";
-import { IMovimientos } from "./Cl_mMovimientos"; 
+import Cl_mMovimientos, { IMovimientos } from "./Cl_mMovimientos";
 
 import cl_vDashboard from "./Cl_vDashboard";
 import cl_vRegistro from "./Cl_VRegistro"; 
 import cl_vEstadisticas from "./Cl_vEstadisticas";
 import cl_vConfiguracion from "./Cl_vConfiguracion";
 import cl_vListMovimientos from "./Cl_vListMovimiento";
-import { iCategoria } from "./Cl_mCategoria";
+import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria";
 
 // Definimos la interfaz para la opción de la ficha, si no existe.
 type opcionFicha = 'agregar' | 'editar' | 'ver' | 'eliminar'; 
@@ -25,13 +25,39 @@ export default class Cl_controlador {
     // =========================================================
 
     /** Agrega un nuevo movimiento al modelo. */
-    addMovimiento({ movimiento, callback }: { movimiento: IMovimientos; callback: (error: string | false) => void; }): void {
-        this.modelo.agregarMovimiento({
-            movimiento, // Usamos 'movimiento' en lugar de 'dtMovimiento'
-            callback,
-        });
+addMovimiento({ movimiento, callback }: { movimiento: IMovimientos; callback: (error: string | false) => void; }): void {
+    
+    const movimientoInstancia = new Cl_mMovimientos(movimiento);
+    
+    // CORRECCIÓN LÓGICA: Si movimientoOk NO es false, es porque es el string de error.
+    // Usamos el operador de negación (!) o comprobamos explícitamente si es una cadena.
+    
+    if (movimientoInstancia.movimientoOk) { 
+        // Si movimientoInstancia.movimientoOk es truthy (es un string de error o true), 
+        // significa que hubo un problema.
+        
+        // CORRECCIÓN para asegurar que el callback recibe lo que espera:
+        // Si la validación es 'true' (éxito en la clase, pero error en el callback):
+        if (movimientoInstancia.movimientoOk === true) {
+            // Esto es un error lógico. Nunca debería ser 'true' aquí, si la validación falla.
+            // Si llega a ser 'true' (éxito), no debe entrar en el if.
+            
+            // Asumiendo que el valor de éxito debe ser false. Si entra aquí, es error.
+            callback("Error de validación desconocido."); 
+            return;
+        }
+        
+        // Si es un string (el mensaje de error):
+        callback(movimientoInstancia.movimientoOk);
+        return;
     }
-
+    
+    // Si la validación pasa (movimientoInstancia.movimientoOk es false o undefined/null):
+    this.modelo.agregarMovimiento({
+        movimiento: movimientoInstancia,
+        callback,
+    });
+}
     /** Edita un movimiento existente en el modelo. */
     editMovimiento({ movimiento, callback }: { movimiento: IMovimientos; callback: (error: string | false) => void; }): void {
         this.modelo.editarMovimiento({
@@ -54,11 +80,16 @@ export default class Cl_controlador {
     
     /** Agrega una nueva categoría al modelo. */
     addCategoria({ categoria, callback }: { categoria: iCategoria; callback: (error: string | false) => void; }): void {
-        this.modelo.agregarCategoria({
-            categoria, // Usamos 'categoria'
-            callback,
-        });
-    }
+    
+    // 1. Crear una instancia de la CLASE (Cl_mCategoria) a partir del objeto de interfaz (iCategoria)
+    const categoriaInstancia = new Cl_mCategoria(categoria);
+    
+    // 2. Llamar al modelo con la instancia de la clase
+    this.modelo.agregarCategoria({
+        categoria: categoriaInstancia, // <- Ahora es el tipo Cl_mCategoria
+        callback,
+    });
+}
 
     /** Elimina una categoría por su nombre. */
     deleteCategoria({ nombre, callback }: { nombre: string; callback: (error: string | false) => void; }): void {

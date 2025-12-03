@@ -6,6 +6,7 @@ export interface IMovimientos {
     tipo: string;
     fecha: string;
 }
+
 export default class Cl_mMovimientos {
     private _referencia: string = "";
     private _descripcion: string = "";
@@ -81,7 +82,7 @@ export default class Cl_mMovimientos {
     get montoOk(): boolean {
         return this.monto > 0
     }
-    get movimientoOk(): string | true {
+    get movimientoOk(): string | true| false {
         if (!this.referenciaOk) return "Referencia"
         if (!this.descripcionOk) return "Descripcion"
         if (!this.montoOk) return "Monto"

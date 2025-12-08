@@ -1,137 +1,178 @@
-import Cl_mTablaWeb from "./tools/Cl_mTablaWeb.js";
-/**
- * @class Cl_mTransaccion
- * Clase modelo para la entidad Transacción.
- * Extiende de Cl_mTablaWeb y gestiona los atributos financieros.
- */
-export default class Cl_mTransaccion extends Cl_mTablaWeb {
-    /**
-     * @constructor
-     * Inicializa una nueva instancia de Transaccion.
-     * Hereda 'id', 'creadoEl' y 'alias' de Cl_mTablaWeb.
-     * @param {ITransaccion} data - Objeto con los datos iniciales de la Transacción.
-     */
-    constructor({ id, creadoEl, alias, fecha, descripcion, referencia, categoria, monto, tipo, } = {
-        id: null,
-        creadoEl: null,
-        alias: null,
-        fecha: "",
-        descripcion: "",
-        referencia: "",
-        categoria: "",
-        monto: 0,
-        tipo: "",
-    }) {
-        // Llama al constructor de la clase base (Cl_mTablaWeb)
-        super({ id, creadoEl, alias });
-        // Atributos privados
-        this._fecha = "";
-        this._descripcion = "";
-        this._referencia = "";
-        this._categoria = "";
-        this._monto = 0;
-        this._tipo = "";
-        // Asigna los atributos específicos de la Transacción
-        this.fecha = fecha;
-        this.descripcion = descripcion;
-        this.referencia = referencia;
-        this.categoria = categoria;
-        this.monto = monto;
-        this.tipo = tipo;
+import Cl_mMovimientos from "./Cl_mMovimientos.js";
+export default class Cl_mRegistros {
+    constructor() {
+        this.movimientos = [];
+        this.listcategoria = [];
     }
-    // --- Getters y Setters ---
-    set fecha(fecha) {
-        this._fecha = fecha;
+    // --- MÉTODOS CRUD: CATEGORÍA ---
+    agregarCategoria({ categoria, callback }) {
+        let error = categoria.CategoriaOk;
+        if (!error) { // Verifica si hay mensaje de error (string)
+            callback(error);
+            return;
+        }
+        let existe = this.listcategoria.find((c) => c.nombre === categoria.nombre);
+        if (existe) {
+            callback("La Categoria ya existe");
+            return;
+        }
+        this.listcategoria.push(categoria);
+        localStorage.setItem("categoria", JSON.stringify(this.listarCategoria()));
+        callback(false);
     }
-    get fecha() {
-        return this._fecha;
+    deleteCategoria({ nombre, callback }) {
+        let indice = this.listcategoria.findIndex((m) => m.nombre === nombre);
+        if (indice < 0) {
+            callback(`La categoría "${nombre}" no existe.`);
+            return;
+        }
+        const ExisteEnMovimientos = this.movimientos.some((mov) => mov.categoria === nombre);
+        if (ExisteEnMovimientos) {
+            callback(`No podemos borrar la categoría porque existe en algunos movimientos del registro.`);
+            return;
+        }
+        this.listcategoria.splice(indice, 1);
+        localStorage.setItem("categoria", JSON.stringify(this.listarCategoria()));
+        callback(false);
     }
-    set descripcion(descripcion) {
-        // Uso de .trim() para limpieza y .toUpperCase()
-        this._descripcion = descripcion.toUpperCase().trim();
+    // --- MÉTODOS CRUD: MOVIMIENTOS ---
+    agregarMovimiento({ movimiento, callback }) {
+        let existe = this.movimientos.find((c) => c.referencia === movimiento.referencia);
+        if (existe) {
+            callback("Referencias Ya existente en el Sistema");
+            return;
+        }
+        this.movimientos.push(movimiento);
+        // CORRECCIÓN: Debe usar listarMovimientos()
+        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
+        callback(false);
     }
-    get descripcion() {
-        return this._descripcion;
+    deleteMovimiento({ referencia, callback }) {
+        const index = this.movimientos.findIndex((m) => m.referencia === referencia);
+        if (index === -1) {
+            callback(`No se encontró ningún movimiento con la referencia: ${referencia}`);
+            return;
+        }
+        this.movimientos.splice(index, 1);
+        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
+        callback(false);
     }
-    set referencia(referencia) {
-        // Uso de .trim() para limpieza y .toUpperCase()
-        this._referencia = referencia.toUpperCase().trim();
+    editarMovimiento({ movimiento, callback }) {
+        let mov = new Cl_mMovimientos(movimiento);
+        if (!mov.movimientoOk) { // Verifica si hay mensaje de error (string)
+            callback(mov.movimientoOk);
+            return;
+        }
+        const referenciaNueva = mov.referencia;
+        const index = this.movimientos.findIndex((m) => m.referencia === referenciaNueva);
+        if (index === -1) {
+            callback(`No se encontró el movimiento con referencia: ${referenciaNueva} para editar.`);
+            return;
+        }
+        this.movimientos[index] = mov;
+        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
+        callback(false);
     }
-    get referencia() {
-        return this._referencia;
+    // --- MÉTODOS DE LISTADO ---
+    listarMovimientos() {
+        let lista = [];
+        this.movimientos.forEach((movimiento) => {
+            lista.push(movimiento.toJSON());
+        });
+        return lista;
     }
-    set categoria(categoria) {
-        this._categoria = categoria;
+    listarCategoria() {
+        let lista = [];
+        this.listcategoria.forEach((nombre) => {
+            lista.push(nombre.toJSON());
+        });
+        return lista;
     }
-    get categoria() {
-        return this._categoria;
+    // =========================================================================================
+    // ============================= NUEVOS MÉTODOS DE ANÁLISIS ================================
+    // =========================================================================================
+    // Calcula Monto Total Abonos, Monto Total Cargos y Saldo Final
+    obtenerBalanceAnalisis() {
+        const TIPO_ABONO = "ABONO";
+        const TIPO_CARGO = "CARGO";
+        const resultado = this.movimientos.reduce((acumulador, mov) => {
+            if (mov.tipo === TIPO_ABONO) {
+                acumulador.montoTotalAbonos += mov.monto;
+            }
+            else if (mov.tipo === TIPO_CARGO) {
+                acumulador.montoTotalCargos += mov.monto;
+            }
+            return acumulador;
+        }, {
+            montoTotalAbonos: 0,
+            montoTotalCargos: 0,
+            saldoFinal: 0,
+        });
+        resultado.saldoFinal = resultado.montoTotalAbonos - resultado.montoTotalCargos;
+        return resultado;
     }
-    set monto(monto) {
-        this._monto = monto;
+    // Realiza un Desglose por Categoría (Abonos, Cargos, Diferencial)
+    desglosePorCategoria() {
+        const TIPO_ABONO = "ABONO";
+        const TIPO_CARGO = "CARGO";
+        const desglose = {};
+        this.movimientos.forEach((mov) => {
+            if (!desglose[mov.categoria]) {
+                desglose[mov.categoria] = { totalAbonos: 0, totalCargos: 0, diferencial: 0 };
+            }
+            if (mov.tipo === TIPO_ABONO) {
+                desglose[mov.categoria].totalAbonos += mov.monto;
+            }
+            else if (mov.tipo === TIPO_CARGO) {
+                desglose[mov.categoria].totalCargos += mov.monto;
+            }
+        });
+        for (const cat in desglose) {
+            desglose[cat].diferencial = desglose[cat].totalAbonos - desglose[cat].totalCargos;
+        }
+        return desglose;
     }
-    get monto() {
-        return this._monto;
+    // Identifica la Mayor Categoría de Gasto y la Mayor Categoría de Ingreso
+    obtenerMayorCategoria() {
+        const desglose = this.desglosePorCategoria();
+        let mayorGasto = { nombre: "", monto: -1 };
+        let mayorIngreso = { nombre: "", monto: -1 };
+        for (const nombreCategoria in desglose) {
+            const datos = desglose[nombreCategoria];
+            if (datos.totalCargos > mayorGasto.monto) {
+                mayorGasto = { nombre: nombreCategoria, monto: datos.totalCargos };
+            }
+            if (datos.totalAbonos > mayorIngreso.monto) {
+                mayorIngreso = { nombre: nombreCategoria, monto: datos.totalAbonos };
+            }
+        }
+        return { mayorGasto, mayorIngreso };
     }
-    set tipo(tipo) {
-        // Convertir a mayúsculas y limpiar para consistencia (ej: "INGRESO" o "EGRESO")
-        this._tipo = tipo.toUpperCase().trim();
-    }
-    get tipo() {
-        return this._tipo;
-    }
-    // --- Métodos de Validación al estilo Ok() ---
-    /**
-     * Valida que la fecha tenga un formato correcto (simplificado, solo verifica longitud).
-     * Se recomienda usar una librería como Moment.js o Date-fns para validaciones reales.
-     * @returns {boolean} True si la fecha es válida.
-     */
-    get fechaOk() {
-        return this.fecha.length > 5; // Una validación básica
-    }
-    /**
-     * Valida que la descripción no esté vacía y no sea demasiado larga.
-     * @returns {boolean} True si la descripción es válida.
-     */
-    get descripcionOk() {
-        return this.descripcion.length > 2 && this.descripcion.length <= 20;
-    }
-    /**
-     * Valida que el monto sea positivo.
-     * @returns {boolean} True si el monto es válido.
-     */
-    get montoOk() {
-        return this.monto > 0;
-    }
-    /**
-     * Valida que el tipo sea 'INGRESO' o 'EGRESO'.
-     * @returns {boolean} True si el tipo es válido.
-     */
-    get tipoOk() {
-        const tipoValido = ["INGRESO", "EGRESO"];
-        return tipoValido.includes(this.tipo);
-    }
-    /**
-     * Valida si la Transacción es válida en general, devolviendo el nombre del campo fallido.
-     * @returns {string | true} El nombre del atributo fallido o true si todo está Ok.
-     */
-    get transaccionOk() {
-        if (!this.fechaOk)
-            return "fecha";
-        if (!this.descripcionOk)
-            return "descripcion";
-        if (!this.montoOk)
-            return "monto";
-        if (!this.tipoOk)
-            return "tipo";
-        return true;
-    }
-    // --- Serialización ---
-    /**
-     * Convierte la instancia de la clase a un objeto JSON compatible con ITransaccion.
-     * @returns {ITransaccion} Objeto con los datos de la Transacción.
-     */
-    toJSON() {
-        // Une los datos de la clase base (super.toJSON()) con los de la Transacción.
-        return Object.assign(Object.assign({}, super.toJSON()), { fecha: this._fecha, descripcion: this._descripcion, referencia: this._referencia, categoria: this._categoria, monto: this._monto, tipo: this._tipo });
+    // --- MÉTODOS DE FILTRADO ---
+    // Filtra movimientos por Fecha, Monto (Rango), Referencia y Categoría
+    listarMovimientosFiltrados({ fecha, montoMin, montoMax, referencia, categoria, }) {
+        let resultados = this.movimientos;
+        // Filtro por CATEGORÍA
+        if (categoria && categoria.trim() !== "") {
+            resultados = resultados.filter((mov) => mov.categoria === categoria);
+        }
+        // Filtro por REFERENCIA (búsqueda parcial)
+        if (referencia && referencia.trim() !== "") {
+            resultados = resultados.filter((mov) => mov.referencia.includes(referencia));
+        }
+        // Filtro por FECHA (día exacto)
+        if (fecha && fecha.trim() !== "") {
+            resultados = resultados.filter((mov) => mov.fecha === fecha);
+        }
+        // Filtro por MONTO (Rango)
+        if (montoMin !== undefined || montoMax !== undefined) {
+            resultados = resultados.filter((mov) => {
+                const cumpleMin = montoMin === undefined || mov.monto >= montoMin;
+                const cumpleMax = montoMax === undefined || mov.monto <= montoMax;
+                return cumpleMin && cumpleMax;
+            });
+        }
+        // Retorna la lista filtrada en formato IMovimientos[]
+        return resultados.map(mov => mov.toJSON());
     }
 }

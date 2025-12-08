@@ -1,5 +1,5 @@
-import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria";
-import Cl_mMovimientos, { IMovimientos } from "./Cl_mMovimientos";
+import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria.js";
+import Cl_mMovimientos, { IMovimientos } from "./Cl_mMovimientos.js";
 
 export default class Cl_mRegistros {
     private movimientos: Cl_mMovimientos[] = [];

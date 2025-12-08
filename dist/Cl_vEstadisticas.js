@@ -1,30 +1,21 @@
 import Cl_vGeneral from "./tools/Cl_vGeneral.js";
-
 export default class cl_vEstadisticas extends Cl_vGeneral {
-    private btnVolver: HTMLElement;
-    private btnHome: HTMLElement;
-
-    // Callback para avisar al controlador que queremos regresar
-    public onNavHome?: () => void;
-
     constructor() {
         super({ formName: "dashboardStadis" });
-
         // Inicializamos los elementos usando tus herramientas
         this.btnHome = this.crearHTMLElement("Home");
         this.btnVolver = this.crearHTMLElement("Volver"); // Corregido el nombre a Volver
-
         this.configurarEventos();
     }
-
-    private configurarEventos() {
+    configurarEventos() {
         // Al hacer clic, le decimos al controlador que navegue al Home (Dashboard)
         this.btnVolver.onclick = () => {
-            if (this.onNavHome) this.onNavHome();
+            if (this.onNavHome)
+                this.onNavHome();
         };
-
         this.btnHome.onclick = () => {
-            if (this.onNavHome) this.onNavHome();
+            if (this.onNavHome)
+                this.onNavHome();
         };
     }
 }

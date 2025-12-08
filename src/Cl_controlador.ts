@@ -1,150 +1,67 @@
-import Cl_mRegistros from "./Cl_mRegistros";
-import Cl_mMovimientos, { IMovimientos } from "./Cl_mMovimientos";
-
-import cl_vDashboard from "./Cl_vDashboard";
-import cl_vRegistro from "./Cl_VRegistro"; 
-import cl_vEstadisticas from "./Cl_vEstadisticas";
-import cl_vConfiguracion from "./Cl_vConfiguracion";
-import cl_vListMovimientos from "./Cl_vListMovimiento";
-import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria";
-
-// Definimos la interfaz para la opción de la ficha, si no existe.
-type opcionFicha = 'agregar' | 'editar' | 'ver' | 'eliminar'; 
+import Cl_mRegistros from "./Cl_mRegistros.js";
+import Cl_vDashboard from "./Cl_vDashboard.js";
+import cl_vEstadisticas from "./Cl_vEstadisticas.js";
+import cl_vRegistro from "./Cl_VRegistro.js";
+import cl_vConfiguracion from "./Cl_vConfiguracion.js";
 
 export default class Cl_controlador {
     public modelo: Cl_mRegistros;
-    public vista: cl_vDashboard; 
+    public vistaDashboard: Cl_vDashboard;
+    public vEstadisticas: cl_vEstadisticas;
+    public vRegistro: cl_vRegistro;
+    public VConfiguraciones: cl_vConfiguracion;
 
-    constructor(modelo: Cl_mRegistros, vista: cl_vDashboard) {
+    constructor(modelo: Cl_mRegistros) {
         this.modelo = modelo;
-        this.vista = vista;
+
+        this.vistaDashboard = new Cl_vDashboard();
+        this.vEstadisticas = new cl_vEstadisticas();
+        this.vRegistro = new cl_vRegistro();
+        this.VConfiguraciones = new cl_vConfiguracion();
+
+        this.ocultarTodas();
+        this.vistaDashboard.show({ ver: true });
+
+        this.configurarNavegacion();
     }
 
-    // =========================================================
-    // ================ GESTIÓN DE MOVIMIENTOS (CRUD) ==========
-    // =========================================================
+    private configurarNavegacion() {
+        // --- Navegación DESDE el Dashboard ---
+        this.vistaDashboard.onNavEstadisticas = () => {
+            this.mostrarUnaVista(this.vEstadisticas);
+        };
 
-    /** Agrega un nuevo movimiento al modelo. */
-addMovimiento({ movimiento, callback }: { movimiento: IMovimientos; callback: (error: string | false) => void; }): void {
-    
-    const movimientoInstancia = new Cl_mMovimientos(movimiento);
-    
-    // CORRECCIÓN LÓGICA: Si movimientoOk NO es false, es porque es el string de error.
-    // Usamos el operador de negación (!) o comprobamos explícitamente si es una cadena.
-    
-    if (movimientoInstancia.movimientoOk) { 
-        // Si movimientoInstancia.movimientoOk es truthy (es un string de error o true), 
-        // significa que hubo un problema.
-        
-        // CORRECCIÓN para asegurar que el callback recibe lo que espera:
-        // Si la validación es 'true' (éxito en la clase, pero error en el callback):
-        if (movimientoInstancia.movimientoOk === true) {
-            // Esto es un error lógico. Nunca debería ser 'true' aquí, si la validación falla.
-            // Si llega a ser 'true' (éxito), no debe entrar en el if.
-            
-            // Asumiendo que el valor de éxito debe ser false. Si entra aquí, es error.
-            callback("Error de validación desconocido."); 
-            return;
-        }
-        
-        // Si es un string (el mensaje de error):
-        callback(movimientoInstancia.movimientoOk);
-        return;
-    }
-    
-    // Si la validación pasa (movimientoInstancia.movimientoOk es false o undefined/null):
-    this.modelo.agregarMovimiento({
-        movimiento: movimientoInstancia,
-        callback,
-    });
-}
-    /** Edita un movimiento existente en el modelo. */
-    editMovimiento({ movimiento, callback }: { movimiento: IMovimientos; callback: (error: string | false) => void; }): void {
-        this.modelo.editarMovimiento({
-            movimiento, // Usamos 'movimiento'
-            callback,
-        });
-    }
+        this.vistaDashboard.onNavConfiguracion = () => {
+            this.mostrarUnaVista(this.VConfiguraciones);
+        };
 
-    /** Elimina un movimiento por su referencia. */
-    deleteMovimiento({ referencia, callback }: { referencia: string; callback: (error: string | false) => void; }): void {
-        this.modelo.deleteMovimiento({
-            referencia,
-            callback,
-        });
-    }
-    
-    // =========================================================
-    // ================ GESTIÓN DE CATEGORÍAS (CRUD) ===========
-    // =========================================================
-    
-    /** Agrega una nueva categoría al modelo. */
-    addCategoria({ categoria, callback }: { categoria: iCategoria; callback: (error: string | false) => void; }): void {
-    
-    // 1. Crear una instancia de la CLASE (Cl_mCategoria) a partir del objeto de interfaz (iCategoria)
-    const categoriaInstancia = new Cl_mCategoria(categoria);
-    
-    // 2. Llamar al modelo con la instancia de la clase
-    this.modelo.agregarCategoria({
-        categoria: categoriaInstancia, // <- Ahora es el tipo Cl_mCategoria
-        callback,
-    });
-}
+        this.vistaDashboard.onNavRegistro = () => {
+            this.mostrarUnaVista(this.vRegistro);
+        };
 
-    /** Elimina una categoría por su nombre. */
-    deleteCategoria({ nombre, callback }: { nombre: string; callback: (error: string | false) => void; }): void {
-        this.modelo.deleteCategoria({
-            nombre,
-            callback,
-        });
-    }
+        // --- Navegación DE REGRESO al Dashboard ---
+        this.vEstadisticas.onNavHome = () => {
+            this.mostrarUnaVista(this.vistaDashboard);
+        };
 
-    // =========================================================
-    // ================== GETTERS / LISTADOS ===================
-    // =========================================================
+        this.VConfiguraciones.onNavHome = () => {
+            this.mostrarUnaVista(this.vistaDashboard);
+        };
 
-    /** Obtiene la lista completa de movimientos. */
-    get movimientos(): IMovimientos[] {
-        return this.modelo.listarMovimientos();
-    }
-
-    /** Obtiene la lista completa de categorías. */
-    get categorias(): iCategoria[] {
-        return this.modelo.listarCategoria();
-    }
-
-    /** Obtiene la lista de movimientos filtrados. */
-    movimientosFiltrados(filtros: { fecha?: string; montoMin?: number; montoMax?: number; referencia?: string; categoria?: string; }): IMovimientos[] {
-        return this.modelo.listarMovimientosFiltrados(filtros);
-    }
-    
-    // =========================================================
-    // =================== ANÁLISIS Y ESTADÍSTICAS =============
-    // =========================================================
-
-    /** Obtiene todas las estadísticas financieras clave. */
-    obtenerEstadisticas() {
-        return {
-            balance: this.modelo.obtenerBalanceAnalisis(),
-            desglose: this.modelo.desglosePorCategoria(),
-            mayores: this.modelo.obtenerMayorCategoria(),
+        this.vRegistro.onNavHome = () => {
+            this.mostrarUnaVista(this.vistaDashboard);
         };
     }
 
-    // =========================================================
-    // ==================== GESTIÓN DE VISTAS ==================
-    // =========================================================
+    private mostrarUnaVista(vistaDestino: any) {
+        this.ocultarTodas();
+        vistaDestino.show({ ver: true });
+    }
 
-    /** Activa una vista específica, mostrando u ocultando otras si es necesario. */
-    activarVista({
-        vista,
-        opcion,
-        objeto,
-    }: {
-        vista: 'Dashboard' | 'Registro' | 'Estadisticas' | 'ListMovimientos' | 'Configuracion';
-        opcion?: opcionFicha;
-        objeto?: IMovimientos | iCategoria; 
-    }): void {
-        this.vista.activarVista({ vista, opcion, objeto }); 
+    private ocultarTodas() {
+        this.vistaDashboard.show({ ver: false });
+        this.vEstadisticas.show({ ver: false });
+        this.vRegistro.show({ ver: false });
+        this.VConfiguraciones.show({ ver: false });
     }
 }

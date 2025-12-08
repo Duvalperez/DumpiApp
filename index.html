@@ -11,7 +11,7 @@
 <body>
 
 
-    <section id="RegistroFormDat" hidden>
+    <section id="RegistroFormDatD" hidden>
         <nav>
             <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
             <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
@@ -61,10 +61,10 @@
             <button id="RegistroFormDat_agregar" type="submit" class="accept-btn">AGREGAR</button>
         </div>
     </section>
-    <section id="dashboardStadis" hidden>
+    <section id="dashboardStadis" >
         <nav>
-            <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
-            <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="dashboardStadis_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="dashboardStadis_Home"><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
         </nav>
         <h1>Estadisticas</h1>
         <section id="dashboardStadistCont" class="">
@@ -102,7 +102,7 @@
         </section>
 
     </section>
-   <section id="newCategoria">
+   <section id="newCategorisa" hidden>
   <nav>
     <a id="newCategoria_volver"
       ><img
@@ -129,7 +129,7 @@
   <button id="categoria_AgregarCategoria">AGREGAR</button>
 </section>
 
-        <section id="listCategoria" hidden>
+        <section id="listCategoria" >
             <nav>
                 <a id="listCategoria_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
 
@@ -137,7 +137,7 @@
             </nav>
             <h1>Configuraciones</h1>
 
-            <section id="configuracionCatg" class="">
+            <section id="configuracionCatg" class="" >
                 <table class="table-container">
                     <thead>
                         <tr class="-on-mobile">
@@ -304,7 +304,7 @@
 
     </section>
 
-    <section id="dashboardPrincipal">
+    <section id="dashboardPrincipal" >
         <nav>
             <a id="dashboardPrincipal_btnEstadistica"><img src="./resources/estadistico.png" alt="" style="width: 50px; height: 50px;"></a>
             <a id="dashboardPrincipal_btnConfiguracion"><img src="./resources/ajustes.png" alt="" style="width: 50px; height: 50px;"></a>
@@ -326,10 +326,10 @@
 
     </section>
 
-    <section id="mainFormRegistros">
+    <section id="mainFormRegistros" >
         <nav>
-            <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
-            <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="mainFormRegistros_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+            
         </nav>
         <img src="./resources/Dumpia.jpg" alt="" style="width: 90px; height: 100px;">
         <h3>REPORTES</h3>
@@ -395,7 +395,7 @@
     </section>
 
     <script type="module">
-        import Cl_index from "./dist/index.js";
+        import Cl_index from "./dist/Cl_index.js";
         new Cl_index();
     </script>
 </body>

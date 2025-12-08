@@ -1,14 +1,7 @@
-import Cl_mTablaWeb from "./tools/Cl_mTablaWeb";
-export default class Cl_mCategoria extends Cl_mTablaWeb {
-    constructor({ id, creadoEl, alias, nombre } = {
-        id: null,
-        creadoEl: null,
-        alias: null,
-        nombre: ""
-    }) {
-        super({ id, creadoEl, alias });
+export default class Cl_mCategoria {
+    constructor({ nombre }) {
         this._nombre = "";
-        this._nombre = nombre;
+        this.nombre = nombre;
     }
     set nombre(nombre) {
         this._nombre = nombre;
@@ -16,15 +9,17 @@ export default class Cl_mCategoria extends Cl_mTablaWeb {
     get nombre() {
         return this._nombre;
     }
-    get nombreOk() {
+    get nombreOK() {
         return this._nombre.length > 0;
     }
-    get categoriaOk() {
-        if (!this.nombre)
+    get CategoriaOk() {
+        if (!this.nombreOK)
             return "Nombre";
         return true;
     }
     toJSON() {
-        return Object.assign(Object.assign({}, super.toJSON()), { nombre: this.nombre });
+        return {
+            nombre: this.nombre
+        };
     }
 }

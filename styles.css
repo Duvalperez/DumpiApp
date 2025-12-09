@@ -35,7 +35,19 @@ button {
     color: rgb(255, 255, 255);
     font-weight: bold;
 }
-
+#SeccioNewCategoria{
+    display:  flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    height: 100px;
+}
+.categoriaSeccion{
+   
+    height: 450px;
+    overflow-y: auto
+}
 #configuracion {
     display: flex;
     align-items: center;
@@ -92,30 +104,55 @@ button {
     overflow-y: auto;
 
 }
-#dashboardStadistCont{
-    
+#dashboardStadistCont {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    max-height: 400px;
+    padding: 20px;
+    /* Evita usar justify-content: center si vas a tener muchos items 
+       para que el scroll funcione correctamente desde arriba */
+    max-height: 500px;
     overflow-y: auto;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    gap: 15px; /* Espaciado moderno entre hijos */
+}
 
+/* Personalización del Scrollbar para que se vea mejor */
+#dashboardStadistCont::-webkit-scrollbar {
+    width: 8px;
+}
+#dashboardStadistCont::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
 }
 
 #dashboardStadistCont div {
-
-    border: solid, black;
-    border-radius: 20px;
+    /* Corrección de sintaxis: sin comas */
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
+    /* Dimensiones */
     height: 130px;
-    width: 300px;
-    margin-top: 10px;
+    width: 320px;
+    
+    /* Estética */
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
 }
 
+/* Efecto al pasar el mouse */
+#dashboardStadistCont div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #007bff; /* Resalta el borde al tocarlo */
+}
 #RegistroFormDat{
     display: flex;
     align-items: center;

@@ -4,6 +4,7 @@ export default class cl_vConfiguracion extends Cl_vGeneral {
         super({ formName: "listCategoria" });
         // Inicializamos el botón de retorno (asegúrate de que este ID exista en tu HTML)
         this.btnVolver = this.crearHTMLElement("Volver");
+        this.btnNewCategoria = this.crearHTMLElement("AgregarCategoria");
         this.configurarEventos();
     }
     configurarEventos() {
@@ -11,6 +12,11 @@ export default class cl_vConfiguracion extends Cl_vGeneral {
         this.btnVolver.onclick = () => {
             if (this.onNavHome) {
                 this.onNavHome();
+            }
+        };
+        this.btnNewCategoria.onclick = () => {
+            if (this.onNavNewCategoria) {
+                this.onNavNewCategoria();
             }
         };
     }

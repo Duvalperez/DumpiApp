@@ -11,10 +11,11 @@
 <body>
 
 
-    <section id="RegistroFormDatD" hidden>
+    <section id="RegistroFormDat">
         <nav>
-            <a><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
-            <a><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="RegistroFormDat_volver"><img src="./resources/flecha.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
+            <a id="RegistroFormDat_home"><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
         </nav>
         <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
 
@@ -61,275 +62,293 @@
             <button id="RegistroFormDat_agregar" type="submit" class="accept-btn">AGREGAR</button>
         </div>
     </section>
-    <section id="dashboardStadis" >
+    <section id="dashboardStadis">
         <nav>
-            <a id="dashboardStadis_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="dashboardStadis_Volver"><img src="./resources/flecha.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
             <a id="dashboardStadis_Home"><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
         </nav>
         <h1>Estadisticas</h1>
         <section id="dashboardStadistCont" class="">
-            <div>
-                <h2>Cargos</h2>
-                <span>0</span>
-            </div>
-            <div>
-                <h2>Abonos</h2>
-                <span>0</span>
+            <div class="card card-default">
+                <h2>Transacciones este Mes</h2>
+                <span>24</span>
             </div>
 
-            <div class="metric-card status-pending">
-                <h2>Movimientos Pendientes</h2>
-                <span>4</span>
+            <div class="card card-expense">
+                <h2>Día de Mayor Gasto</h2>
+                <span>Viernes (15 Dic)</span>
             </div>
-            <div class="metric-card highest-expense">
-                <h2>Mayor Gasto (Alimentación)</h2>
-                <span>$150.75</span>
+
+            <div class="card card-default">
+                <h2>Categoría más Usada</h2>
+                <span>Transporte</span>
             </div>
-            <div class="summary-card credit">
-                <h2>Depósitos (Créditos)</h2>
-                <span>+ $1,500.00</span>
+
+            <div class="card card-credit">
+                <h2>Meta de Ahorro (Viajes)</h2>
+                <span class="amount-positive">75% Completado</span>
             </div>
-            <div class="summary-card debit">
-                <h2>Retiros (Débitos)</h2>
-                <span>- $200.00</span>
+
+            <div class="card card-pending">
+                <h2>Presupuesto Restante</h2>
+                <span>$42.50</span>
             </div>
-            <div class="summary-card balance-bank">
-                <h2>Saldo Estimado del Banco</h2>
-                <span>$1,300.00</span>
+
+            <div class="card card-debit">
+                <h2>Vs. Mes Anterior</h2>
+                <span class="amount-negative">+ 12% Gasto</span>
+            </div>
+
+            <div class="card card-default">
+                <h2>Gasto Promedio Diario</h2>
+                <span>$12.30</span>
+            </div>
+
+            <div class="card card-pending">
+                <h2>Suscripciones Activas</h2>
+                <span class="badge">6</span>
+            </div>
+
+            <div class="card card-balance">
+                <h2>Gasto Estimado a Fin de Mes</h2>
+                <span>$1,450.00</span>
+            </div>
+
+            <div class="card card-credit">
+                <h2>Ingreso Neto (Libre)</h2>
+                <span class="amount-positive">$580.00</span>
             </div>
 
 
         </section>
 
     </section>
-   <section id="newCategorisa" hidden>
-  <nav>
-    <a id="newCategoria_volver"
-      ><img
-        src="./resources/flecha.png"
-        alt="Volver"
-        style="width: 50px; height: 50px"
-    /></a>
+    <section id="newCategoria">
+        <nav>
+            <a id="newCategoria_volver"><img src="./resources/flecha.png" alt="Volver"
+                    style="width: 50px; height: 50px" /></a>
 
-    <a id="newCategori_home"
-      ><img
-        src="./resources/hogar.png"
-        alt="Home"
-        style="width: 50px; height: 50px"
-    /></a>
-  </nav>
+            <a id="newCategoria_home"><img src="./resources/hogar.png" alt="Home"
+                    style="width: 50px; height: 50px" /></a>
+        </nav>
 
-  <h1 id="lblOpcion">NUEVA CATEGORÍA</h1>
+        <h1 id="lblOpcion">NUEVA CATEGORÍA</h1>
 
-  <div class="form-group">
-    <label for="categoria_newCategori">Nombre de la Categoría</label>
-    <input type="text" id="categoria_newCategori" required />
-  </div>
-  
-  <button id="categoria_AgregarCategoria">AGREGAR</button>
-</section>
+        <div class="form-group">
+            <label for="categoria_newCategori">Nombre de la Categoría</label>
+            <input type="text" id="categoria_newCategori" required />
+        </div>
 
-        <section id="listCategoria" >
-            <nav>
-                <a id="listCategoria_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
-
-                
-            </nav>
-            <h1>Configuraciones</h1>
-
-            <section id="configuracionCatg" class="" >
-                <table class="table-container">
-                    <thead>
-                        <tr class="-on-mobile">
-                            <th>Categoria</th>
-
-                        </tr>
-                    </thead>
-                    <tbody id="configuracionCatg_dataCatg">
-                        <tr class="card-row">
-                            <td data-label="Categoria">Electrónica</td>
-                            <td>#REF-12350</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Ropa y Accesorios</td>
-                            <td>#REF-58762</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                            
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Hogar y Jardín</td>
-                            <td>#REF-90145</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Libros y Medios</td>
-                            <td>#REF-33218</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Deportes y Ocio</td>
-                            <td>#REF-74891</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Juguetes y Niños</td>
-                            <td>#REF-61027</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                        <tr class="card-row">
-                            <td data-label="Categoria">Alimentación</td>
-                            <td>#REF-85943</td>
-                            <td>
-                                <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
-                                    style="width: 30px; height: 30px;">
-                                <img src="./resources/editar-informacion.png" alt="Editar"
-                                    style="width: 30px; height: 30px;">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>
-                    <h2>NUEVA CATEGORIA</h2>
-                    <a id="listCategoria_AgregarCategoria"><img src="./resources/boton-mas.png" alt="" style="width: 50px; height: 50px;"></a>
-                </div>
-            </section>
-
+        <button id="categoria_AgregarCategoria">AGREGAR</button>
     </section>
 
-    <section id="dashboardPrincipal" >
+    <section id="listCategoria">
         <nav>
-            <a id="dashboardPrincipal_btnEstadistica"><img src="./resources/estadistico.png" alt="" style="width: 50px; height: 50px;"></a>
-            <a id="dashboardPrincipal_btnConfiguracion"><img src="./resources/ajustes.png" alt="" style="width: 50px; height: 50px;"></a>
+            <a id="listCategoria_Volver"><img src="./resources/flecha.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
+
+
+        </nav>
+        <h1>Configuraciones</h1>
+
+        <section id="configuracionCatg" class="categoriaSeccion">
+            <table class="table-container">
+                <thead>
+                    <tr class="-on-mobile">
+                        <th>Categoria</th>
+
+                    </tr>
+                </thead>
+                <tbody id="configuracionCatg_dataCatg">
+                    <tr class="card-row">
+                        <td data-label="Categoria">Electrónica</td>
+                        <td>#REF-12350</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Ropa y Accesorios</td>
+                        <td>#REF-58762</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Hogar y Jardín</td>
+                        <td>#REF-90145</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Libros y Medios</td>
+                        <td>#REF-33218</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Deportes y Ocio</td>
+                        <td>#REF-74891</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Juguetes y Niños</td>
+                        <td>#REF-61027</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Alimentación</td>
+                        <td>#REF-85943</td>
+                        <td>
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar"
+                                style="width: 30px; height: 30px;">
+                            <img src="./resources/editar-informacion.png" alt="Editar"
+                                style="width: 30px; height: 30px;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>
+        <div id="SeccioNewCategoria">
+            <h2>NUEVA CATEGORIA</h2>
+            <a id="listCategoria_AgregarCategoria"><img src="./resources/boton-mas.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
+        </div>
+    </section>
+
+    <section id="dashboardPrincipal">
+        <nav>
+            <a id="dashboardPrincipal_btnEstadistica"><img src="./resources/estadistico.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
+            <a id="dashboardPrincipal_btnConfiguracion"><img src="./resources/ajustes.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
         </nav>
         <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
         <section id="dashboard">
-         <section id="dashboardPrincipal_contenedor" >
-               <div id="dashboardCont">
-                <h3>Operaciones Registradas</h3>
-                <p><span id="dashboardPrincipal_OperacionesRegistradas">0</span></p>
-            </div>
-            <div id="dashboardCont">
-                <h3>Operaciones Conciliadas</h3>
-                <p><span id="dashboardPrincipal_OperacionesConciliaciones">0</span></p>
-            </div>
-         </section>
+            <section id="dashboardPrincipal_contenedor">
+                <div id="dashboardCont">
+                    <h3>Operaciones Registradas</h3>
+                    <p><span id="dashboardPrincipal_OperacionesRegistradas">0</span></p>
+                </div>
+                <div id="dashboardCont">
+                    <h3>Operaciones Conciliadas</h3>
+                    <p><span id="dashboardPrincipal_OperacionesConciliaciones">0</span></p>
+                </div>
+            </section>
             <button id="dashboardPrincipal_nuevoRegistro">REGISTROS</button>
         </section>
 
     </section>
 
-    <section id="mainFormRegistros" >
+    <section id="mainFormRegistros">
         <nav>
-            <a id="mainFormRegistros_Volver"><img src="./resources/flecha.png" alt="" style="width: 50px; height: 50px;"></a>
-            
+            <a id="mainFormRegistros_Volver"><img src="./resources/flecha.png" alt=""
+                    style="width: 50px; height: 50px;"></a>
+
         </nav>
         <img src="./resources/Dumpia.jpg" alt="" style="width: 90px; height: 100px;">
         <h3>REPORTES</h3>
@@ -367,10 +386,10 @@
                     <label for="inputReferencia">Referencia</label>
                     <input type="number" id="inputReferencia" placeholder="REFERENCIA">
                 </div>
-                <button>BUSCAR REGISTROS</button>
+                <button id="">BUSCAR REGISTROS</button>
             </section>
         </details>
-        <button>AGREGAR REGISTRO</button>
+        <button id="mainFormRegistros_newRegistros">AGREGAR REGISTRO</button>
         <section id="Tablas">
             <table class="table-container">
                 <thead>
@@ -383,13 +402,70 @@
                         <th>ESTATUS</th>
                     </tr>
                 </thead>
-                <tbody id="mainForm_dataConse"></tbody>
+                <tbody id="mainForm_dataConse">
+                    <tr class="card-row">
+                        <td data-label="Categoria">Supermercado</td>
+                        <td data-label="Referencia">#REF-12351</td>
+                        <td data-label="Descripcion">Compras quincenales</td>
+                        <td data-label="Monto" class="amount-negative">-$120.50</td>
+                        <td data-label="Fecha">2023-12-06</td>
+                        <td data-label="Acciones">
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;">
+                            <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Supermercado</td>
+                        <td data-label="Referencia">#REF-12351</td>
+                        <td data-label="Descripcion">Compras quincenales</td>
+                        <td data-label="Monto" class="amount-negative">-$120.50</td>
+                        <td data-label="Fecha">2023-12-06</td>
+                        <td data-label="Acciones">
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;">
+                            <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Supermercado</td>
+                        <td data-label="Referencia">#REF-12351</td>
+                        <td data-label="Descripcion">Compras quincenales</td>
+                        <td data-label="Monto" class="amount-negative">-$120.50</td>
+                        <td data-label="Fecha">2023-12-06</td>
+                        <td data-label="Acciones">
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;">
+                            <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+                        </td>
+                    </tr>
+
+                    <tr class="card-row">
+                        <td data-label="Categoria">Supermercado</td>
+                        <td data-label="Referencia">#REF-12351</td>
+                        <td data-label="Descripcion">Compras quincenales</td>
+                        <td data-label="Monto" class="amount-negative">-$120.50</td>
+                        <td data-label="Fecha">2023-12-06</td>
+                        <td data-label="Acciones">
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;">
+                            <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+                        </td>
+                    </tr>
+                    <tr class="card-row">
+                        <td data-label="Categoria">Supermercado</td>
+                        <td data-label="Referencia">#REF-12351</td>
+                        <td data-label="Descripcion">Compras quincenales</td>
+                        <td data-label="Monto" class="amount-negative">-$120.50</td>
+                        <td data-label="Fecha">2023-12-06</td>
+                        <td data-label="Acciones">
+                            <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;">
+                            <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+                        </td>
+                    </tr>
+                </tbody>
 
 
 
 
-                
-                
+
+
             </table>
         </section>
     </section>

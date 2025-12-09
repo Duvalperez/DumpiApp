@@ -4,6 +4,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
         super({ formName: "mainFormRegistros" });
         // Inicializamos el botón de volver (asegúrate de que el ID sea "Volver" en tu HTML)
         this.btnVolver = this.crearHTMLElement("Volver");
+        this.btnNewRegistro = this.crearHTMLButtonElement("newRegistros");
         this.configurarEventos();
     }
     configurarEventos() {
@@ -11,6 +12,11 @@ export default class cl_vRegistro extends Cl_vGeneral {
         this.btnVolver.onclick = () => {
             if (this.onNavHome) {
                 this.onNavHome();
+            }
+        };
+        this.btnNewRegistro.onclick = () => {
+            if (this.onNavNewRegistro) {
+                this.onNavNewRegistro();
             }
         };
     }

@@ -3,14 +3,31 @@ import Cl_mMovimientos, { IMovimientos } from "./Cl_mMovimientos.js";
 
 export default class Cl_mRegistros {
     private movimientos: Cl_mMovimientos[] = [];
-    private movimientosBanco:[] = [];
+    private movimientosBanco: [] = [];
     private listcategoria: Cl_mCategoria[] = [];
 
     // --- MÉTODOS CRUD: CATEGORÍA ---
-
+    public importarMovimientos(datos: any[]): void {
+        datos.forEach(movimientoData => {
+            try {
+                // Asumiendo que el constructor de Cl_mMovimientos puede validar y crear la instancia
+                const nuevoMovimiento = new Cl_mMovimientos(movimientoData as IMovimientos);
+                
+                // Puedes añadir validación de referencia única aquí antes de pushear
+                // (Evitar duplicados)
+                if (!this.movimientos.find(m => m.referencia === movimientoData.referencia)) {
+                    this.movimientos.push(nuevoMovimiento);
+                }
+            } catch (e) {
+                console.warn("Movimiento ignorado debido a datos inválidos:", movimientoData);
+            }
+        });
+        // Guardar en LocalStorage después de la importación
+        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
+    }
     agregarCategoria({ categoria, callback }: { categoria: Cl_mCategoria; callback: (error: string | false) => void; }): void {
         let error = categoria.CategoriaOk;
-        if (!error ) { // Verifica si hay mensaje de error (string)
+        if (!error) { // Verifica si hay mensaje de error (string)
             callback(error);
             return;
         }
@@ -33,10 +50,10 @@ export default class Cl_mRegistros {
             return;
         }
 
-        const ExisteEnMovimientos = this.movimientos.some((mov) => 
+        const ExisteEnMovimientos = this.movimientos.some((mov) =>
             mov.categoria === nombre
         );
-        
+
         if (ExisteEnMovimientos) {
             callback(`No podemos borrar la categoría porque existe en algunos movimientos del registro.`);
             return;
@@ -46,7 +63,7 @@ export default class Cl_mRegistros {
         localStorage.setItem("categoria", JSON.stringify(this.listarCategoria()));
         callback(false);
     }
-    
+
     // --- MÉTODOS CRUD: MOVIMIENTOS ---
 
     agregarMovimiento({ movimiento, callback }: { movimiento: Cl_mMovimientos; callback: (error: string | false) => void; }): void {
@@ -58,7 +75,7 @@ export default class Cl_mRegistros {
         }
         this.movimientos.push(movimiento);
         // CORRECCIÓN: Debe usar listarMovimientos()
-        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos())) 
+        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()))
         callback(false)
     }
 
@@ -71,14 +88,14 @@ export default class Cl_mRegistros {
         }
 
         this.movimientos.splice(index, 1);
-        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos())); 
+        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
         callback(false);
     }
 
     editarMovimiento({ movimiento, callback }: { movimiento: IMovimientos; callback: (error: string | false) => void; }): void {
         let mov = new Cl_mMovimientos(movimiento);
-        
-        if (!mov.movimientoOk  ) { // Verifica si hay mensaje de error (string)
+
+        if (!mov.movimientoOk) { // Verifica si hay mensaje de error (string)
             callback(mov.movimientoOk);
             return;
         }
@@ -91,7 +108,7 @@ export default class Cl_mRegistros {
             return;
         }
 
-        this.movimientos[index] = mov; 
+        this.movimientos[index] = mov;
         localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
         callback(false);
     }
@@ -105,26 +122,26 @@ export default class Cl_mRegistros {
         });
         return lista;
     }
-    totalMovimientos():number{
+    totalMovimientos(): number {
         return this.movimientos.length
     }
     totalMovimientosConciliados(): number {
-    
-    // 1. Usamos .filter() para seleccionar solo los movimientos del libro que cumplen la condición.
-    const conciliados = this.movimientos.filter(movimientoLibro => {
-        
-        // 2. Condición: Usamos .some() para buscar la referencia en el array del banco.
-        const referenciaEncontradaEnBanco = this.movimientosBanco.some((movimientoBanco: any) => {
-            // Asumimos que los objetos en movimientosBanco tienen una propiedad 'referencia'.
-            return movimientoBanco.referencia === movimientoLibro.referencia;
+
+        // 1. Usamos .filter() para seleccionar solo los movimientos del libro que cumplen la condición.
+        const conciliados = this.movimientos.filter(movimientoLibro => {
+
+            // 2. Condición: Usamos .some() para buscar la referencia en el array del banco.
+            const referenciaEncontradaEnBanco = this.movimientosBanco.some((movimientoBanco: any) => {
+                // Asumimos que los objetos en movimientosBanco tienen una propiedad 'referencia'.
+                return movimientoBanco.referencia === movimientoLibro.referencia;
+            });
+
+            return referenciaEncontradaEnBanco; // Filtra y mantiene los que coinciden.
         });
 
-        return referenciaEncontradaEnBanco; // Filtra y mantiene los que coinciden.
-    });
-
-    // 3. Devolvemos el conteo (número) de los elementos encontrados.
-    return conciliados.length;
-}
+        // 3. Devolvemos el conteo (número) de los elementos encontrados.
+        return conciliados.length;
+    }
 
     listarCategoria(): iCategoria[] {
         let lista: iCategoria[] = [];
@@ -137,7 +154,7 @@ export default class Cl_mRegistros {
     // =========================================================================================
     // ============================= NUEVOS MÉTODOS DE ANÁLISIS ================================
     // =========================================================================================
-    
+
     // Calcula Monto Total Abonos, Monto Total Cargos y Saldo Final
     obtenerBalanceAnalisis(): {
         montoTotalAbonos: number;
@@ -166,16 +183,16 @@ export default class Cl_mRegistros {
     }
 
     // Realiza un Desglose por Categoría (Abonos, Cargos, Diferencial)
-    desglosePorCategoria(): { 
-        [categoria: string]: { 
-            totalAbonos: number, 
-            totalCargos: number, 
-            diferencial: number 
-        } 
+    desglosePorCategoria(): {
+        [categoria: string]: {
+            totalAbonos: number,
+            totalCargos: number,
+            diferencial: number
+        }
     } {
         const TIPO_ABONO = "ABONO";
         const TIPO_CARGO = "CARGO";
-        
+
         const desglose: { [categoria: string]: { totalAbonos: number, totalCargos: number, diferencial: number } } = {};
 
         this.movimientos.forEach((mov) => {
@@ -198,12 +215,12 @@ export default class Cl_mRegistros {
     }
 
     // Identifica la Mayor Categoría de Gasto y la Mayor Categoría de Ingreso
-    obtenerMayorCategoria(): { 
-        mayorGasto: { nombre: string, monto: number }, 
-        mayorIngreso: { nombre: string, monto: number } 
+    obtenerMayorCategoria(): {
+        mayorGasto: { nombre: string, monto: number },
+        mayorIngreso: { nombre: string, monto: number }
     } {
         const desglose = this.desglosePorCategoria();
-        
+
         let mayorGasto = { nombre: "", monto: -1 };
         let mayorIngreso = { nombre: "", monto: -1 };
 
@@ -254,7 +271,7 @@ export default class Cl_mRegistros {
         if (fecha && fecha.trim() !== "") {
             resultados = resultados.filter((mov) => mov.fecha === fecha);
         }
-        
+
         // Filtro por MONTO (Rango)
         if (montoMin !== undefined || montoMax !== undefined) {
             resultados = resultados.filter((mov) => {
@@ -263,8 +280,8 @@ export default class Cl_mRegistros {
                 return cumpleMin && cumpleMax;
             });
         }
-        
+
         // Retorna la lista filtrada en formato IMovimientos[]
-        return resultados.map(mov => mov.toJSON()); 
+        return resultados.map(mov => mov.toJSON());
     }
 }

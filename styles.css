@@ -260,36 +260,38 @@ button {
 /* -------------------------------------------
    SECCIÓN PRINCIPAL: CargaDatos
    ------------------------------------------- */
+/* -------------------------------------------
+   SECCIÓN PRINCIPAL: CargaDatos
+   ------------------------------------------- */
 #CargaDatos {
-    /* Layout y Contenedor */
+    /* Layout */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px; /* Espacio uniforme entre nav, label y button */
+    gap: 30px; /* Espacio entre los elementos (nav, label, button) */
     
     /* Apariencia */
-    padding: 25px 35px;
-    background-color: #f7f9fb; /* Fondo muy claro */
-    border-radius: 18px;
-    max-width: 450px; /* Ancho cómodo para el formulario */
-    margin: 40px auto; /* Centrar en la página */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+    padding: 30px;
+    background-color: #f7f9fb; /* Fondo suave */
+    border-radius: 16px;
+    max-width: 420px; /* Ancho máximo para centrar */
+    margin: 40px auto; /* Centrar horizontalmente */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* -------------------------------------------
-   NAV: Navegación Superior
+   NAV: Botones de Navegación
    ------------------------------------------- */
 #CargaDatos nav {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 20px;
-    margin-bottom: -10px; /* Acercar la nav al contenido */
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 #CargaDatos nav a {
     transition: transform 0.2s ease;
-    padding: 5px; /* Área de clic */
 }
 
 #CargaDatos nav a:hover {
@@ -297,16 +299,16 @@ button {
 }
 
 #CargaDatos nav img {
-    /* Aseguramos un tamaño estándar y más discreto para los íconos de nav */
+    /* Ajusta el tamaño de los iconos de navegación */
     width: 35px; 
     height: 35px;
 }
 
 /* -------------------------------------------
-   LABEL & INPUT FILE: Área de Subida
+   LABEL & INPUT FILE: Área de Subida (Dropzone)
    ------------------------------------------- */
 
-/* Estilo para la etiqueta visible (actúa como el área de dropzone) */
+/* Estilo para la etiqueta (la "caja" visible que activa el input) */
 #CargaDatos label {
     /* Layout */
     display: flex;
@@ -318,10 +320,10 @@ button {
     /* Dimensiones */
     width: 100%;
     padding: 40px 20px;
-    min-height: 150px;
+    min-height: 120px;
     
-    /* Borde Punteado y Color de Fondo */
-    border: 3px dashed #3498db; /* Azul vibrante */
+    /* Borde Punteado y Color */
+    border: 3px dashed #007bff; /* Azul para indicar interacción */
     border-radius: 12px;
     background-color: #ffffff;
     cursor: pointer;
@@ -331,47 +333,57 @@ button {
     transition: all 0.3s ease;
 }
 
-/* Efecto Hover para indicar interactividad */
+/* Efecto Hover */
 #CargaDatos label:hover {
-    background-color: #e8f5ff; /* Color muy claro al pasar el ratón */
-    border-color: #2980b9;
+    background-color: #eaf5ff;
+    border-color: #0056b3;
 }
 
-/* Ocultar el Input type="file" nativo y feo */
+/* Ocultar el Input type="file" nativo */
 #CargaDatos input[type="file"] {
+    /* Clave para que la etiqueta funcione, pero el input no sea visible */
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
     overflow: hidden;
     position: absolute;
-    z-index: -1; /* Mantiene la funcionalidad accesible para el label */
+    z-index: -1; 
+}
+
+/* Opcional: Estilo para el texto que indica la acción de subir */
+#CargaDatos label::after {
+    content: 'Haga clic para seleccionar el archivo (JSON/JS)';
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: #6c757d;
 }
 
 /* -------------------------------------------
    BOTÓN: Cargar Datos Nuevos
    ------------------------------------------- */
-#CargaDatos button {
+#CargaDatos #CargaDatos_Carga {
     /* Estilos de Botón Primario */
-    background-color: #2ecc71; /* Verde brillante (Éxito/Acción) */
+    background-color: #28a745; /* Verde para la acción principal */
     color: white;
-    padding: 14px 30px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    width: 100%; /* Ocupa el ancho completo */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+    box-shadow: 0 3px 6px rgba(40, 167, 69, 0.3);
 }
 
-#CargaDatos button:hover {
-    background-color: #27ae60;
+#CargaDatos #CargaDatos_Carga:hover {
+    background-color: #218838;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 10px rgba(40, 167, 69, 0.4);
 }
 
-#CargaDatos button:active {
+#CargaDatos #CargaDatos_Carga:active {
     transform: translateY(0);
 }
 #RegistroFormDat{

@@ -3,6 +3,7 @@ import Cl_mMovimientos, { IMovimientos } from "./Cl_mMovimientos.js";
 
 export default class Cl_mRegistros {
     private movimientos: Cl_mMovimientos[] = [];
+    private movimientosBanco:[] = [];
     private listcategoria: Cl_mCategoria[] = [];
 
     // --- MÉTODOS CRUD: CATEGORÍA ---
@@ -104,6 +105,26 @@ export default class Cl_mRegistros {
         });
         return lista;
     }
+    totalMovimientos():number{
+        return this.movimientos.length
+    }
+    totalMovimientosConciliados(): number {
+    
+    // 1. Usamos .filter() para seleccionar solo los movimientos del libro que cumplen la condición.
+    const conciliados = this.movimientos.filter(movimientoLibro => {
+        
+        // 2. Condición: Usamos .some() para buscar la referencia en el array del banco.
+        const referenciaEncontradaEnBanco = this.movimientosBanco.some((movimientoBanco: any) => {
+            // Asumimos que los objetos en movimientosBanco tienen una propiedad 'referencia'.
+            return movimientoBanco.referencia === movimientoLibro.referencia;
+        });
+
+        return referenciaEncontradaEnBanco; // Filtra y mantiene los que coinciden.
+    });
+
+    // 3. Devolvemos el conteo (número) de los elementos encontrados.
+    return conciliados.length;
+}
 
     listarCategoria(): iCategoria[] {
         let lista: iCategoria[] = [];

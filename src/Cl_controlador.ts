@@ -27,8 +27,13 @@ export default class Cl_controlador {
         this.vistaDashboard.show({ ver: true });
 
         this.configurarNavegacion();
+        this.ActulizarDatosVistas();
     }
-
+    private ActulizarDatosVistas(){
+        let registro = this.modelo.totalMovimientos()
+        let conciliadas = this.modelo.totalMovimientosConciliados()
+        this.vistaDashboard.actualizarTotales(registro,conciliadas);
+    }
     private configurarNavegacion() {
         // --- Navegación DESDE el Dashboard ---
         this.vistaDashboard.onNavEstadisticas = () => {
@@ -89,4 +94,5 @@ export default class Cl_controlador {
         this.vNewCategoria.show({ ver: false })
         this.vNewRegistro.show({ver:false})
     }
+    
 }

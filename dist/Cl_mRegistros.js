@@ -2,6 +2,7 @@ import Cl_mMovimientos from "./Cl_mMovimientos.js";
 export default class Cl_mRegistros {
     constructor() {
         this.movimientos = [];
+        this.movimientosBanco = [];
         this.listcategoria = [];
     }
     // --- MÉTODOS CRUD: CATEGORÍA ---
@@ -80,6 +81,22 @@ export default class Cl_mRegistros {
             lista.push(movimiento.toJSON());
         });
         return lista;
+    }
+    totalMovimientos() {
+        return this.movimientos.length;
+    }
+    totalMovimientosConciliados() {
+        // 1. Usamos .filter() para seleccionar solo los movimientos del libro que cumplen la condición.
+        const conciliados = this.movimientos.filter(movimientoLibro => {
+            // 2. Condición: Usamos .some() para buscar la referencia en el array del banco.
+            const referenciaEncontradaEnBanco = this.movimientosBanco.some((movimientoBanco) => {
+                // Asumimos que los objetos en movimientosBanco tienen una propiedad 'referencia'.
+                return movimientoBanco.referencia === movimientoLibro.referencia;
+            });
+            return referenciaEncontradaEnBanco; // Filtra y mantiene los que coinciden.
+        });
+        // 3. Devolvemos el conteo (número) de los elementos encontrados.
+        return conciliados.length;
     }
     listarCategoria() {
         let lista = [];

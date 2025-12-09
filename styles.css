@@ -4,6 +4,69 @@
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
+/* 1. Estilos Base del Contenedor (Dashboard Card) */
+.dashboard-card {
+    /* Diseño y Distribución */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    
+    /* Dimensiones y Espacio */
+    width: 200px; /* Puedes ajustarlo, o usar un ancho flexible (min/max) */
+    padding: 20px 15px;
+    margin: 10px;
+    
+    /* Estética */
+    background-color: #ffffff; /* Fondo blanco puro */
+    border-radius: 12px; /* Esquinas redondeadas suaves */
+    
+    /* Sombra (Efecto de flotación) */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease; /* Transición para efectos hover */
+}
+
+/* Efecto Hover */
+.dashboard-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Sombra más fuerte al pasar el mouse */
+    transform: translateY(-3px); /* Pequeño levantamiento */
+    cursor: default; /* Indica que es un elemento informativo */
+}
+
+/* 2. Estilos para el Título (h3) */
+.dashboard-card h3 {
+    font-size: 0.9rem;
+    color: #5b6a7a; /* Gris sutil para el texto de etiqueta */
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+/* 3. Estilos para el Número (span) */
+.dashboard-card p {
+    /* Reseteo del margen del párrafo */
+    margin: 0;
+}
+
+.dashboard-card span {
+    font-family: 'Roboto', sans-serif; /* Usa una fuente moderna (si está cargada) */
+    font-size: 2.2rem; /* Número grande y destacado */
+    font-weight: 700; /* Negrita */
+    color: #2c3e50; /* Azul oscuro para un buen contraste */
+    display: inline-block;
+}
+
+/* 4. Estilos de Acabado (Opcional: Borde de acento) */
+/* Añade un sutil borde de color para diferenciar visualmente las tarjetas */
+#dashboard_totalRegistradas {
+    border-bottom: 3px solid #007bff; /* Azul primario */
+    padding-bottom: 3px;
+}
+#dashboard_totalConciliadas {
+    border-bottom: 3px solid #28a745; /* Verde para indicar éxito */
+    padding-bottom: 3px;
+}
 #newCategoria{
     display: flex;
     flex-direction: column;

@@ -4,19 +4,22 @@ export default class Cl_vDashboard extends Cl_vGeneral {
     private btnEstadisticas: HTMLElement;
     private btnConfiguracion: HTMLElement;
     private btnRegistros: HTMLButtonElement;
+    private SeccionDat: HTMLElement;    
 
     // DEFINICIÓN DE CALLBACKS
     public onNavEstadisticas?: () => void;
     public onNavConfiguracion?: () => void;
-    public onNavRegistro?: () => void; // Nuevo callback
+    public onNavRegistro?: () => void;
 
     constructor() {
         super({ formName: "dashboardPrincipal" });
         this.btnRegistros = this.crearHTMLButtonElement("nuevoRegistro");
         this.btnEstadisticas = this.crearHTMLElement("btnEstadistica");
         this.btnConfiguracion = this.crearHTMLElement("btnConfiguracion");
+        this.SeccionDat = this.crearHTMLElement("contenedorS");
 
         this.configurarEventos();
+        this.renderizarDatosIniciales(); // Llamamos al método para pintar el HTML base
     }
 
     private configurarEventos() {
@@ -28,9 +31,29 @@ export default class Cl_vDashboard extends Cl_vGeneral {
             if (this.onNavConfiguracion) this.onNavConfiguracion();
         };
 
-        // Nueva lógica para el botón de registro
         this.btnRegistros.onclick = () => {
             if (this.onNavRegistro) this.onNavRegistro();
         };
+    }
+
+    // Método independiente para renderizar el contenido dinámico
+    public renderizarDatosIniciales() {
+        this.SeccionDat.innerHTML = `
+            <div class="dashboard-card">
+                <h3>Operaciones Registradas</h3>
+                <p><span id="dashboard_totalRegistradas">0</span></p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Operaciones Conciliadas</h3>
+                <p><span id="dashboard_totalConciliadas">0</span></p>
+            </div>`;
+    }
+
+    // Método para que el controlador actualice los números reales
+    public actualizarTotales(registradas: number, conciliadas: number) {
+        const spanReg = document.getElementById("dashboard_totalRegistradas");
+        const spanCon = document.getElementById("dashboard_totalConciliadas");
+        if (spanReg) spanReg.innerText = registradas.toString();
+        if (spanCon) spanCon.innerText = conciliadas.toString();
     }
 }

@@ -16,6 +16,12 @@ export default class Cl_controlador {
         this.ocultarTodas();
         this.vistaDashboard.show({ ver: true });
         this.configurarNavegacion();
+        this.ActulizarDatosVistas();
+    }
+    ActulizarDatosVistas() {
+        let registro = this.modelo.totalMovimientos();
+        let conciliadas = this.modelo.totalMovimientosConciliados();
+        this.vistaDashboard.actualizarTotales(registro, conciliadas);
     }
     configurarNavegacion() {
         // --- Navegación DESDE el Dashboard ---

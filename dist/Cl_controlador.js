@@ -4,6 +4,7 @@ import cl_vRegistro from "./Cl_VRegistro.js";
 import cl_vConfiguracion from "./Cl_vConfiguracion.js";
 import Cl_vNewCategoria from "./Cl_vNewCategoria.js";
 import Cl_vNewRegistro from "./Cl_vNewRegistros.js";
+import Cl_vCargaDatos from "./Cl_vCargaDatos.js";
 export default class Cl_controlador {
     constructor(modelo) {
         this.modelo = modelo;
@@ -13,6 +14,7 @@ export default class Cl_controlador {
         this.vRegistro = new cl_vRegistro();
         this.VConfiguraciones = new cl_vConfiguracion();
         this.vNewRegistro = new Cl_vNewRegistro();
+        this.vCargarDatos = new Cl_vCargaDatos();
         this.ocultarTodas();
         this.vistaDashboard.show({ ver: true });
         this.configurarNavegacion();
@@ -62,6 +64,15 @@ export default class Cl_controlador {
         this.vNewRegistro.onNavRegistroList = () => {
             this.mostrarUnaVista(this.vRegistro);
         };
+        this.vEstadisticas.onNavCargaDatos = () => {
+            this.mostrarUnaVista(this.vCargarDatos);
+        };
+        this.vCargarDatos.onNavHome = () => {
+            this.mostrarUnaVista(this.vistaDashboard);
+        };
+        this.vCargarDatos.onNavVolver = () => {
+            this.mostrarUnaVista(this.vEstadisticas);
+        };
     }
     mostrarUnaVista(vistaDestino) {
         this.ocultarTodas();
@@ -74,5 +85,6 @@ export default class Cl_controlador {
         this.VConfiguraciones.show({ ver: false });
         this.vNewCategoria.show({ ver: false });
         this.vNewRegistro.show({ ver: false });
+        this.vCargarDatos.show({ ver: false });
     }
 }

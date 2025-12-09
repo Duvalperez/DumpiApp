@@ -5,6 +5,7 @@ import cl_vRegistro from "./Cl_VRegistro.js";
 import cl_vConfiguracion from "./Cl_vConfiguracion.js";
 import Cl_vNewCategoria from "./Cl_vNewCategoria.js";
 import Cl_vNewRegistro from "./Cl_vNewRegistros.js";
+import Cl_vCargaDatos from "./Cl_vCargaDatos.js";
 
 export default class Cl_controlador {
     public modelo: Cl_mRegistros;
@@ -14,6 +15,7 @@ export default class Cl_controlador {
     public VConfiguraciones: cl_vConfiguracion;
     public vNewCategoria: Cl_vNewCategoria;
     public vNewRegistro:Cl_vNewRegistro;
+    public vCargarDatos:Cl_vCargaDatos;
     constructor(modelo: Cl_mRegistros) {
         this.modelo = modelo;
         this.vNewCategoria = new Cl_vNewCategoria();
@@ -22,6 +24,8 @@ export default class Cl_controlador {
         this.vRegistro = new cl_vRegistro();
         this.VConfiguraciones = new cl_vConfiguracion();
         this.vNewRegistro = new Cl_vNewRegistro()
+        this.vCargarDatos = new Cl_vCargaDatos()
+
 
         this.ocultarTodas();
         this.vistaDashboard.show({ ver: true });
@@ -79,6 +83,15 @@ export default class Cl_controlador {
         this.vNewRegistro.onNavRegistroList = () => {
             this.mostrarUnaVista(this.vRegistro);
         };
+        this.vEstadisticas.onNavCargaDatos = () =>{
+            this.mostrarUnaVista(this.vCargarDatos)
+        }
+        this.vCargarDatos.onNavHome =()=>{
+            this.mostrarUnaVista(this.vistaDashboard)
+        }
+        this.vCargarDatos.onNavVolver =()=>{
+            this.mostrarUnaVista(this.vEstadisticas)
+        }
     }
 
     private mostrarUnaVista(vistaDestino: any) {
@@ -93,6 +106,7 @@ export default class Cl_controlador {
         this.VConfiguraciones.show({ ver: false });
         this.vNewCategoria.show({ ver: false })
         this.vNewRegistro.show({ver:false})
+        this.vCargarDatos.show({ver:false})
     }
     
 }

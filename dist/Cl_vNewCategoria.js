@@ -4,7 +4,15 @@ export default class Cl_vNewCategoria extends Cl_vGeneral {
         super({ formName: "newCategoria" });
         // Inicializamos los elementos (Asegúrate de que estos IDs existan en tu HTML)
         this.btnHome = this.crearHTMLElement("home");
+        this.inputCategoria = this.crearHTMLInputElement("inputCategoria");
         this.btnVolver = this.crearHTMLElement("volver");
+        this.btnAgregar = this.crearHTMLButtonElement("agregar", {
+            onclick: () => {
+                var _a;
+                this.Categoria(this.inputCategoria.value),
+                    (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.configuracionVis();
+            }
+        });
         this.configurarEventos();
     }
     configurarEventos() {
@@ -18,5 +26,18 @@ export default class Cl_vNewCategoria extends Cl_vGeneral {
             if (this.onNavConfiguraciones)
                 this.onNavConfiguraciones();
         };
+    }
+    Categoria(nombre) {
+        this.inputCategoria.value = "";
+        this.controlador.agregarCategoria({
+            categoriaDat: {
+                nombre: nombre,
+            },
+            callback: (error) => {
+                if (error)
+                    alert(error);
+                this.refresh();
+            },
+        });
     }
 }

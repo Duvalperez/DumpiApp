@@ -33,6 +33,7 @@ export default class Cl_vDashboard extends Cl_vGeneral {
 
         this.btnRegistros.onclick = () => {
             if (this.onNavRegistro) this.onNavRegistro();
+            this.controlador?.cargarCategoriasNuevas()
         };
     }
 

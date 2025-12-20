@@ -376,6 +376,12 @@ button {
     width: 100%; 
     box-shadow: 0 3px 6px rgba(40, 167, 69, 0.3);
 }
+#controlCaSeccion{
+    border: solid,black;
+    border-radius: 10px;
+    margin: 20px;
+    height: 70px;
+}
 
 #CargaDatos #CargaDatos_Carga:hover {
     background-color: #218838;

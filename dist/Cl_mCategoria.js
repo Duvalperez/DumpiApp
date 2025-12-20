@@ -4,22 +4,20 @@ export default class Cl_mCategoria {
         this.nombre = nombre;
     }
     set nombre(nombre) {
-        this._nombre = nombre;
+        this._nombre = nombre.trim().toUpperCase();
     }
     get nombre() {
         return this._nombre;
     }
-    get nombreOK() {
-        return this._nombre.length > 0;
-    }
-    get CategoriaOk() {
-        if (!this.nombreOK)
-            return "Nombre";
-        return true;
+    error() {
+        // Validar nombre
+        if (this._nombre.length === 0)
+            return "Categoria no Valida";
+        return false;
     }
     toJSON() {
         return {
-            nombre: this.nombre
+            nombre: this._nombre,
         };
     }
 }

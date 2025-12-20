@@ -1,195 +1,79 @@
-import Cl_mMovimientos from "./Cl_mMovimientos.js";
 export default class Cl_mRegistros {
     constructor() {
         this.movimientos = [];
-        this.movimientosBanco = [];
-        this.listcategoria = [];
+        this.categorias = [];
     }
-    // --- MÉTODOS CRUD: CATEGORÍA ---
-    agregarCategoria({ categoria, callback }) {
-        let error = categoria.CategoriaOk;
-        if (!error) { // Verifica si hay mensaje de error (string)
+    agregarMovimientos({ datMovimientos, callback, }) {
+        let error = datMovimientos.error();
+        if (error) {
             callback(error);
             return;
         }
-        let existe = this.listcategoria.find((c) => c.nombre === categoria.nombre);
+        let existe = this.movimientos.find((c) => c.referencia === datMovimientos.referencia);
         if (existe) {
-            callback("La Categoria ya existe");
+            callback("La referencia ya registrada");
             return;
         }
-        this.listcategoria.push(categoria);
-        localStorage.setItem("categoria", JSON.stringify(this.listarCategoria()));
+        this.movimientos.push(datMovimientos);
+        localStorage.setItem("listMovimientos", JSON.stringify(this.listarMovimientos()));
         callback(false);
+    }
+    agregarCategoria({ nombre, callback, }) {
+        // Validar que el nombre no tenga errores
+        let error = nombre.error();
+        if (error) {
+            callback(error);
+            return;
+        }
+        // Validar que no se repita el teléfono
+        let existe = this.categorias.find((c) => c.nombre === nombre.nombre);
+        if (existe) {
+            callback("El número de teléfono ya está registrado.");
+            return;
+        }
+        this.categorias.push(nombre);
+        localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
+        callback(false);
+    }
+    deleteMovimientos({ referencia, callback, }) {
+        let indice = this.movimientos.findIndex((m) => m.referencia === referencia);
+        this.movimientos.splice(indice, 1);
+        localStorage.setItem("listaMovimientos", JSON.stringify(this.listarMovimientos()));
+        callback("Eliminada");
     }
     deleteCategoria({ nombre, callback }) {
-        let indice = this.listcategoria.findIndex((m) => m.nombre === nombre);
-        if (indice < 0) {
-            callback(`La categoría "${nombre}" no existe.`);
-            return;
-        }
-        const ExisteEnMovimientos = this.movimientos.some((mov) => mov.categoria === nombre);
-        if (ExisteEnMovimientos) {
-            callback(`No podemos borrar la categoría porque existe en algunos movimientos del registro.`);
-            return;
-        }
-        this.listcategoria.splice(indice, 1);
-        localStorage.setItem("categoria", JSON.stringify(this.listarCategoria()));
-        callback(false);
+        let indice = this.categorias.findIndex((m) => m.nombre === nombre);
+        this.categorias.splice(indice, 1);
+        localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
+        callback("Eliminada");
     }
-    // --- MÉTODOS CRUD: MOVIMIENTOS ---
-    agregarMovimiento({ movimiento, callback }) {
-        let existe = this.movimientos.find((c) => c.referencia === movimiento.referencia);
-        if (existe) {
-            callback("Referencias Ya existente en el Sistema");
-            return;
-        }
-        this.movimientos.push(movimiento);
-        // CORRECCIÓN: Debe usar listarMovimientos()
-        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
-        callback(false);
+    cantMovimientos() {
+        return this.movimientos.length;
     }
-    deleteMovimiento({ referencia, callback }) {
-        const index = this.movimientos.findIndex((m) => m.referencia === referencia);
-        if (index === -1) {
-            callback(`No se encontró ningún movimiento con la referencia: ${referencia}`);
-            return;
-        }
-        this.movimientos.splice(index, 1);
-        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
-        callback(false);
+    //Busqueda por referencia
+    BuscarReferencia({ referencia, callback, }) {
+        console.log(this.movimientos.find((e) => e.referencia === referencia));
     }
-    editarMovimiento({ movimiento, callback }) {
-        let mov = new Cl_mMovimientos(movimiento);
-        if (!mov.movimientoOk) { // Verifica si hay mensaje de error (string)
-            callback(mov.movimientoOk);
-            return;
-        }
-        const referenciaNueva = mov.referencia;
-        const index = this.movimientos.findIndex((m) => m.referencia === referenciaNueva);
-        if (index === -1) {
-            callback(`No se encontró el movimiento con referencia: ${referenciaNueva} para editar.`);
-            return;
-        }
-        this.movimientos[index] = mov;
-        localStorage.setItem("movimiento", JSON.stringify(this.listarMovimientos()));
-        callback(false);
-    }
-    // --- MÉTODOS DE LISTADO ---
     listarMovimientos() {
+        console.log(this.movimientos);
         let lista = [];
-        this.movimientos.forEach((movimiento) => {
-            lista.push(movimiento.toJSON());
+        this.movimientos.forEach((movimientos) => {
+            lista.push(movimientos.toJSON());
         });
         return lista;
     }
-    totalMovimientos() {
-        return this.movimientos.length;
-    }
-    totalMovimientosConciliados() {
-        // 1. Usamos .filter() para seleccionar solo los movimientos del libro que cumplen la condición.
-        const conciliados = this.movimientos.filter(movimientoLibro => {
-            // 2. Condición: Usamos .some() para buscar la referencia en el array del banco.
-            const referenciaEncontradaEnBanco = this.movimientosBanco.some((movimientoBanco) => {
-                // Asumimos que los objetos en movimientosBanco tienen una propiedad 'referencia'.
-                return movimientoBanco.referencia === movimientoLibro.referencia;
-            });
-            return referenciaEncontradaEnBanco; // Filtra y mantiene los que coinciden.
-        });
-        // 3. Devolvemos el conteo (número) de los elementos encontrados.
-        return conciliados.length;
-    }
-    listarCategoria() {
+    listar() {
         let lista = [];
-        this.listcategoria.forEach((nombre) => {
+        this.categorias.forEach((nombre) => {
             lista.push(nombre.toJSON());
         });
         return lista;
     }
-    // =========================================================================================
-    // ============================= NUEVOS MÉTODOS DE ANÁLISIS ================================
-    // =========================================================================================
-    // Calcula Monto Total Abonos, Monto Total Cargos y Saldo Final
-    obtenerBalanceAnalisis() {
-        const TIPO_ABONO = "ABONO";
-        const TIPO_CARGO = "CARGO";
-        const resultado = this.movimientos.reduce((acumulador, mov) => {
-            if (mov.tipo === TIPO_ABONO) {
-                acumulador.montoTotalAbonos += mov.monto;
-            }
-            else if (mov.tipo === TIPO_CARGO) {
-                acumulador.montoTotalCargos += mov.monto;
-            }
-            return acumulador;
-        }, {
-            montoTotalAbonos: 0,
-            montoTotalCargos: 0,
-            saldoFinal: 0,
-        });
-        resultado.saldoFinal = resultado.montoTotalAbonos - resultado.montoTotalCargos;
-        return resultado;
+    //seccion de Funciones procesadas para las otras vistas
+    //cantidad de Operaciones registradas
+    OperRegistradas() {
+        return this.movimientos.length;
     }
-    // Realiza un Desglose por Categoría (Abonos, Cargos, Diferencial)
-    desglosePorCategoria() {
-        const TIPO_ABONO = "ABONO";
-        const TIPO_CARGO = "CARGO";
-        const desglose = {};
-        this.movimientos.forEach((mov) => {
-            if (!desglose[mov.categoria]) {
-                desglose[mov.categoria] = { totalAbonos: 0, totalCargos: 0, diferencial: 0 };
-            }
-            if (mov.tipo === TIPO_ABONO) {
-                desglose[mov.categoria].totalAbonos += mov.monto;
-            }
-            else if (mov.tipo === TIPO_CARGO) {
-                desglose[mov.categoria].totalCargos += mov.monto;
-            }
-        });
-        for (const cat in desglose) {
-            desglose[cat].diferencial = desglose[cat].totalAbonos - desglose[cat].totalCargos;
-        }
-        return desglose;
-    }
-    // Identifica la Mayor Categoría de Gasto y la Mayor Categoría de Ingreso
-    obtenerMayorCategoria() {
-        const desglose = this.desglosePorCategoria();
-        let mayorGasto = { nombre: "", monto: -1 };
-        let mayorIngreso = { nombre: "", monto: -1 };
-        for (const nombreCategoria in desglose) {
-            const datos = desglose[nombreCategoria];
-            if (datos.totalCargos > mayorGasto.monto) {
-                mayorGasto = { nombre: nombreCategoria, monto: datos.totalCargos };
-            }
-            if (datos.totalAbonos > mayorIngreso.monto) {
-                mayorIngreso = { nombre: nombreCategoria, monto: datos.totalAbonos };
-            }
-        }
-        return { mayorGasto, mayorIngreso };
-    }
-    // --- MÉTODOS DE FILTRADO ---
-    // Filtra movimientos por Fecha, Monto (Rango), Referencia y Categoría
-    listarMovimientosFiltrados({ fecha, montoMin, montoMax, referencia, categoria, }) {
-        let resultados = this.movimientos;
-        // Filtro por CATEGORÍA
-        if (categoria && categoria.trim() !== "") {
-            resultados = resultados.filter((mov) => mov.categoria === categoria);
-        }
-        // Filtro por REFERENCIA (búsqueda parcial)
-        if (referencia && referencia.trim() !== "") {
-            resultados = resultados.filter((mov) => mov.referencia.includes(referencia));
-        }
-        // Filtro por FECHA (día exacto)
-        if (fecha && fecha.trim() !== "") {
-            resultados = resultados.filter((mov) => mov.fecha === fecha);
-        }
-        // Filtro por MONTO (Rango)
-        if (montoMin !== undefined || montoMax !== undefined) {
-            resultados = resultados.filter((mov) => {
-                const cumpleMin = montoMin === undefined || mov.monto >= montoMin;
-                const cumpleMax = montoMax === undefined || mov.monto <= montoMax;
-                return cumpleMin && cumpleMax;
-            });
-        }
-        // Retorna la lista filtrada en formato IMovimientos[]
-        return resultados.map(mov => mov.toJSON());
+    procesarMovimientos() {
     }
 }

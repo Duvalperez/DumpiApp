@@ -19,8 +19,10 @@ export default class Cl_vDashboard extends Cl_vGeneral {
                 this.onNavConfiguracion();
         };
         this.btnRegistros.onclick = () => {
+            var _a;
             if (this.onNavRegistro)
                 this.onNavRegistro();
+            (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.cargarCategoriasNuevas();
         };
     }
     // Método independiente para renderizar el contenido dinámico

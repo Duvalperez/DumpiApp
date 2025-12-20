@@ -1,11 +1,61 @@
-import Cl_vGeneral from "./tools/Cl_vGeneral.js";
+import Cl_vGeneral, { tHTMLElement } from "./tools/Cl_vGeneral.js";
 export default class cl_vRegistro extends Cl_vGeneral {
     constructor() {
         super({ formName: "mainFormRegistros" });
         // Inicializamos el botón de volver (asegúrate de que el ID sea "Volver" en tu HTML)
         this.btnVolver = this.crearHTMLElement("Volver");
         this.btnNewRegistro = this.crearHTMLButtonElement("newRegistros");
+        this.seccionDataList = this.crearHTMLElement("dataList");
+        this.SeccionRegistros = this.crearHTMLElement("datRegistros", {
+            type: tHTMLElement.CONTAINER,
+            refresh: () => this.datRegistros(),
+        });
         this.configurarEventos();
+    }
+    datalist() {
+        var _a;
+        this.seccionDataList.innerHTML = "";
+        let categoriasRegistradas = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.categoriaLista();
+        if (!categoriasRegistradas)
+            return;
+        categoriasRegistradas.forEach((categorias) => {
+            this.seccionDataList.innerHTML += `
+         <option value="${categorias.nombre}"></option>
+        `;
+        });
+    }
+    datRegistros() {
+        var _a;
+        this.SeccionRegistros.innerHTML = "";
+        let movimientos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.movimientosLista();
+        if (!movimientos)
+            return;
+        movimientos.forEach((mov, index) => {
+            this.SeccionRegistros.innerHTML += `
+        <tr class="card-row">
+            <td data-label="Categoria">${mov.categoria}</td>
+            <td data-label="Referencia">${mov.referencia}</td>
+            <td data-label="Descripcion">${mov.descripcion}</td>
+            <td data-label="Monto" class="amount-negative">-${mov.monto.toFixed(2)}</td>
+            <td data-label="Fecha">${mov.fecha}</td>
+            <td data-label="Acciones">
+               <a id="mainFormRegistros_btnBorrar__${index}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
+                <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+            </td>
+        </tr>
+    `;
+        });
+    }
+    eliminarMovimiento(referencia) {
+        var _a;
+        (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.deleteMovimiento({
+            referencia, callback: (error) => {
+                if (!error)
+                    alert("erro al eliminar");
+                else
+                    this.datRegistros();
+            }
+        });
     }
     configurarEventos() {
         // Al hacer clic, ejecutamos el callback que el controlador asignó

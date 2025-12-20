@@ -1,28 +1,28 @@
-export interface iCategoria{
-    nombre:string
+export interface iCategoria {
+    nombre: string
 }
-export default class Cl_mCategoria{
-    private _nombre:string = "";
-    constructor({nombre}:{nombre:string}){
-        this.nombre = nombre;
+export default class Cl_mCategoria {
+    private _nombre: string = "";
+    constructor({ nombre }: { nombre: string }) {
+        this.nombre = nombre
     }
-    set nombre(nombre:string){
-        this._nombre = nombre;
-
+    set nombre(nombre: string) {
+        this._nombre = nombre.trim().toUpperCase()
     }
-    get nombre():string{
+    get nombre(): string {
         return this._nombre
     }
-    get nombreOK():boolean{
-        return this._nombre.length > 0
+    error(): string | false {
+        // Validar nombre
+        if (this._nombre.length === 0) return "Categoria no Valida";
+       
+        return false;
     }
-    get CategoriaOk():string | true{
-        if(!this.nombreOK) return "Nombre"
-        return true
+    toJSON(): iCategoria {
+        return {
+            nombre: this._nombre,
+
+        };
     }
-    toJSON(): iCategoria{
-        return{
-            nombre:this.nombre
-        }
-    }
+
 }

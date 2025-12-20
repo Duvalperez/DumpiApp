@@ -1,4 +1,4 @@
-export interface IMovimientos {
+export interface iMovimientos {
     referencia: string;
     descripcion: string;
     categoria: string;
@@ -6,7 +6,6 @@ export interface IMovimientos {
     tipo: string;
     fecha: string;
 }
-
 export default class Cl_mMovimientos {
     private _referencia: string = "";
     private _descripcion: string = "";
@@ -14,88 +13,108 @@ export default class Cl_mMovimientos {
     private _monto: number = 0;
     private _tipo: string = "";
     private _fecha: string = "";
-
-    constructor({ referencia, descripcion, categoria, monto, tipo, fecha }:
-        {
-            referencia: string,
-            descripcion: string,
-            categoria: string,
-            monto: number,
-            tipo: string,
-            fecha: string
-        }) {
+    constructor({
+        referencia,
+        descripcion,
+        categoria,
+        monto,
+        tipo,
+        fecha,
+    }: {
+        referencia: string,
+        descripcion: string,
+        categoria: string,
+        monto: number,
+        tipo: string,
+        fecha: string,
+    }) {
         this.referencia = referencia;
         this.descripcion = descripcion;
         this.categoria = categoria;
         this.monto = monto;
         this.tipo = tipo;
         this.fecha = fecha;
-
-
     }
     set referencia(referencia: string) {
-        this._referencia = referencia.toUpperCase().trim()
+        this._referencia = referencia.trim().toUpperCase();
     }
     get referencia(): string {
         return this._referencia
     }
     set descripcion(descripcion: string) {
-        this._descripcion = descripcion.toUpperCase().trim();
+        this._descripcion = descripcion.trim().toUpperCase();
     }
     get descripcion(): string {
-        return this._descripcion;
+        return this._descripcion
     }
-
     set categoria(categoria: string) {
-        this._categoria = categoria;
+        this._categoria = categoria.trim().toUpperCase();
     }
     get categoria(): string {
-        return this._categoria;
+        return this._categoria
     }
-
     set monto(monto: number) {
-        this._monto = +monto;
+        this._monto = +monto
     }
     get monto(): number {
-        return this._monto;
+        return this._monto
     }
-
     set tipo(tipo: string) {
-        this._tipo = tipo;
+        this._tipo = tipo.trim().toUpperCase();
     }
     get tipo(): string {
-        return this._tipo;
+        return this._tipo
     }
-
     set fecha(fecha: string) {
-        this._fecha = fecha;
+        this._fecha = fecha
     }
     get fecha(): string {
-        return this._fecha;
+        return this._fecha
     }
-    get referenciaOk(): boolean {
-        return this._referencia.length > 0 && this._referencia.length < 30
+    error(): string | false {
+     
+        if (this._referencia.length === 0) 
+            return "Elemento de Referencia vacío";
+        if (this._referencia.length < 3)
+            return "Referencia debe tener al menos 3 caracteres";
+
+       
+        if (this._descripcion.length === 0)
+            return "Descripción del Movimiento vacía";
+
+        
+        if (this._categoria.length === 0) 
+            return "Categoría del Movimiento vacía";
+       
+        if (isNaN(this._monto))
+            return "El Monto debe ser un valor numérico";
+        if (this._monto <= 0) 
+            return "El Monto debe ser mayor a cero";
+        
+       
+        const TIPOS_VALIDOS = ['INGRESO', 'EGRESO', 'DEBITO', 'CREDITO'];
+        if (!TIPOS_VALIDOS.includes(this._tipo))
+            return `El Tipo "${this._tipo}" no es válido. Debe ser uno de: ${TIPOS_VALIDOS.join(', ')}`;
+
+       
+        if (this._fecha.length === 0) 
+            return "Fecha del Movimiento vacía";
+        
+       
+      
+       
+
+        return false; 
     }
-    get descripcionOk(): boolean {
-        return this.descripcion.length > 0 && this.descripcion.length < 30
-    }
-    get montoOk(): boolean {
-        return this.monto > 0
-    }
-    get movimientoOk(): string | true| false {
-        if (!this.referenciaOk) return "Referencia"
-        if (!this.descripcionOk) return "Descripcion"
-        if (!this.montoOk) return "Monto"
-        return true
-    }
-    toJSON(): IMovimientos {
-        return {
-            referencia: this._referencia,
-            descripcion: this._descripcion,
-            categoria: this._categoria,
-            monto: this._monto,
-            tipo: this._tipo,
-            fecha: this._fecha
+    toJSON():iMovimientos{
+        return{
+            referencia:this.referencia,
+            descripcion:this.descripcion,
+            categoria:this.categoria,
+            monto:this.monto,
+            tipo:this.tipo,
+            fecha:this.fecha,
         }
     }
+
 }

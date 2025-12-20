@@ -12,7 +12,7 @@ export const dtCategorias = [
 export const dtMovimientosLibro = [{
     referencia: "REF001",
     descripcion: "compra de Empanadas",
-    tipoTransaccion: 1,
+    tipoTransaccion: "Cargo", // Ajustado de 'Abono' a 'Cargo' por ser una compra
     monto: 150.75,
     fecha: "2024-06-15",
     categoria: "Alimentacion",
@@ -20,7 +20,7 @@ export const dtMovimientosLibro = [{
 }, {
     referencia: "REF002",
     descripcion: "venta de libros",
-    tipoTransaccion: 2,
+    tipoTransaccion: "Abono", // Era 2
     monto: 200.00,
     fecha: "2024-06-16",
     categoria: "Educacion",
@@ -29,7 +29,7 @@ export const dtMovimientosLibro = [{
 {
     referencia: "REF003",
     descripcion: "compra de utiles escolares",
-    tipoTransaccion: 1,
+    tipoTransaccion: "Cargo", // Era 1
     monto: 75.50,
     fecha: "2024-06-17",
     categoria: "Educacion",
@@ -38,7 +38,7 @@ export const dtMovimientosLibro = [{
 {
     referencia: "REF004",
     descripcion: "venta de muebles usados",
-    tipoTransaccion: 2,
+    tipoTransaccion: "Abono", // Era 2
     monto: 300.00,
     fecha: "2024-06-18",
     categoria: "Hogar",
@@ -47,7 +47,7 @@ export const dtMovimientosLibro = [{
 {
     referencia: "REF005",
     descripcion: "compra de ropa",
-    tipoTransaccion: 1,
+    tipoTransaccion: "Cargo", // Era 1
     monto: 120.00,
     fecha: "2024-06-19",
     categoria: "Vestimenta",

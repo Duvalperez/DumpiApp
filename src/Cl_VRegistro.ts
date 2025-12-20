@@ -1,8 +1,13 @@
-import Cl_vGeneral from "./tools/Cl_vGeneral.js";
+import { iCategoria } from "./Cl_mCategoria.js";
+import { iMovimientos } from "./Cl_mMovimientos.js";
+import Cl_vGeneral, { tHTMLElement } from "./tools/Cl_vGeneral.js";
+import { opcionFicha } from "./tools/core.tools.js";
 
 export default class cl_vRegistro extends Cl_vGeneral {
     private btnVolver: HTMLElement;
     private btnNewRegistro:HTMLButtonElement;
+    private SeccionRegistros:HTMLElement;
+    private seccionDataList:HTMLElement;
     // Callback para que el controlador gestione el regreso al Dashboard
     public onNavHome?: () => void;
     public onNavNewRegistro?: ()=> void;
@@ -12,7 +17,62 @@ export default class cl_vRegistro extends Cl_vGeneral {
         // Inicializamos el botón de volver (asegúrate de que el ID sea "Volver" en tu HTML)
         this.btnVolver = this.crearHTMLElement("Volver");
         this.btnNewRegistro = this.crearHTMLButtonElement("newRegistros")
+        this.seccionDataList = this.crearHTMLElement("dataList")
+        this.SeccionRegistros = this.crearHTMLElement("datRegistros",
+            {
+               type: tHTMLElement.CONTAINER,
+                refresh: () => this.datRegistros(),
+            }
+        )
         this.configurarEventos();
+      
+
+    }
+ 
+    datalist(){
+        this.seccionDataList.innerHTML = ""
+        let categoriasRegistradas = this.controlador?.categoriaLista();
+        if(!categoriasRegistradas) return;
+        categoriasRegistradas.forEach((categorias:iCategoria)=>{
+        this.seccionDataList.innerHTML +=`
+         <option value="${categorias.nombre}"></option>
+        `})
+    }
+  datRegistros(){
+    this.SeccionRegistros.innerHTML = ""
+
+    let movimientos = this.controlador?.movimientosLista();
+        if (!movimientos) return;
+        movimientos.forEach((mov: iMovimientos, index: number) =>{
+this.SeccionRegistros.innerHTML +=`
+        <tr class="card-row">
+            <td data-label="Categoria">${mov.categoria}</td>
+            <td data-label="Referencia">${mov.referencia}</td>
+            <td data-label="Descripcion">${mov.descripcion}</td>
+            <td data-label="Monto" class="amount-negative">-${mov.monto.toFixed(2)}</td>
+            <td data-label="Fecha">${mov.fecha}</td>
+            <td data-label="Acciones">
+               <a id="mainFormRegistros_btnBorrar__${index}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
+                <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+            </td>
+        </tr>
+    `
+    })
+    
+     
+}
+eliminarMovimiento(referencia: string) {
+
+        this.controlador?.deleteMovimiento({
+            referencia, callback: (error) => {
+                if (!error)
+                    alert("erro al eliminar")
+                else this.datRegistros()
+            }
+        })
+
+
+
     }
 
     private configurarEventos() {

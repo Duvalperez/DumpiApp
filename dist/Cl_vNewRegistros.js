@@ -40,8 +40,8 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
             this.inConcepto.value = "",
             this.inCategoria.value = "",
             this.inMonto.value = "",
-            this.inTipoIngreso.checked = false;
-        this.inFecha.value = "";
+            this.inTipoIngreso.value = "",
+            this.inFecha.value = "";
     }
     configurarEventos() {
         // Al pulsar Home, avisamos al controlador para ir al Dashboard principal

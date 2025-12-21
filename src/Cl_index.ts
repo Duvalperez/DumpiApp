@@ -9,6 +9,7 @@ export default class Cl_index {
     public modelo: Cl_mRegistros;
 
     constructor() {
+       
         // Inicializamos las propiedades
         this.modelo = new Cl_mRegistros();
         this.controlador = new Cl_controlador(this.modelo);

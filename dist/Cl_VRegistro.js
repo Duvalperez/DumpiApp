@@ -36,7 +36,8 @@ export default class cl_vRegistro extends Cl_vGeneral {
             <td data-label="Categoria">${mov.categoria}</td>
             <td data-label="Referencia">${mov.referencia}</td>
             <td data-label="Descripcion">${mov.descripcion}</td>
-            <td data-label="Monto" class="amount-negative">-${mov.monto.toFixed(2)}</td>
+            <td data-label="Tipo">${mov.tipo}</td>
+            <td data-label="Monto" class="amount-negative">${mov.monto.toFixed(2)}</td>
             <td data-label="Fecha">${mov.fecha}</td>
             <td data-label="Acciones">
                <a id="mainFormRegistros_btnBorrar__${index}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
@@ -44,6 +45,11 @@ export default class cl_vRegistro extends Cl_vGeneral {
             </td>
         </tr>
     `;
+        });
+        movimientos.forEach((mov, index) => {
+            this.crearHTMLButtonElement(`btnBorrar__${index}`, {
+                onclick: () => this.eliminarMovimiento(mov.referencia)
+            });
         });
     }
     eliminarMovimiento(referencia) {

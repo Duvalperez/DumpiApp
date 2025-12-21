@@ -25,8 +25,8 @@ export default class Cl_mRegistros {
 
     }
     this.movimientos.push(datMovimientos)
-    
-   
+
+
     localStorage.setItem("listMovimientos", JSON.stringify(this.listarMovimientos()));
     callback(false);
   }
@@ -62,7 +62,7 @@ export default class Cl_mRegistros {
   }): void {
     let indice = this.movimientos.findIndex((m) => m.referencia === referencia);
     this.movimientos.splice(indice, 1)
-    localStorage.setItem("listaMovimientos", JSON.stringify(this.listarMovimientos()));
+    localStorage.setItem("listMovimientos", JSON.stringify(this.listarMovimientos()));
     callback("Eliminada")
   }
   deleteCategoria({
@@ -77,23 +77,23 @@ export default class Cl_mRegistros {
     localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
     callback("Eliminada")
   }
-  cantMovimientos(){
+  cantMovimientos() {
     return this.movimientos.length
   }
   //Busqueda por referencia
   BuscarReferencia({
     referencia,
     callback,
-  }:{
-    referencia:string,
-    callback:(error:string | false) =>void
-  }){
-     
-    console.log( this.movimientos.find((e)=> e.referencia ===referencia))
-    
+  }: {
+    referencia: string,
+    callback: (error: string | false) => void
+  }) {
+
+    console.log(this.movimientos.find((e) => e.referencia === referencia))
+
   }
   listarMovimientos(): iMovimientos[] {
-      console.log(this.movimientos)
+    console.log(this.movimientos)
     let lista: iMovimientos[] = [];
     this.movimientos.forEach((movimientos) => {
       lista.push(movimientos.toJSON())
@@ -108,14 +108,54 @@ export default class Cl_mRegistros {
     });
     return lista;
   }
+  categoriasDesgolse() {
 
-  //seccion de Funciones procesadas para las otras vistas
-  //cantidad de Operaciones registradas
-  OperRegistradas(){
+    const categoriasUnicas = [...new Set(this.movimientos.map((e) => e.categoria))];
+
+    const resultado = categoriasUnicas.map((nombreCategoria) => {
+
+
+      const totalCargo = this.movimientos
+        .filter((e) => e.categoria === nombreCategoria)
+        .filter((e) => e.tipo === "CARGO")
+        .map((e) => e.monto)
+        .reduce((total, montoActual) => total + montoActual, 0);
+
+
+      return {
+        categoria: nombreCategoria,
+        total: totalCargo
+      };
+    });
+
+
+    return resultado
+  }
+  totales() {
+    const totalIngreso = this.movimientos
+      .filter(e => e.tipo === "ABONO")
+      .map(e => e.monto)
+      .reduce((total, actual) => total + actual, 0);
+
+    const totalEgresos = this.movimientos
+      .filter(e => e.tipo === "CARGO")
+      .map(e => e.monto)
+      .reduce((total, actual) => total + actual, 0);
+
+    const totalDisponible = totalIngreso - totalEgresos;
+
+    return {
+      totalIngreso,
+      totalEgresos,
+      totalDisponible
+    };
+  }
+
+  OperRegistradas() {
     return this.movimientos.length
   }
-  procesarMovimientos(){
-  
+  procesarMovimientos() {
+
   }
 
 }

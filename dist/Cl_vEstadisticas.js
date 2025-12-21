@@ -2,10 +2,88 @@ import Cl_vGeneral from "./tools/Cl_vGeneral.js";
 export default class cl_vEstadisticas extends Cl_vGeneral {
     constructor() {
         super({ formName: "dashboardStadis" });
-        this.Estadisticas = this.crearHTMLElement("dashboardStadistCont");
+        this.categoriaEspecift = this.crearHTMLElement("categoriasRegistroMoney");
+        this.Estadisticas = this.crearHTMLElement("balanceGn");
         this.btnCargarDatos = this.crearHTMLElement("CargarDatos");
         this.btnVolver = this.crearHTMLElement("Volver");
         this.configurarEventos();
+    }
+    balanceGeneral() {
+        var _a;
+        this.Estadisticas.innerHTML = "";
+        let datos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.balanceGeneral();
+        if (datos) {
+            const { totalIngreso, totalEgresos, totalDisponible } = datos;
+            this.Estadisticas.innerHTML = `
+            <div class="balance-content">
+                <div class="stats-text">
+                    <p>Ingresos</p>
+                    <span class="ingreso-color">${totalIngreso.toFixed(2)}$</span>
+                    <p>Egresos</p>
+                    <span class="egreso-color">${totalEgresos.toFixed(2)}$</span>
+                    <p>Total Disponible</p>
+                    <span class="disponible-color">${totalDisponible.toFixed(2)}$</span>
+                </div>
+                <div class="" style="position: relative; height:200px; width:200px">
+                    <canvas id="canvasBalance"></canvas>
+                </div>
+            </div>`;
+            this.generarGrafico({ totalIngreso, totalEgresos });
+        }
+    }
+    // Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html
+    generarGrafico(datosBalance) {
+        const ctx = document.getElementById('canvasBalance').getContext('2d');
+        if (this.miGrafico) {
+            this.miGrafico.destroy();
+        }
+        this.miGrafico = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                // Definimos las etiquetas manualmente basadas en el objeto recibido
+                labels: ['Ingresos', 'Egresos'],
+                datasets: [{
+                        // Extraemos los valores del objeto datosBalance
+                        data: [datosBalance.totalIngreso, datosBalance.totalEgresos],
+                        backgroundColor: [
+                            '#2ecc71', // Verde para Ingresos
+                            '#e74c3c' // Rojo para Egresos
+                        ],
+                        hoverOffset: 4,
+                        borderWidth: 2
+                    }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '0%', // Hace el centro más grande para un look más fino
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+    categoriasDesglose() {
+        var _a;
+        this.categoriaEspecift.innerHTML = "";
+        let categoriasList = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.categoriDesg();
+        console.log(categoriasList);
+        if (!categoriasList)
+            return;
+        categoriasList.forEach(item => {
+            if (item.total == 0) {
+            }
+            else {
+                this.categoriaEspecift.innerHTML +=
+                    `<div class="detail-item">
+                        <div class="detail-info">
+                            <h4>${item.categoria}</h4>
+                            <p>${item.total.toFixed(2)}Bs</p>
+                        </div>
+                        <div class="percentage">0.60%</div>
+                    </div>`;
+            }
+        });
     }
     configurarEventos() {
         // Ambos botones navegan al Home

@@ -5,12 +5,12 @@ import { opcionFicha } from "./tools/core.tools.js";
 
 export default class cl_vRegistro extends Cl_vGeneral {
     private btnVolver: HTMLElement;
-    private btnNewRegistro:HTMLButtonElement;
-    private SeccionRegistros:HTMLElement;
-    private seccionDataList:HTMLElement;
+    private btnNewRegistro: HTMLButtonElement;
+    private SeccionRegistros: HTMLElement;
+    private seccionDataList: HTMLElement;
     // Callback para que el controlador gestione el regreso al Dashboard
     public onNavHome?: () => void;
-    public onNavNewRegistro?: ()=> void;
+    public onNavNewRegistro?: () => void;
     constructor() {
         super({ formName: "mainFormRegistros" });
 
@@ -20,36 +20,37 @@ export default class cl_vRegistro extends Cl_vGeneral {
         this.seccionDataList = this.crearHTMLElement("dataList")
         this.SeccionRegistros = this.crearHTMLElement("datRegistros",
             {
-               type: tHTMLElement.CONTAINER,
+                type: tHTMLElement.CONTAINER,
                 refresh: () => this.datRegistros(),
             }
         )
         this.configurarEventos();
-      
+
 
     }
- 
-    datalist(){
+
+    datalist() {
         this.seccionDataList.innerHTML = ""
         let categoriasRegistradas = this.controlador?.categoriaLista();
-        if(!categoriasRegistradas) return;
-        categoriasRegistradas.forEach((categorias:iCategoria)=>{
-        this.seccionDataList.innerHTML +=`
+        if (!categoriasRegistradas) return;
+        categoriasRegistradas.forEach((categorias: iCategoria) => {
+            this.seccionDataList.innerHTML += `
          <option value="${categorias.nombre}"></option>
         `})
     }
-  datRegistros(){
-    this.SeccionRegistros.innerHTML = ""
+    datRegistros() {
+        this.SeccionRegistros.innerHTML = ""
 
-    let movimientos = this.controlador?.movimientosLista();
+        let movimientos = this.controlador?.movimientosLista();
         if (!movimientos) return;
-        movimientos.forEach((mov: iMovimientos, index: number) =>{
-this.SeccionRegistros.innerHTML +=`
+        movimientos.forEach((mov: iMovimientos, index: number) => {
+            this.SeccionRegistros.innerHTML += `
         <tr class="card-row">
             <td data-label="Categoria">${mov.categoria}</td>
             <td data-label="Referencia">${mov.referencia}</td>
             <td data-label="Descripcion">${mov.descripcion}</td>
-            <td data-label="Monto" class="amount-negative">-${mov.monto.toFixed(2)}</td>
+            <td data-label="Tipo">${mov.tipo}</td>
+            <td data-label="Monto" class="amount-negative">${mov.monto.toFixed(2)}</td>
             <td data-label="Fecha">${mov.fecha}</td>
             <td data-label="Acciones">
                <a id="mainFormRegistros_btnBorrar__${index}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
@@ -57,11 +58,18 @@ this.SeccionRegistros.innerHTML +=`
             </td>
         </tr>
     `
-    })
-    
-     
-}
-eliminarMovimiento(referencia: string) {
+        });
+         movimientos.forEach((mov: iMovimientos, index: number) => {
+            this.crearHTMLButtonElement(`btnBorrar__${index}`, {
+                onclick: () => this.eliminarMovimiento(mov.referencia)
+            })
+
+
+        });
+
+
+    }
+    eliminarMovimiento(referencia: string) {
 
         this.controlador?.deleteMovimiento({
             referencia, callback: (error) => {
@@ -82,8 +90,8 @@ eliminarMovimiento(referencia: string) {
                 this.onNavHome();
             }
         };
-        this.btnNewRegistro.onclick = () =>{
-            if(this.onNavNewRegistro){
+        this.btnNewRegistro.onclick = () => {
+            if (this.onNavNewRegistro) {
                 this.onNavNewRegistro();
             }
         }

@@ -42,14 +42,18 @@ export default class Cl_controlador {
     this.vistaDashboard.show({ ver: true });
 
     this.configurarNavegacion();
-    this.ActulizarDatosVistas();
+   
 
   }
   // -------------------------------------------------------------------------
-  private ActulizarDatosVistas() {
+  public ActulizarDatosVistas() {
     this.cargarCategoriasNuevas()
     this.vistaRegistros()
     this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), 0)
+    this.movimientosLista()
+    this.vistaRegistros()
+   this.cargarEstadisticas()
+
 
 
   }
@@ -163,6 +167,9 @@ export default class Cl_controlador {
 
     return this.modelo.cantMovimientos()
   }
+  balanceGeneral(){
+    return this.modelo.totales()
+  }
   buscarReferencaia({
     referencia,
     callback
@@ -187,6 +194,14 @@ export default class Cl_controlador {
   vistaRegistros() {
 
     this.vRegistro.datRegistros()
+  }
+  categoriDesg(){
+   return this.modelo.categoriasDesgolse()
+  }
+  cargarEstadisticas(){
+    this.vEstadisticas.categoriasDesglose()
+    this.vEstadisticas.balanceGeneral()
+   
   }
   //-----------------------------------------------------------------------------------------//
 

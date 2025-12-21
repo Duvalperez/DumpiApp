@@ -62,7 +62,7 @@ export default class Cl_mMovimientos {
             return "El Monto debe ser un valor numérico";
         if (this._monto <= 0)
             return "El Monto debe ser mayor a cero";
-        const TIPOS_VALIDOS = ['INGRESO', 'EGRESO', 'DEBITO', 'CREDITO'];
+        const TIPOS_VALIDOS = ["CARGO", "ABONO"];
         if (!TIPOS_VALIDOS.includes(this._tipo))
             return `El Tipo "${this._tipo}" no es válido. Debe ser uno de: ${TIPOS_VALIDOS.join(', ')}`;
         if (this._fecha.length === 0)

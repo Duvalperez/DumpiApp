@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DumpiApp</title>
     <link rel="stylesheet" href="styles.css" />
@@ -42,15 +43,13 @@
             <input type="number" id="RegistroFormDat_monto" required>
         </div>
 
-        <div class="form-group type-selector">
-            <label class="radio-label">
-                <input type="checkbox" name="tipoMovimiento" id="RegistroFormDat_tipo" value="ingreso">
-                INGRESO
-            </label>
-            <label class="radio-label">
-                <input type="checkbox" name="tipoMovimiento" id="RegistroFormDat_tipo" value="egreso">
-                EGRESO
-            </label>
+        <div class="form-group">
+            <label id="tipoTransaccion" >Tipo de transaccion</label>
+            <select id="RegistroFormDat_tipo" name="tipo_transaccion" required>
+                <option value="" disabled selected></option>
+                <option value="ABONO">ABONO</option>
+                <option value="CARGO">CARGO</option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -69,38 +68,39 @@
             <a id="dashboardStadis_CargarDatos"><img src="./resources/hogar.png" alt=""
                     style="width: 50px; height: 50px;"></a>
         </nav>
-        <h1>Estadisticas</h1>
 
 
-        <section id="dashboardStadis_dashboardStadistCont" class="">
 
-            <section id="controlCaSeccion">
-                <section id="barraSuperior">
-                    Fecha
-                </section>
-                <input type="date" placeholder="12/20/2025" style="border:none">
-            </section>
+        <section id="dashboardStadis_dashboardCOntEstadisticas" class="">
 
-            <section id="controlCaSeccion">
-                <section id="barraSuperior">
-                    Balance General
-                </section>
-                <section>
-                    <section id="DatosGenerales">
-                        <section>
-                            Total Ingresos
-                            <section>
-                                988.87Bs
-                            </section>
-                        </section>
+
+            <div class="main-container">
+
+                <div class="balance-card">
+                    <h2>Balance General</h2>
+                    <section id="dashboardStadis_balanceGn">
 
                     </section>
-                </section>
-            </section>
+                </div>
+
+                <div class="details-outer-box" id="dashboardStadis_categoriasRegistroMoney">
+
+
+                </div>
+
+            </div>
+
 
 
 
         </section>
+
+
+
+
+
+
+
 
     </section>
     <section id="CargaDatos">

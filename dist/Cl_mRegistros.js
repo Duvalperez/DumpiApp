@@ -38,7 +38,7 @@ export default class Cl_mRegistros {
     deleteMovimientos({ referencia, callback, }) {
         let indice = this.movimientos.findIndex((m) => m.referencia === referencia);
         this.movimientos.splice(indice, 1);
-        localStorage.setItem("listaMovimientos", JSON.stringify(this.listarMovimientos()));
+        localStorage.setItem("listMovimientos", JSON.stringify(this.listarMovimientos()));
         callback("Eliminada");
     }
     deleteCategoria({ nombre, callback }) {
@@ -69,8 +69,37 @@ export default class Cl_mRegistros {
         });
         return lista;
     }
-    //seccion de Funciones procesadas para las otras vistas
-    //cantidad de Operaciones registradas
+    categoriasDesgolse() {
+        const categoriasUnicas = [...new Set(this.movimientos.map((e) => e.categoria))];
+        const resultado = categoriasUnicas.map((nombreCategoria) => {
+            const totalCargo = this.movimientos
+                .filter((e) => e.categoria === nombreCategoria)
+                .filter((e) => e.tipo === "CARGO")
+                .map((e) => e.monto)
+                .reduce((total, montoActual) => total + montoActual, 0);
+            return {
+                categoria: nombreCategoria,
+                total: totalCargo
+            };
+        });
+        return resultado;
+    }
+    totales() {
+        const totalIngreso = this.movimientos
+            .filter(e => e.tipo === "ABONO")
+            .map(e => e.monto)
+            .reduce((total, actual) => total + actual, 0);
+        const totalEgresos = this.movimientos
+            .filter(e => e.tipo === "CARGO")
+            .map(e => e.monto)
+            .reduce((total, actual) => total + actual, 0);
+        const totalDisponible = totalIngreso - totalEgresos;
+        return {
+            totalIngreso,
+            totalEgresos,
+            totalDisponible
+        };
+    }
     OperRegistradas() {
         return this.movimientos.length;
     }

@@ -145,6 +145,16 @@ export default class Cl_controlador {
       },
     });
   }
+  editMovimiento({ referencia, datMovimientos, callback }: {
+     referencia: string; datMovimientos: iMovimientos; callback: Function }): void {
+    this.modelo.editarMovimiento({
+      referencia,
+      datMovimientos,
+      callback: (error: string | false) => {
+        callback(error);
+      },
+    });
+  }
   deleteMovimiento({
     referencia,
     callback,
@@ -202,6 +212,10 @@ export default class Cl_controlador {
     this.vEstadisticas.categoriasDesglose()
     this.vEstadisticas.balanceGeneral()
    
+  }
+ 
+  obtenerMovimiento(referencia: string): Cl_mMovimientos | null {
+    return this.modelo.movimiento(referencia);
   }
   //-----------------------------------------------------------------------------------------//
 

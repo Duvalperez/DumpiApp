@@ -8,6 +8,11 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         this.inCategoria = this.crearHTMLInputElement("categoria");
         this.inMonto = this.crearHTMLInputElement("monto");
         this.inFecha = this.crearHTMLInputElement("fecha");
+        this.editMoviemiento = this.crearHTMLButtonElement("editarMovimiento", {
+            onclick: () => {
+                this.editarMovimiento();
+            }
+        });
         this.inTipoIngreso = this.crearHTMLInputElement("tipo");
         this.btnHome = this.crearHTMLElement("home");
         this.btnVolver = this.crearHTMLElement("volver");
@@ -16,6 +21,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
                 this.agregarMov();
             }
         });
+        this.btnAceptarRegistro.hidden = false;
         this.configurarEventos();
     }
     agregarMov() {
@@ -36,6 +42,41 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
             }
         });
         (_b = this.controlador) === null || _b === void 0 ? void 0 : _b.vistaRegistros();
+        this.inReferencia.value = "",
+            this.inConcepto.value = "",
+            this.inCategoria.value = "",
+            this.inMonto.value = "",
+            this.inTipoIngreso.value = "",
+            this.inFecha.value = "";
+    }
+    edit(datMovimientos) {
+        this.inReferencia.value = datMovimientos.referencia;
+        this.inConcepto.value = datMovimientos.descripcion;
+        this.inCategoria.value = datMovimientos.categoria;
+        this.inMonto.value = datMovimientos.monto.toString();
+        this.inTipoIngreso.value = datMovimientos.tipo;
+        this.inFecha.value = datMovimientos.fecha;
+        this.btnAceptarRegistro.hidden = true;
+        this.editMoviemiento.hidden = false;
+    }
+    editarMovimiento() {
+        var _a;
+        (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.editMovimiento({
+            referencia: this.inReferencia.value,
+            datMovimientos: {
+                referencia: this.inReferencia.value,
+                descripcion: this.inConcepto.value,
+                categoria: this.inCategoria.value,
+                monto: this.inMonto.value,
+                tipo: this.inTipoIngreso.value,
+                fecha: this.inFecha.value
+            },
+            callback: (error) => {
+                if (error)
+                    alert(error);
+                this.refresh();
+            }
+        });
         this.inReferencia.value = "",
             this.inConcepto.value = "",
             this.inCategoria.value = "",

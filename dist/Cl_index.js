@@ -10,7 +10,6 @@ export default class Cl_index {
         let listaCategoria = localStorage.getItem("listCategoria");
         if (listaCategoria) {
             let listCategoria = JSON.parse(listaCategoria);
-            // Ahora "this.modelo" sí existe
             listCategoria.forEach((categorias) => {
                 this.modelo.agregarCategoria({
                     nombre: new Cl_mCategoria(categorias),

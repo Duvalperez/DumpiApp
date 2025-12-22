@@ -35,6 +35,25 @@ export default class Cl_mRegistros {
         localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
         callback(false);
     }
+    movimiento(referencia) {
+        let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+        return movimiento ? movimiento : null;
+    }
+    editarMovimiento({ referencia, datMovimientos, callback, }) {
+        let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+        if (!movimiento) {
+            callback("Movimiento no encontrado");
+            return;
+        }
+        movimiento.referencia = datMovimientos.referencia;
+        movimiento.descripcion = datMovimientos.descripcion;
+        movimiento.categoria = datMovimientos.categoria;
+        movimiento.monto = datMovimientos.monto;
+        movimiento.tipo = datMovimientos.tipo;
+        movimiento.fecha = datMovimientos.fecha;
+        localStorage.setItem("listMovimientos", JSON.stringify(this.listarMovimientos()));
+        callback(false);
+    }
     deleteMovimientos({ referencia, callback, }) {
         let indice = this.movimientos.findIndex((m) => m.referencia === referencia);
         this.movimientos.splice(indice, 1);

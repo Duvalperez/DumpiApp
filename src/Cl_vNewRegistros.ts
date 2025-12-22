@@ -1,3 +1,4 @@
+import { iMovimientos } from "./Cl_mMovimientos.js";
 import Cl_vGeneral from "./tools/Cl_vGeneral.js";
 
 export default class Cl_vNewRegistro extends Cl_vGeneral {
@@ -10,6 +11,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
     private inMonto: HTMLInputElement;
     private inFecha: HTMLInputElement;
     // Para el tipo (Ingreso/Egreso)
+    private editMoviemiento: HTMLButtonElement;
     private inTipoIngreso: HTMLInputElement;
    
 
@@ -28,8 +30,13 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         this.inCategoria = this.crearHTMLInputElement("categoria") as HTMLInputElement;
         this.inMonto = this.crearHTMLInputElement("monto") as HTMLInputElement;
         this.inFecha = this.crearHTMLInputElement("fecha") as HTMLInputElement;
+        this.editMoviemiento = this.crearHTMLButtonElement("editarMovimiento",{
+            onclick: () => {
+                this.editarMovimiento()
+            }
+        }) as HTMLButtonElement;
         this.inTipoIngreso = this.crearHTMLInputElement("tipo") as HTMLInputElement;
-  
+     
 
         this.btnHome = this.crearHTMLElement("home");
         this.btnVolver = this.crearHTMLElement("volver");
@@ -40,6 +47,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
 
             }
         })
+           this.btnAceptarRegistro.hidden = false;
 
         this.configurarEventos();
     }
@@ -63,6 +71,43 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         })
 
         this.controlador?.vistaRegistros()
+        this.inReferencia.value = "",
+            this.inConcepto.value = "",
+            this.inCategoria.value = "",
+            this.inMonto.value = "",
+            this.inTipoIngreso.value = "",
+            this.inFecha.value = ""
+    }
+    edit(datMovimientos: iMovimientos) {
+            this.inReferencia.value = datMovimientos.referencia;
+            this.inConcepto.value = datMovimientos.descripcion;
+            this.inCategoria.value = datMovimientos.categoria;
+            this.inMonto.value = datMovimientos.monto.toString();
+            this.inTipoIngreso.value = datMovimientos.tipo;
+            this.inFecha.value = datMovimientos.fecha;
+            this.btnAceptarRegistro.hidden = true;
+            this.editMoviemiento.hidden = false;
+    }
+    editarMovimiento() {
+        
+        this.controlador?.editMovimiento({
+            referencia: this.inReferencia.value,
+            datMovimientos: {
+                
+                referencia: this.inReferencia.value,
+                descripcion: this.inConcepto.value,
+                categoria: this.inCategoria.value,
+                monto: this.inMonto.value,
+                tipo: this.inTipoIngreso.value,
+                fecha: this.inFecha.value
+
+            },
+            callback: (error: string | false) => {
+                if (error) alert(error);
+                this.refresh()
+            }
+            
+        })
         this.inReferencia.value = "",
             this.inConcepto.value = "",
             this.inCategoria.value = "",

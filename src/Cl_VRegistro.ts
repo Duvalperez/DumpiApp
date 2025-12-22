@@ -54,7 +54,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
             <td data-label="Fecha">${mov.fecha}</td>
             <td data-label="Acciones">
                <a id="mainFormRegistros_btnBorrar__${index}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
-                <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;">
+                <a id="mainFormRegistros_btnEditar__${index}"> <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;"></a>
             </td>
         </tr>
     `
@@ -63,11 +63,20 @@ export default class cl_vRegistro extends Cl_vGeneral {
             this.crearHTMLButtonElement(`btnBorrar__${index}`, {
                 onclick: () => this.eliminarMovimiento(mov.referencia)
             })
+            this.crearHTMLButtonElement(`btnEditar__${index}`, {
+                onclick: () => this.editarMovimiento(mov.referencia)
+            })
 
 
         });
 
 
+    }
+    editarMovimiento(referencia: string) {
+      let movimiento = this.controlador?.obtenerMovimiento(referencia);
+      this.controlador?.vNewRegistro.edit(movimiento);
+      
+      this.btnNewRegistro.click();
     }
     eliminarMovimiento(referencia: string) {
 

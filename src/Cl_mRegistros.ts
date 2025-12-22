@@ -53,6 +53,36 @@ export default class Cl_mRegistros {
     localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
     callback(false);
   }
+  movimiento(referencia: string): Cl_mMovimientos | null {
+    let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+    return movimiento ? movimiento : null;
+
+  }
+  editarMovimiento({
+    referencia,
+    datMovimientos,
+    callback,
+  }: {
+    referencia: string;
+    datMovimientos: iMovimientos;
+    callback: (error: string | false) => void;
+  }): void {
+    let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+    if (!movimiento) {
+      callback("Movimiento no encontrado");
+      return;
+    }
+    movimiento.referencia = datMovimientos.referencia;
+    movimiento.descripcion = datMovimientos.descripcion;
+    movimiento.categoria = datMovimientos.categoria;
+    movimiento.monto = datMovimientos.monto;
+    movimiento.tipo = datMovimientos.tipo;
+    movimiento.fecha = datMovimientos.fecha;
+
+    localStorage.setItem("listMovimientos", JSON.stringify(this.listarMovimientos()));
+    callback(false);
+  }
+
   deleteMovimientos({
     referencia,
     callback,

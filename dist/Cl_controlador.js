@@ -125,8 +125,11 @@ export default class Cl_controlador {
     balanceGeneral() {
         return this.modelo.totales();
     }
-    buscarReferencaia({ referencia, callback }) {
-        return this.modelo.BuscarReferencia({ referencia, callback });
+    mostrarVistaFiltrada() {
+        this.vRegistro.movFiltrados();
+    }
+    filtrosMovimientos({ datMovimientos, callback }) {
+        return this.modelo.filtros({ datMovimientos, callback });
     }
     movimientosLista() {
         return this.modelo.listarMovimientos();

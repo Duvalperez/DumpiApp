@@ -61,6 +61,10 @@ export default class Cl_mRegistros {
         callback("Eliminada");
     }
     deleteCategoria({ nombre, callback }) {
+        if (this.movimientos.find((m) => m.categoria === nombre)) {
+            callback("No se puede eliminar la categoria porque tiene movimientos asociados");
+            return;
+        }
         let indice = this.categorias.findIndex((m) => m.nombre === nombre);
         this.categorias.splice(indice, 1);
         localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
@@ -69,9 +73,15 @@ export default class Cl_mRegistros {
     cantMovimientos() {
         return this.movimientos.length;
     }
-    //Busqueda por referencia
-    BuscarReferencia({ referencia, callback, }) {
-        console.log(this.movimientos.find((e) => e.referencia === referencia));
+    filtros({ datMovimientos, callback }) {
+        let filtrosAplicados = (this.movimientos.filter((e) => { var _a; return e.referencia.includes(((_a = datMovimientos.referencia) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) || ""); })
+            .filter((e) => { var _a; return e.fecha.includes(((_a = datMovimientos.fecha) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) || ""); })
+            .filter((e) => datMovimientos.categoria == "" ? true : e.categoria === datMovimientos.categoria)
+            .filter((e) => e.monto > datMovimientos.monto - 1 || !datMovimientos.monto)
+            .filter((e) => { var _a; return e.fecha.includes(((_a = datMovimientos.fecha) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) || ""); }));
+        callback(false);
+        console.log("actividad de los filtros", filtrosAplicados);
+        return filtrosAplicados;
     }
     listarMovimientos() {
         console.log(this.movimientos);

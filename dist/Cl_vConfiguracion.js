@@ -27,7 +27,6 @@ export default class cl_vConfiguracion extends Cl_vGeneral {
     }
     SeccionCategoria() {
         var _a;
-        console.log("Activida");
         this.SeccionCategorias.innerHTML = "";
         let registros = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.categoriaLista();
         if (!registros)

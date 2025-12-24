@@ -20,14 +20,14 @@ export default class cl_vConfiguracion extends Cl_vGeneral {
 
         })  as HTMLDivElement;
         this.btnNewCategoria = this.crearHTMLElement("AgregarCategoria")
-
+        
         this.configurarEventos();
 
         this.refresh()
         this.controlador?.cargarCategoriasNuevas()
     }
     SeccionCategoria() {
-        console.log("Activida")
+       
         this.SeccionCategorias.innerHTML = ""
         let registros = this.controlador?.categoriaLista()
         if (!registros) return

@@ -1,4 +1,4 @@
-import Cl_mRegistros from "./Cl_mRegistros.js";
+import Cl_mRegistros, { iFiltros } from "./Cl_mRegistros.js";
 import Cl_vDashboard from "./Cl_vDashboard.js";
 import cl_vEstadisticas from "./Cl_vEstadisticas.js";
 import cl_vRegistro from "./Cl_VRegistro.js";
@@ -180,14 +180,18 @@ export default class Cl_controlador {
   balanceGeneral(){
     return this.modelo.totales()
   }
-  buscarReferencaia({
-    referencia,
+  mostrarVistaFiltrada() {
+    this.vRegistro.movFiltrados()
+  }
+  filtrosMovimientos({
+    datMovimientos,
     callback
   }: {
-    referencia: string,
+    datMovimientos: iFiltros;
     callback: (error: string | boolean) => void
-  }): void {
-    return this.modelo.BuscarReferencia({ referencia, callback })
+  }){
+    return this.modelo.filtros({datMovimientos,callback})
+
   }
   movimientosLista(): iMovimientos[] {
     return this.modelo.listarMovimientos()

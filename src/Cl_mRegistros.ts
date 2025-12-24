@@ -1,6 +1,11 @@
 import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria.js";
 import Cl_mMovimientos, { iMovimientos } from "./Cl_mMovimientos.js";
-
+export interface iFiltros {
+  referencia?: string;
+  categoria?: string;
+  monto?: number;
+  fecha?: string;
+}
 export default class Cl_mRegistros {
   private movimientos: Cl_mMovimientos[] = [];
   private categorias: Cl_mCategoria[] = [];
@@ -102,6 +107,10 @@ export default class Cl_mRegistros {
     nombre: string,
     callback: (error: string | boolean) => void;
   }): void {
+    if (this.movimientos.find((m) => m.categoria === nombre)) {
+      callback("No se puede eliminar la categoria porque tiene movimientos asociados")
+      return
+    }
     let indice = this.categorias.findIndex((m) => m.nombre === nombre);
     this.categorias.splice(indice, 1)
     localStorage.setItem("listCategoria", JSON.stringify(this.listar()));
@@ -110,18 +119,26 @@ export default class Cl_mRegistros {
   cantMovimientos() {
     return this.movimientos.length
   }
-  //Busqueda por referencia
-  BuscarReferencia({
-    referencia,
-    callback,
+
+  filtros({
+    datMovimientos,
+    callback
   }: {
-    referencia: string,
+    datMovimientos: iFiltros,
     callback: (error: string | false) => void
+
   }) {
-
-    console.log(this.movimientos.find((e) => e.referencia === referencia))
-
+    let filtrosAplicados = (this.movimientos.filter((e) => e.referencia.includes(datMovimientos.referencia?.toLocaleLowerCase() || ""))
+                                            .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || ""))
+                                            .filter((e) => datMovimientos.categoria == "" ? true : e.categoria === datMovimientos.categoria)
+                                            .filter((e) => e.monto > datMovimientos.monto! - 1 || !datMovimientos.monto)
+                                            .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || "")) 
+    )
+    callback(false)
+    console.log("actividad de los filtros", filtrosAplicados)
+    return filtrosAplicados
   }
+
   listarMovimientos(): iMovimientos[] {
     console.log(this.movimientos)
     let lista: iMovimientos[] = [];

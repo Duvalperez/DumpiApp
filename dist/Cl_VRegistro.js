@@ -6,11 +6,20 @@ export default class cl_vRegistro extends Cl_vGeneral {
         this.btnVolver = this.crearHTMLElement("Volver");
         this.btnNewRegistro = this.crearHTMLButtonElement("newRegistros");
         this.seccionDataList = this.crearHTMLElement("dataList");
+        this.inputRefFiltro = this.crearHTMLInputElement("filtroReferencia");
+        this.inputCategoriaFiltro = this.crearHTMLInputElement("filtroCategoria");
+        this.inputMontoFiltro = this.crearHTMLInputElement("filtroMonto");
+        this.inputFechaFiltro = this.crearHTMLInputElement("filtroFecha");
+        this.buttonBuscar = this.crearHTMLButtonElement("buscar", {
+            onclick: () => { var _a; return (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.mostrarVistaFiltrada(); }
+        });
+        this.datalist();
         this.SeccionRegistros = this.crearHTMLElement("datRegistros", {
             type: tHTMLElement.CONTAINER,
             refresh: () => this.datRegistros(),
         });
         this.configurarEventos();
+        this.refresh();
     }
     datalist() {
         var _a;
@@ -22,6 +31,42 @@ export default class cl_vRegistro extends Cl_vGeneral {
             this.seccionDataList.innerHTML += `
          <option value="${categorias.nombre}"></option>
         `;
+        });
+    }
+    movFiltrados() {
+        var _a;
+        this.SeccionRegistros.innerHTML = "";
+        let movimientos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.filtrosMovimientos({ datMovimientos: {
+                referencia: this.inputRefFiltro.value,
+                categoria: this.inputCategoriaFiltro.value,
+                monto: Number(this.inputMontoFiltro.value),
+                fecha: this.inputFechaFiltro.value
+            }, callback: (error) => { } });
+        if (!movimientos)
+            return;
+        movimientos.forEach((mov, index) => {
+            this.SeccionRegistros.innerHTML += `
+        <tr class="card-row">
+            <td data-label="Categoria">${mov.categoria}</td>
+            <td data-label="Referencia">${mov.referencia}</td>
+            <td data-label="Descripcion">${mov.descripcion}</td>
+            <td data-label="Tipo">${mov.tipo}</td>
+            <td data-label="Monto" class="amount-negative">${mov.monto.toFixed(2)}</td>
+            <td data-label="Fecha">${mov.fecha}</td>
+            <td data-label="Acciones">
+               <a id="mainFormRegistros_btnBorrar__${index}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
+                <a id="mainFormRegistros_btnEditar__${index}"> <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;"></a>
+            </td>
+        </tr>
+    `;
+        });
+        movimientos.forEach((mov, index) => {
+            this.crearHTMLButtonElement(`btnBorrar__${index}`, {
+                onclick: () => this.eliminarMovimiento(mov.referencia)
+            });
+            this.crearHTMLButtonElement(`btnEditar__${index}`, {
+                onclick: () => this.editarMovimiento(mov.referencia)
+            });
         });
     }
     datRegistros() {

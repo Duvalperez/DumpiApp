@@ -206,7 +206,7 @@
             <section id="categorias">
                 <div class="form-group">
                     <label for="transaccionCategoria">Categoría</label>
-                    <input type="text" id="transaccionCategoria" list="mainFormRegistros_dataList" required>
+                    <input type="text" id="mainFormRegistros_filtroCategoria" list="mainFormRegistros_dataList" required>
                 </div>
                 <datalist id="mainFormRegistros_dataList">
                     <option value="Alimentacion"></option>
@@ -223,19 +223,19 @@
 
                 <div class="form-group">
                     <label for="inputMonto">Monto</label>
-                    <input type="number" id="inputMonto" required>
+                    <input type="number" id="mainFormRegistros_filtroMonto" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputFecha">Fecha</label>
-                    <input type="date" id="inputFecha" required>
+                    <input type="date" id="mainFormRegistros_filtroFecha" required>
                 </div>
 
                 <div class="form-group">
                     <label for="inputReferencia">Referencia</label>
-                    <input type="number" id="inputReferencia" placeholder="REFERENCIA">
+                    <input type="number" id="mainFormRegistros_filtroReferencia" placeholder="REFERENCIA">
                 </div>
-                <button id="">BUSCAR REGISTROS</button>
+                <button id="mainFormRegistros_buscar">BUSCAR REGISTROS</button>
             </section>
         </details>
         <button id="mainFormRegistros_newRegistros">AGREGAR REGISTRO</button>

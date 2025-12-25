@@ -5,18 +5,19 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
     private btnHome: HTMLElement;
     private btnCargarDatos: HTMLButtonElement;
     private inputArchivo: HTMLInputElement;
+    private datosCargados: HTMLElement;
     private labelArchivo: HTMLLabelElement;
     private readonly textoLabelBase: string = "Ingrese Datos Externos"; // Texto base para la etiqueta
 
     // --- DEFINICIÓN DE CALLBACKS ---
     public onNavVolver?: () => void;
     public onNavHome?: () => void;
-    
+
     /**
      * Callback que se ejecuta cuando el usuario presiona 'Cargar Datos Nuevos'.
      * @param archivo El objeto File seleccionado por el usuario.
      */
-    public onCargarDatos?: (archivo: File) => void; 
+    public onCargarDatos?: (archivo: File) => void;
 
     constructor() {
         super({ formName: "CargaDatos" });
@@ -24,8 +25,16 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
         // 1. Inicialización de Elementos con IDs definitivos
         this.btnVolver = this.crearHTMLElement("Volver");
         this.btnHome = this.crearHTMLElement("Home");
-        this.btnCargarDatos = this.crearHTMLButtonElement("Carga"); 
-        this.inputArchivo = this.crearHTMLInputElement("inputArchivoDatos"); 
+        this.btnCargarDatos = this.crearHTMLButtonElement("Carga", {
+            onclick: () => {
+                this.datosCarga()
+                setTimeout(() => {
+                    this.mostarDatosCargados("")
+                }, 1000);
+            }
+        });
+        this.inputArchivo = this.crearHTMLInputElement("inputArchivoDatos");
+        this.datosCargados = this.crearHTMLElement("datosCargados");
         this.labelArchivo = this.crearHTMLLabelElement("inputArchivoDatos"); // Usamos el mismo ID que el 'for' del label
 
         // 2. Configuración de Eventos
@@ -42,45 +51,59 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
             if (this.onNavHome) this.onNavHome();
         };
 
-        // --- Evento de Carga de Datos (al presionar el botón) ---
-        this.btnCargarDatos.onclick = () => {
-            const archivos = this.inputArchivo.files;
-            
-            if (archivos && archivos.length > 0) {
-                const archivoSeleccionado = archivos[0];
+
+    }
+    mostarDatosCargados(datos: string) {
+        this.datosCargados.innerText = "";
+        const movimientos = this.controlador?.movimientosBancoLista();
+        movimientos?.forEach((movimiento) => {
+            this.datosCargados.innerHTML += `
+            <tr class="card-row">
+            <td data-label="Categoria">${movimiento.categoria}</td>
+            <td data-label="Referencia">${movimiento.referencia}</td>
+            <td data-label="Descripcion">${movimiento.descripcion}</td>
+            <td data-label="Tipo">${movimiento.tipo}</td>
+            <td data-label="Monto" class="amount-negative">${movimiento.monto.toFixed(2)}</td>
+            <td data-label="Fecha">${movimiento.fecha}</td>
+            <td data-label="Acciones">
+
+                <a id="mainFormRegistros_btnBorrar__${movimiento.referencia}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
+                <a id="mainFormRegistros_btnEditar__${movimiento.referencia}"> <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;"></a>
+            </td>
+        </tr>
+            `;
+        });
+    }
+
+   
+    datosCarga()  {
+
+        const inputArchivo = this.inputArchivo;
+        const archivo = inputArchivo.files ? inputArchivo.files[0] : null;
+        if (!archivo) {
+            console.error("No se ha seleccionado ningún archivo.");
+            return;
+        }
+        const lector = new FileReader();
+         let datos: any = [];
+        lector.onload = (event) => {
+           
+            const contenido = event.target?.result;
+            try {
+                 datos = JSON.parse(contenido as string);
+
                 
-                // Disparar el callback con el objeto File
-                if (this.onCargarDatos) {
-                    this.onCargarDatos(archivoSeleccionado);
-                }
-            } else {
-                alert("Por favor, seleccione un archivo para cargar.");
+            } catch (error) {
+                console.error("Error al cargar los datos:", error);
+            }
+            if(!datos){
+
+            }
+            else{
+                this.controlador?.agregarMovimientoBanco(datos);
+                console.log("Datos cargados correctamente:", datos);
             }
         };
-
-        // --- Evento UX: Actualizar el Label al seleccionar un archivo ---
-        this.inputArchivo.onchange = () => {
-            this.actualizarNombreArchivo();
-        };
-    }
-    
-    /**
-     * Actualiza el texto de la etiqueta (el área visible) para mostrar el nombre
-     * del archivo que el usuario seleccionó, mejorando la UX.
-     */
-    private actualizarNombreArchivo() {
-        const archivos = this.inputArchivo.files;
-        
-        if (archivos && archivos.length > 0) {
-            // Reemplazar el texto del label con el nombre del archivo
-            this.labelArchivo.innerText = `Archivo Seleccionado: ${archivos[0].name}`;
-            
-            // Si quieres que el texto "Ingrese Datos Externos" siempre esté visible,
-            // puedes modificar el diseño de tu HTML para que el nombre del archivo
-            // se muestre en otro span o elemento dentro de la etiqueta.
-        } else {
-            // Volver al texto original si el archivo es deseleccionado
-            this.labelArchivo.innerText = this.textoLabelBase;
-        }
+        lector.readAsText(archivo);
     }
 }

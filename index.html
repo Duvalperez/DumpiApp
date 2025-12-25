@@ -21,7 +21,7 @@
         <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
 
         <br>
-        <h3>Nuevo Regristro: <span id="conseForm_lblTipo"></span></h3>
+        <h3><span id="RegistroFormDat_TipOperacion"></span></h3>
 
         <div class="form-group">
             <label for="transaccionReferencia">Referencia</label>
@@ -35,7 +35,7 @@
 
         <div class="form-group">
             <label for="transaccionCategoria">Categoría</label>
-            <input type="text" id="RegistroFormDat_categoria" list="mainFormRegistros_dataList" required>
+            <input type="text" id="RegistroFormDat_categoria" list="mainFormRegistros_dataList" required >
         </div>
 
         <div class="form-group">
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <label id="tipoTransaccion" >Tipo de transaccion</label>
+            <label id="tipoTransaccion">Tipo de transaccion</label>
             <select id="RegistroFormDat_tipo" name="tipo_transaccion" required>
                 <option value="" disabled selected></option>
                 <option value="ABONO">ABONO</option>
@@ -113,8 +113,29 @@
             <input type="file" id="CargaDatos_inputArchivoDatos">
         </label>
         <button id="CargaDatos_Carga">Cargar Datos Nuevos</button>
+        
+            <table class="table-container">
+                <thead>
+                    <tr class="-on-mobile">
+                        <th>REFERENCIA</th>
+                        <th>CATEGORIA</th>
+                        <th>DESCRIPCION</th>
+                        <th>MONTO</th>
+                        <th>FECHA</th>
+                        <th>ESTATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="CargaDatos_datosCargados">
+
+                </tbody>
 
 
+
+
+
+
+            </table>
+        
     </section>
     <section id="newCategoria">
         <nav>
@@ -201,12 +222,13 @@
         </nav>
         <img src="./resources/Dumpia.jpg" alt="" style="width: 90px; height: 100px;">
         <h3>REPORTES</h3>
-        <details>
+        <details id="mainFormRegistros_filtros">
             <summary>FILTERS</summary>
             <section id="categorias">
                 <div class="form-group">
                     <label for="transaccionCategoria">Categoría</label>
-                    <input type="text" id="mainFormRegistros_filtroCategoria" list="mainFormRegistros_dataList" required>
+                    <input type="text" id="mainFormRegistros_filtroCategoria" list="mainFormRegistros_dataList"
+                        required>
                 </div>
                 <datalist id="mainFormRegistros_dataList">
                     <option value="Alimentacion"></option>

@@ -98,13 +98,14 @@ generarGrafico(datosBalance) {
             
            }else{
              this.categoriaEspecift.innerHTML +=
-                `<div class="detail-item">
-                        <div class="detail-info">
-                            <h4>${item.categoria}</h4>
-                            <p>${item.total.toFixed(2)}Bs</p>
-                        </div>
-                        <div class="percentage">0.60%</div>
-                    </div>`
+                `<div class="category-card">
+    <div class="card-header">
+        <span class="category-name">${item.categoria}</span>
+        <span class="category-amount">${item.total.toFixed(2)}<small>Bs</small></span>
+    </div>
+    
+    
+</div>`
 
            }
         });

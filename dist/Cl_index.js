@@ -4,32 +4,39 @@ import Cl_mMovimientos from "./Cl_mMovimientos.js";
 import Cl_mRegistros from "./Cl_mRegistros.js";
 export default class Cl_index {
     constructor() {
-        // Inicializamos las propiedades
+        // 1. Inicializar Modelo y Controlador
         this.modelo = new Cl_mRegistros();
         this.controlador = new Cl_controlador(this.modelo);
-        let listaCategoria = localStorage.getItem("listCategoria");
+        // 2. Cargar datos del almacenamiento persistente
+        this.cargarDatosDesdeStorage();
+        // 3. ¡IMPORTANTE! Forzar la actualización inicial de las vistas
+        // Esto asegura que el Dashboard y las listas muestren los datos cargados
+        this.controlador.ActulizarDatosVistas();
+    }
+    cargarDatosDesdeStorage() {
+        // Cargar Categorías
+        const listaCategoria = localStorage.getItem("listCategoria");
         if (listaCategoria) {
-            let listCategoria = JSON.parse(listaCategoria);
-            listCategoria.forEach((categorias) => {
+            const parsedCategorias = JSON.parse(listaCategoria);
+            parsedCategorias.forEach((cat) => {
                 this.modelo.agregarCategoria({
-                    nombre: new Cl_mCategoria(categorias),
-                    callback: (error) => {
-                        // Ignorar errores al cargar desde localStorage
-                    },
+                    nombre: new Cl_mCategoria(cat),
+                    callback: () => { } // Callback vacío para carga inicial
                 });
             });
         }
-        let listaMovimientos = localStorage.getItem("listMovimientos");
+        // Cargar Movimientos
+        const listaMovimientos = localStorage.getItem("listMovimientos");
         if (listaMovimientos) {
-            let listMovimientos = JSON.parse(listaMovimientos);
-            listMovimientos.forEach((movimientos) => {
+            const parsedMovimientos = JSON.parse(listaMovimientos);
+            parsedMovimientos.forEach((mov) => {
                 this.modelo.agregarMovimientos({
-                    datMovimientos: new Cl_mMovimientos(movimientos),
-                    callback: (error) => {
-                        // Ignorar errores al cargar desde localStorage
-                    },
+                    datMovimientos: new Cl_mMovimientos(mov),
+                    callback: () => { }
                 });
             });
         }
     }
 }
+// Iniciar la aplicación
+new Cl_index();

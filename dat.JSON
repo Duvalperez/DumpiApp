@@ -1,0 +1,322 @@
+[
+    {
+      "referencia": "MOV-001",
+      "descripcion": "Nómina Mensual",
+      "categoria": "Sueldo",
+      "monto": 2500.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-01"
+    },
+    {
+      "referencia": "MOV-002",
+      "descripcion": "Supermercado Mercadona",
+      "categoria": "Alimentación",
+      "monto": 84.25,
+      "tipo": "CARGO",
+      "fecha": "2024-01-02"
+    },
+    {
+      "referencia": "MOV-003",
+      "descripcion": "Alquiler Vivienda",
+      "categoria": "Vivienda",
+      "monto": 900.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-03"
+    },
+    {
+      "referencia": "MOV-004",
+      "descripcion": "Suscripción Netflix",
+      "categoria": "Entretenimiento",
+      "monto": 17.99,
+      "tipo": "CARGO",
+      "fecha": "2024-01-04"
+    },
+    {
+      "referencia": "MOV-005",
+      "descripcion": "Gasolinera Repsol",
+      "categoria": "Transporte",
+      "monto": 65.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-05"
+    },
+    {
+      "referencia": "MOV-006",
+      "descripcion": "Venta Wallapop",
+      "categoria": "Otros",
+      "monto": 45.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-06"
+    },
+    {
+      "referencia": "MOV-007",
+      "descripcion": "Recibo de Luz",
+      "categoria": "Suministros",
+      "monto": 72.40,
+      "tipo": "CARGO",
+      "fecha": "2024-01-07"
+    },
+    {
+      "referencia": "MOV-008",
+      "descripcion": "Gimnasio Mensual",
+      "categoria": "Salud",
+      "monto": 39.90,
+      "tipo": "CARGO",
+      "fecha": "2024-01-08"
+    },
+    {
+      "referencia": "MOV-009",
+      "descripcion": "Cena Restaurante",
+      "categoria": "Alimentación",
+      "monto": 54.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-09"
+    },
+    {
+      "referencia": "MOV-010",
+      "descripcion": "Factura Internet",
+      "categoria": "Suministros",
+      "monto": 42.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-10"
+    },
+    {
+      "referencia": "MOV-011",
+      "descripcion": "Transferencia Bizum",
+      "categoria": "Otros",
+      "monto": 25.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-11"
+    },
+    {
+      "referencia": "MOV-012",
+      "descripcion": "Compra Amazon",
+      "categoria": "Electrónica",
+      "monto": 120.50,
+      "tipo": "CARGO",
+      "fecha": "2024-01-12"
+    },
+    {
+      "referencia": "MOV-013",
+      "descripcion": "Seguro Coche",
+      "categoria": "Transporte",
+      "monto": 280.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-13"
+    },
+    {
+      "referencia": "MOV-014",
+      "descripcion": "Intereses de Cuenta",
+      "categoria": "Inversiones",
+      "monto": 5.20,
+      "tipo": "ABONO",
+      "fecha": "2024-01-14"
+    },
+    {
+      "referencia": "MOV-015",
+      "descripcion": "Farmacia Cruz Verde",
+      "categoria": "Salud",
+      "monto": 15.30,
+      "tipo": "CARGO",
+      "fecha": "2024-01-15"
+    },
+    {
+      "referencia": "MOV-016",
+      "descripcion": "Bono Transporte",
+      "categoria": "Transporte",
+      "monto": 30.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-16"
+    },
+    {
+      "referencia": "MOV-017",
+      "descripcion": "Starbucks Coffee",
+      "categoria": "Alimentación",
+      "monto": 6.50,
+      "tipo": "CARGO",
+      "fecha": "2024-01-17"
+    },
+    {
+      "referencia": "MOV-018",
+      "descripcion": "Freelance Project",
+      "categoria": "Trabajo",
+      "monto": 400.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-18"
+    },
+    {
+      "referencia": "MOV-019",
+      "descripcion": "Tienda Zara",
+      "categoria": "Ropa",
+      "monto": 89.95,
+      "tipo": "CARGO",
+      "fecha": "2024-01-19"
+    },
+    {
+      "referencia": "MOV-020",
+      "descripcion": "Entradas Cine",
+      "categoria": "Entretenimiento",
+      "monto": 22.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-20"
+    },
+    {
+      "referencia": "MOV-021",
+      "descripcion": "Recibo de Agua",
+      "categoria": "Suministros",
+      "monto": 31.10,
+      "tipo": "CARGO",
+      "fecha": "2024-01-21"
+    },
+    {
+      "referencia": "MOV-022",
+      "descripcion": "Compra Panadería",
+      "categoria": "Alimentación",
+      "monto": 4.20,
+      "tipo": "CARGO",
+      "fecha": "2024-01-22"
+    },
+    {
+      "referencia": "MOV-023",
+      "descripcion": "Devolución Amazon",
+      "categoria": "Otros",
+      "monto": 35.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-23"
+    },
+    {
+      "referencia": "MOV-024",
+      "descripcion": "Peluquería",
+      "categoria": "Estética",
+      "monto": 25.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-24"
+    },
+    {
+      "referencia": "MOV-025",
+      "descripcion": "Suscripción Spotify",
+      "categoria": "Entretenimiento",
+      "monto": 10.99,
+      "tipo": "CARGO",
+      "fecha": "2024-01-25"
+    },
+    {
+      "referencia": "MOV-026",
+      "descripcion": "Mantenimiento Coche",
+      "categoria": "Transporte",
+      "monto": 150.00,
+      "tipo": "CARGO",
+      "fecha": "2024-01-26"
+    },
+    {
+      "referencia": "MOV-027",
+      "descripcion": "Venta Teclado",
+      "categoria": "Otros",
+      "monto": 60.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-27"
+    },
+    {
+      "referencia": "MOV-028",
+      "descripcion": "Curso Udemy",
+      "categoria": "Educación",
+      "monto": 12.99,
+      "tipo": "CARGO",
+      "fecha": "2024-01-28"
+    },
+    {
+      "referencia": "MOV-029",
+      "descripcion": "Taxi Cabify",
+      "categoria": "Transporte",
+      "monto": 18.40,
+      "tipo": "CARGO",
+      "fecha": "2024-01-29"
+    },
+    {
+      "referencia": "MOV-030",
+      "descripcion": "Bonus Productividad",
+      "categoria": "Sueldo",
+      "monto": 200.00,
+      "tipo": "ABONO",
+      "fecha": "2024-01-30"
+    },
+    {
+      "referencia": "MOV-031",
+      "descripcion": "Compra Lidl",
+      "categoria": "Alimentación",
+      "monto": 42.30,
+      "tipo": "CARGO",
+      "fecha": "2024-01-31"
+    },
+    {
+      "referencia": "MOV-032",
+      "descripcion": "Nómina Mensual",
+      "categoria": "Sueldo",
+      "monto": 2500.00,
+      "tipo": "ABONO",
+      "fecha": "2024-02-01"
+    },
+    {
+      "referencia": "MOV-033",
+      "descripcion": "Seguro de Hogar",
+      "categoria": "Vivienda",
+      "monto": 45.00,
+      "tipo": "CARGO",
+      "fecha": "2024-02-02"
+    },
+    {
+      "referencia": "MOV-034",
+      "descripcion": "Tienda Decathlon",
+      "categoria": "Deporte",
+      "monto": 55.60,
+      "tipo": "CARGO",
+      "fecha": "2024-02-03"
+    },
+    {
+      "referencia": "MOV-035",
+      "descripcion": "Dividendos Bolsa",
+      "categoria": "Inversiones",
+      "monto": 12.45,
+      "tipo": "ABONO",
+      "fecha": "2024-02-04"
+    },
+    {
+      "referencia": "MOV-036",
+      "descripcion": "Parking Centro",
+      "categoria": "Transporte",
+      "monto": 12.00,
+      "tipo": "CARGO",
+      "fecha": "2024-02-05"
+    },
+    {
+      "referencia": "MOV-037",
+      "descripcion": "Lavandería",
+      "categoria": "Otros",
+      "monto": 9.00,
+      "tipo": "CARGO",
+      "fecha": "2024-02-06"
+    },
+    {
+      "referencia": "MOV-038",
+      "descripcion": "Reembolso Gastos",
+      "categoria": "Trabajo",
+      "monto": 85.00,
+      "tipo": "ABONO",
+      "fecha": "2024-02-07"
+    },
+    {
+      "referencia": "MOV-039",
+      "descripcion": "Veterinario Can",
+      "categoria": "Salud",
+      "monto": 60.00,
+      "tipo": "CARGO",
+      "fecha": "2024-02-08"
+    },
+    {
+      "referencia": "MOV-040",
+      "descripcion": "Donación ONG",
+      "categoria": "Otros",
+      "monto": 20.00,
+      "tipo": "CARGO",
+      "fecha": "2024-02-09"
+    }
+  ]

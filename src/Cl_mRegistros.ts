@@ -6,11 +6,33 @@ export interface iFiltros {
   monto?: number;
   fecha?: string;
 }
+interface movimientoBanco {
+  referencia: string;
+  descripcion: string;
+  categoria: string;
+  monto: number;
+  tipo: string;
+  fecha: string;
+}
 export default class Cl_mRegistros {
   private movimientos: Cl_mMovimientos[] = [];
   private categorias: Cl_mCategoria[] = [];
+  private movimien: movimientoBanco[] = [];
 
-
+ agregarMovimientoBanco(dato: any[]) { 
+    this.movimien = dato.map((item) => {
+        return {
+            referencia: item.referencia,
+            descripcion: item.descripcion,
+            categoria: item.categoria,
+            monto: item.monto, 
+            tipo: item.tipo,
+            fecha: item.fecha
+        };
+    });
+    
+    console.log("Datos agregados al modelo:", this.movimien);
+}
   agregarMovimientos({
     datMovimientos,
     callback,
@@ -73,6 +95,7 @@ export default class Cl_mRegistros {
     callback: (error: string | false) => void;
   }): void {
     let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+    
     if (!movimiento) {
       callback("Movimiento no encontrado");
       return;
@@ -138,7 +161,13 @@ export default class Cl_mRegistros {
     console.log("actividad de los filtros", filtrosAplicados)
     return filtrosAplicados
   }
-
+  listarMovimientosBanco(): iMovimientos[] {
+    let lista: iMovimientos[] = [];
+    this.movimien.forEach((movimientos) => {
+      lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha });
+    });
+    return lista
+  }
   listarMovimientos(): iMovimientos[] {
     console.log(this.movimientos)
     let lista: iMovimientos[] = [];
@@ -201,8 +230,9 @@ export default class Cl_mRegistros {
   OperRegistradas() {
     return this.movimientos.length
   }
-  procesarMovimientos() {
-
+  registroInteligente() {
+  
+    
   }
 
 }

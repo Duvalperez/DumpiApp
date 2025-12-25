@@ -12,6 +12,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
     private inputCategoriaFiltro: HTMLInputElement;
     private inputMontoFiltro: HTMLInputElement;
     private inputFechaFiltro: HTMLInputElement;
+    private seccionFiltros: HTMLDivElement;
     private buttonBuscar: HTMLButtonElement;
     // Callback para que el controlador gestione el regreso al Dashboard
     public onNavHome?: () => void;
@@ -27,8 +28,13 @@ export default class cl_vRegistro extends Cl_vGeneral {
         this.inputCategoriaFiltro = this.crearHTMLInputElement("filtroCategoria")
         this.inputMontoFiltro = this.crearHTMLInputElement("filtroMonto")
         this.inputFechaFiltro = this.crearHTMLInputElement("filtroFecha")
+        this.seccionFiltros = this.crearHTMLElement("filtros") as HTMLDivElement;
         this.buttonBuscar = this.crearHTMLButtonElement("buscar", {
-            onclick: () => this.controlador?.mostrarVistaFiltrada()
+            onclick: () => {
+                this.controlador?.mostrarVistaFiltrada()
+                this.limpiarFormulario()
+            }
+
         });
         this.datalist();
         this.SeccionRegistros = this.crearHTMLElement("datRegistros",
@@ -41,6 +47,12 @@ export default class cl_vRegistro extends Cl_vGeneral {
         this.refresh();
 
     }
+    limpiarFormulario() {
+        this.inputRefFiltro.value = "";
+        this.inputCategoriaFiltro.value = "";
+        this.inputMontoFiltro.value = "";
+        this.inputFechaFiltro.value = "";
+    }
 
     datalist() {
         this.seccionDataList.innerHTML = ""
@@ -52,15 +64,21 @@ export default class cl_vRegistro extends Cl_vGeneral {
         `})
     }
     movFiltrados() {
+        this.seccionFiltros.open = false;
         this.SeccionRegistros.innerHTML = ""
 
-        let movimientos = this.controlador?.filtrosMovimientos({datMovimientos:{
-            referencia: this.inputRefFiltro.value,
-            categoria: this.inputCategoriaFiltro.value,
-            monto: Number(this.inputMontoFiltro.value),
-            fecha: this.inputFechaFiltro.value
-        } , callback: (error) => {}}) ;
+        let movimientos = this.controlador?.filtrosMovimientos({
+            datMovimientos: {
+                referencia: this.inputRefFiltro.value,
+                categoria: this.inputCategoriaFiltro.value,
+                monto: Number(this.inputMontoFiltro.value),
+                fecha: this.inputFechaFiltro.value
+            }, callback: (error) => { }
+        });
         if (!movimientos) return;
+        if (movimientos.length === 0) {
+         this.datRegistros()
+        }
         movimientos.forEach((mov: iMovimientos, index: number) => {
             this.SeccionRegistros.innerHTML += `
         <tr class="card-row">
@@ -77,7 +95,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
         </tr>
     `
         });
-         movimientos.forEach((mov: iMovimientos, index: number) => {
+        movimientos.forEach((mov: iMovimientos, index: number) => {
             this.crearHTMLButtonElement(`btnBorrar__${index}`, {
                 onclick: () => this.eliminarMovimiento(mov.referencia)
             })
@@ -94,7 +112,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
     datRegistros() {
         this.SeccionRegistros.innerHTML = ""
 
-        let movimientos = this.controlador?.movimientosLista() ;
+        let movimientos = this.controlador?.movimientosLista();
         if (!movimientos) return;
         movimientos.forEach((mov: iMovimientos, index: number) => {
             this.SeccionRegistros.innerHTML += `
@@ -112,7 +130,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
         </tr>
     `
         });
-         movimientos.forEach((mov: iMovimientos, index: number) => {
+        movimientos.forEach((mov: iMovimientos, index: number) => {
             this.crearHTMLButtonElement(`btnBorrar__${index}`, {
                 onclick: () => this.eliminarMovimiento(mov.referencia)
             })
@@ -124,12 +142,13 @@ export default class cl_vRegistro extends Cl_vGeneral {
         });
 
 
+
     }
     editarMovimiento(referencia: string) {
-      let movimiento = this.controlador?.obtenerMovimiento(referencia);
-      this.controlador?.vNewRegistro.edit(movimiento);
-      
-      this.btnNewRegistro.click();
+        let movimiento = this.controlador?.obtenerMovimiento(referencia);
+        this.controlador?.vNewRegistro.edit(movimiento);
+
+        this.btnNewRegistro.click();
     }
     eliminarMovimiento(referencia: string) {
 

@@ -2,6 +2,20 @@ export default class Cl_mRegistros {
     constructor() {
         this.movimientos = [];
         this.categorias = [];
+        this.movimien = [];
+    }
+    agregarMovimientoBanco(dato) {
+        this.movimien = dato.map((item) => {
+            return {
+                referencia: item.referencia,
+                descripcion: item.descripcion,
+                categoria: item.categoria,
+                monto: item.monto,
+                tipo: item.tipo,
+                fecha: item.fecha
+            };
+        });
+        console.log("Datos agregados al modelo:", this.movimien);
     }
     agregarMovimientos({ datMovimientos, callback, }) {
         let error = datMovimientos.error();
@@ -83,6 +97,13 @@ export default class Cl_mRegistros {
         console.log("actividad de los filtros", filtrosAplicados);
         return filtrosAplicados;
     }
+    listarMovimientosBanco() {
+        let lista = [];
+        this.movimien.forEach((movimientos) => {
+            lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha });
+        });
+        return lista;
+    }
     listarMovimientos() {
         console.log(this.movimientos);
         let lista = [];
@@ -132,6 +153,6 @@ export default class Cl_mRegistros {
     OperRegistradas() {
         return this.movimientos.length;
     }
-    procesarMovimientos() {
+    registroInteligente() {
     }
 }

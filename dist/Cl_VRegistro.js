@@ -10,8 +10,13 @@ export default class cl_vRegistro extends Cl_vGeneral {
         this.inputCategoriaFiltro = this.crearHTMLInputElement("filtroCategoria");
         this.inputMontoFiltro = this.crearHTMLInputElement("filtroMonto");
         this.inputFechaFiltro = this.crearHTMLInputElement("filtroFecha");
+        this.seccionFiltros = this.crearHTMLElement("filtros");
         this.buttonBuscar = this.crearHTMLButtonElement("buscar", {
-            onclick: () => { var _a; return (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.mostrarVistaFiltrada(); }
+            onclick: () => {
+                var _a;
+                (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.mostrarVistaFiltrada();
+                this.limpiarFormulario();
+            }
         });
         this.datalist();
         this.SeccionRegistros = this.crearHTMLElement("datRegistros", {
@@ -20,6 +25,12 @@ export default class cl_vRegistro extends Cl_vGeneral {
         });
         this.configurarEventos();
         this.refresh();
+    }
+    limpiarFormulario() {
+        this.inputRefFiltro.value = "";
+        this.inputCategoriaFiltro.value = "";
+        this.inputMontoFiltro.value = "";
+        this.inputFechaFiltro.value = "";
     }
     datalist() {
         var _a;
@@ -35,15 +46,21 @@ export default class cl_vRegistro extends Cl_vGeneral {
     }
     movFiltrados() {
         var _a;
+        this.seccionFiltros.open = false;
         this.SeccionRegistros.innerHTML = "";
-        let movimientos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.filtrosMovimientos({ datMovimientos: {
+        let movimientos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.filtrosMovimientos({
+            datMovimientos: {
                 referencia: this.inputRefFiltro.value,
                 categoria: this.inputCategoriaFiltro.value,
                 monto: Number(this.inputMontoFiltro.value),
                 fecha: this.inputFechaFiltro.value
-            }, callback: (error) => { } });
+            }, callback: (error) => { }
+        });
         if (!movimientos)
             return;
+        if (movimientos.length === 0) {
+            this.datRegistros();
+        }
         movimientos.forEach((mov, index) => {
             this.SeccionRegistros.innerHTML += `
         <tr class="card-row">

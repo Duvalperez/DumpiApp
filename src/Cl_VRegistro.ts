@@ -45,6 +45,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
         )
         this.configurarEventos();
         this.refresh();
+        
 
     }
     limpiarFormulario() {
@@ -84,7 +85,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
         <tr class="card-row">
             <td data-label="Categoria">${mov.categoria}</td>
             <td data-label="Referencia">${mov.referencia}</td>
-            <td data-label="Descripcion">${mov.descripcion}</td>
+             <td data-label="Descripcion" class="contDescripcion"><p class="descripcion">${mov.descripcion}</p></td>
             <td data-label="Tipo">${mov.tipo}</td>
             <td data-label="Monto" class="amount-negative">${mov.monto.toFixed(2)}</td>
             <td data-label="Fecha">${mov.fecha}</td>
@@ -119,7 +120,7 @@ export default class cl_vRegistro extends Cl_vGeneral {
         <tr class="card-row">
             <td data-label="Categoria">${mov.categoria}</td>
             <td data-label="Referencia">${mov.referencia}</td>
-            <td data-label="Descripcion">${mov.descripcion}</td>
+            <td data-label="Descripcion" class="contDescripcion"><p class="descripcion">${mov.descripcion}</p></td>
             <td data-label="Tipo">${mov.tipo}</td>
             <td data-label="Monto" class="amount-negative">${mov.monto.toFixed(2)}</td>
             <td data-label="Fecha">${mov.fecha}</td>

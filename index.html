@@ -2,10 +2,16 @@
 <html lang="es" translate="no">
 
 <head>
+
+
+
     <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DumpiApp</title>
+
+    <link rel="icon" type="image/svg+xml" href="./resources/logoOriginal.svg?v=1">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -18,55 +24,56 @@
                     style="width: 50px; height: 50px;"></a>
             <a id="RegistroFormDat_home"><img src="./resources/hogar.png" alt="" style="width: 50px; height: 50px;"></a>
         </nav>
-        <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
 
-        <br>
-        <h3><span id="RegistroFormDat_TipOperacion"></span></h3>
 
-        <div class="form-group">
-            <label for="transaccionReferencia">Referencia</label>
-            <input type="text" id="RegistroFormDat_referencia" required>
-        </div>
+        <div id="registroMovimiento">
+            <h3><span id="RegistroFormDat_TipOperacion"></span></h3>
 
-        <div class="form-group">
-            <label for="transaccionConcepto">Concepto</label>
-            <input type="text" id="RegistroFormDat_concepto" required>
-        </div>
+            <div class="form-group">
+                <label for="transaccionReferencia">Referencia</label>
+                <input type="text" id="RegistroFormDat_referencia" required>
+            </div>
 
-        <div class="form-group">
-            <label for="transaccionCategoria">Categoría</label>
-            <input type="text" id="RegistroFormDat_categoria" list="mainFormRegistros_dataList" required >
-        </div>
+            <div class="form-group">
+                <label for="transaccionConcepto">Concepto</label>
+                <input type="text" id="RegistroFormDat_concepto" required>
+            </div>
 
-        <div class="form-group">
-            <label for="transaccionMonto">Monto</label>
-            <input type="number" id="RegistroFormDat_monto" required>
-        </div>
+            <div class="form-group">
+                <label for="transaccionCategoria">Categoría</label>
+                <input type="text" id="RegistroFormDat_categoria" list="mainFormRegistros_dataList" required>
+            </div>
 
-        <div class="form-group">
-            <label id="tipoTransaccion">Tipo de transaccion</label>
-            <select id="RegistroFormDat_tipo" name="tipo_transaccion" required>
-                <option value="" disabled selected></option>
-                <option value="ABONO">ABONO</option>
-                <option value="CARGO">CARGO</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="transaccionMonto">Monto</label>
+                <input type="number" id="RegistroFormDat_monto" required>
+            </div>
 
-        <div class="form-group">
-            <label for="transaccionFecha">Fecha</label>
-            <input type="date" id="RegistroFormDat_fecha" required>
-        </div>
+            <div class="form-group">
+                <label id="tipoTransaccion">Tipo de transaccion</label>
+                <select id="RegistroFormDat_tipo" name="tipo_transaccion" required>
+                    <option value="" disabled selected></option>
+                    <option value="ABONO">ABONO</option>
+                    <option value="CARGO">CARGO</option>
+                </select>
+            </div>
 
-        <div class="button-group single-button">
-            <button id="RegistroFormDat_agregar" type="submit" class="accept-btn" hidden>AGREGAR</button>
-            <button id="RegistroFormDat_editarMovimiento" hidden>EDITAR</button>
+            <div class="form-group">
+                <label for="transaccionFecha">Fecha</label>
+                <input type="date" id="RegistroFormDat_fecha" required>
+            </div>
+
+            <div class="button-group single-button">
+                <button id="RegistroFormDat_agregar" type="submit" class="accept-btn" hidden>AGREGAR</button>
+                <button id="RegistroFormDat_editarMovimiento" hidden>EDITAR</button>
+            </div>
         </div>
     </section>
     <section id="dashboardStadis">
         <nav>
             <a id="dashboardStadis_Volver"><img src="./resources/flecha.png" alt=""
                     style="width: 50px; height: 50px;"></a>
-            <a id="dashboardStadis_CargarDatos"><img src="./resources/hogar.png" alt=""
+            <a id="dashboardStadis_CargarDatos"><img src="./resources/base-de-datos.png" alt=""
                     style="width: 50px; height: 50px;"></a>
         </nav>
 
@@ -113,7 +120,7 @@
             <input type="file" id="CargaDatos_inputArchivoDatos">
         </label>
         <button id="CargaDatos_Carga">Cargar Datos Nuevos</button>
-        
+        <section id="datosCargaDatos">
             <table class="table-container">
                 <thead>
                     <tr class="-on-mobile">
@@ -135,25 +142,30 @@
 
 
             </table>
-        
+        </section>
+
+
     </section>
     <section id="newCategoria">
         <nav>
             <a id="newCategoria_volver"><img src="./resources/flecha.png" alt="Volver"
                     style="width: 50px; height: 50px" /></a>
 
+
             <a id="newCategoria_home"><img src="./resources/hogar.png" alt="Home"
                     style="width: 50px; height: 50px" /></a>
         </nav>
+        <h1 id="lblOpcion">NEW CATEGORÍA</h1>
+        <div id="nuevaCategoriaSeccion">
 
-        <h1 id="lblOpcion">NUEVA CATEGORÍA</h1>
 
-        <div class="form-group">
-            <label for="categoria_newCategori">Nombre de la Categoría</label>
-            <input type="text" id="newCategoria_inputCategoria" required />
+            <div class="form-group">
+                <label for="categoria_newCategori">Nombre de la Categoría</label>
+                <input type="text" id="newCategoria_inputCategoria" required />
+            </div>
+
+            <button id="newCategoria_agregar">AGREGAR</button>
         </div>
-
-        <button id="newCategoria_agregar">AGREGAR</button>
     </section>
 
     <section id="listCategoria">
@@ -163,27 +175,19 @@
 
 
         </nav>
-        <h1>Configuraciones</h1>
+        <h1>CONFIGURACIONES</h1>
 
         <section id="configuracionCatg" class="categoriaSeccion">
-            <table class="table-container">
+            <table class="table-categoria" id="tabla_categorias">
                 <thead>
                     <tr class="-on-mobile">
                         <th>Categoria</th>
 
                     </tr>
                 </thead>
-                <tbody id="listCategoria_dataCatg">
+                <tbody id="listCategoria_dataCatg" style="">
                     <tr class="card-row">
-                        <td data-label="Categoria">Electrónica</td>
 
-                        <td style="display: flex;
-                        justify-content: center;
-                        align-items: center;">
-                            <a id="listCategoria_btnBorrarRegistro"><img src="./resources/papelera-de-reciclaje.png"
-                                    alt="Eliminar" style="width: 30px; height: 30px;"></a>
-
-                        </td>
                     </tr>
 
                 </tbody>
@@ -191,7 +195,7 @@
 
         </section>
         <div id="SeccioNewCategoria">
-            <h2>NUEVA CATEGORIA</h2>
+
             <a id="listCategoria_AgregarCategoria"><img src="./resources/boton-mas.png" alt=""
                     style="width: 50px; height: 50px;"></a>
         </div>
@@ -204,7 +208,7 @@
             <a id="dashboardPrincipal_btnConfiguracion"><img src="./resources/ajustes.png" alt=""
                     style="width: 50px; height: 50px;"></a>
         </nav>
-        <img src="./resources/Dumpia.jpg" alt="" style="width: 170px; height: 200px;">
+        <img src="./resources/Dumpia.jpg" alt="" style="width: 150px; height: 200px;">
         <section id="dashboard">
             <section id="dashboardPrincipal_contenedorS">
 
@@ -218,49 +222,51 @@
         <nav>
             <a id="mainFormRegistros_Volver"><img src="./resources/flecha.png" alt=""
                     style="width: 50px; height: 50px;"></a>
+            <details id="mainFormRegistros_filtros">
+                <summary><img src="resources/vaso.png" style="width: 40px; height: 40px; margin: 0px; padding: auto;">
+                </summary>
+                <section id="categorias">
+                    <div class="form-group">
+                        <label for="transaccionCategoria">Categoría</label>
+                        <input type="text" id="mainFormRegistros_filtroCategoria" list="mainFormRegistros_dataList"
+                            required placeholder="CATEGORIA">
+                    </div>
+                    <datalist id="mainFormRegistros_dataList">
+                        <option value="Alimentacion"></option>
+                        <option value="Servicios"></option>
+                        <option value="Telefonica"></option>
+                        <option value="Pago Equipo Programadores"></option>
+                        <option value="Transporte"></option>
+                        <option value="Alquiler"></option>
+                        <option value="Marketing"></option>
+                        <option value="Material Oficina"></option>
+                        <option value="Suscripciones Software"></option>
+                    </datalist>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputMonto">Monto</label>
+                        <input type="number" id="mainFormRegistros_filtroMonto" required placeholder="00,00">
+                    </div>
+
+                    <div class="form-group" id="detailsFiltro">
+                        <label for="inputFecha">Fecha</label>
+                        <input type="date" id="mainFormRegistros_filtroFecha" required placeholder="DD/MM/AAAA">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputReferencia">Referencia</label>
+                        <input type="number" id="mainFormRegistros_filtroReferencia" placeholder="REFERENCIA">
+                    </div>
+                    <button id="mainFormRegistros_buscar">BUSCAR REGISTROS</button>
+                </section>
+            </details>
 
         </nav>
-        <img src="./resources/Dumpia.jpg" alt="" style="width: 90px; height: 100px;">
-        <h3>REPORTES</h3>
-        <details id="mainFormRegistros_filtros">
-            <summary>FILTERS</summary>
-            <section id="categorias">
-                <div class="form-group">
-                    <label for="transaccionCategoria">Categoría</label>
-                    <input type="text" id="mainFormRegistros_filtroCategoria" list="mainFormRegistros_dataList"
-                        required>
-                </div>
-                <datalist id="mainFormRegistros_dataList">
-                    <option value="Alimentacion"></option>
-                    <option value="Servicios"></option>
-                    <option value="Telefonica"></option>
-                    <option value="Pago Equipo Programadores"></option>
-                    <option value="Transporte"></option>
-                    <option value="Alquiler"></option>
-                    <option value="Marketing"></option>
-                    <option value="Material Oficina"></option>
-                    <option value="Suscripciones Software"></option>
-                </datalist>
-                </div>
 
-                <div class="form-group">
-                    <label for="inputMonto">Monto</label>
-                    <input type="number" id="mainFormRegistros_filtroMonto" required>
-                </div>
 
-                <div class="form-group">
-                    <label for="inputFecha">Fecha</label>
-                    <input type="date" id="mainFormRegistros_filtroFecha" required>
-                </div>
 
-                <div class="form-group">
-                    <label for="inputReferencia">Referencia</label>
-                    <input type="number" id="mainFormRegistros_filtroReferencia" placeholder="REFERENCIA">
-                </div>
-                <button id="mainFormRegistros_buscar">BUSCAR REGISTROS</button>
-            </section>
-        </details>
-        <button id="mainFormRegistros_newRegistros">AGREGAR REGISTRO</button>
+
         <section id="Tablas">
             <table class="table-container">
                 <thead>
@@ -282,8 +288,11 @@
 
 
 
+
             </table>
+
         </section>
+        <button id="mainFormRegistros_newRegistros">AGREGAR REGISTRO</button>
     </section>
 
     <script type="module">

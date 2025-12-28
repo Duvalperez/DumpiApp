@@ -13,21 +13,26 @@ interface movimientoBanco {
   monto: number;
   tipo: string;
   fecha: string;
+  estatus: string;
 }
 export default class Cl_mRegistros {
   private movimientos: Cl_mMovimientos[] = [];
   private categorias: Cl_mCategoria[] = [];
   private movimien: movimientoBanco[] = [];
 
- agregarMovimientoBanco(dato: any[]) { 
+ agregarMovimientoBanco(dato: movimientoBanco[]) { 
     this.movimien = dato.map((item) => {
+      const existe = this.movimientos.some((m) => m.referencia === item.referencia);
+      //reparar status para que se puedea modificar la vista despues y se pueda aplicar el metodo de conciliacion
+      //agrega el metodo de no conciliado para que de la opcion de registro de operacion desde el boton editar
         return {
             referencia: item.referencia,
             descripcion: item.descripcion,
             categoria: item.categoria,
             monto: item.monto, 
             tipo: item.tipo,
-            fecha: item.fecha
+            fecha: item.fecha,
+            estatus: existe ? "CONCILIADO" : "PENDIENTE"
         };
     });
     
@@ -164,7 +169,7 @@ export default class Cl_mRegistros {
   listarMovimientosBanco(): iMovimientos[] {
     let lista: iMovimientos[] = [];
     this.movimien.forEach((movimientos) => {
-      lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha });
+      lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha,status:movimientos.estatus });
     });
     return lista
   }

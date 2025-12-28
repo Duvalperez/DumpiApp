@@ -44,10 +44,11 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
             <td data-label="Tipo">${movimiento.tipo}</td>
             <td data-label="Monto" class="amount-negative">${movimiento.monto.toFixed(2)}</td>
             <td data-label="Fecha">${movimiento.fecha}</td>
-            <td data-label="Acciones">
-
-                <a id="mainFormRegistros_btnBorrar__${movimiento.referencia}"> <img src="./resources/papelera-de-reciclaje.png" alt="Eliminar" class="action-icon" style="height: 20px;"></a>
-                <a id="mainFormRegistros_btnEditar__${movimiento.referencia}"> <img src="./resources/editar-informacion.png" alt="editar" class="action-icon" style="height: 20px;"></a>
+            <td >
+              ${movimiento.estatus === "CONCILIADO" ?
+                `<button class="btn-conciliar">CONCILIADO</button>` :
+                `<button class="btn-conciliar-red">PENDIENTE</button>`}
+               
             </td>
         </tr>
             `;

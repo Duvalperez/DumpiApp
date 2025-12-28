@@ -5,6 +5,9 @@ export interface iMovimientos {
     monto: number;
     tipo: string;
     fecha: string;
+    estatus?: string;
+ 
+    
 }
 export default class Cl_mMovimientos {
     private _referencia: string = "";
@@ -114,6 +117,7 @@ export default class Cl_mMovimientos {
             monto:this.monto,
             tipo:this.tipo,
             fecha:this.fecha,
+          
         }
     }
 

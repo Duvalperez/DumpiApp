@@ -18,11 +18,11 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             <div class="balance-content">
                 <div class="stats-text">
                     <p>Ingresos</p>
-                    <span class="ingreso-color">${totalIngreso.toFixed(2)}$</span>
+                    <span class="ingreso-color">${totalIngreso.toFixed(2)}Bs</span>
                     <p>Egresos</p>
-                    <span class="egreso-color">${totalEgresos.toFixed(2)}$</span>
+                    <span class="egreso-color">${totalEgresos.toFixed(2)}Bs</span>
                     <p>Total Disponible</p>
-                    <span class="disponible-color">${totalDisponible.toFixed(2)}$</span>
+                    <span class="disponible-color">${totalDisponible.toFixed(2)}Bs</span>
                 </div>
                 <div class="" style="position: relative; height:200px; width:200px">
                     <canvas id="canvasBalance"></canvas>

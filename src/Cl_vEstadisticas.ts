@@ -19,74 +19,74 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         this.Estadisticas = this.crearHTMLElement("balanceGn");
         this.btnCargarDatos = this.crearHTMLElement("CargarDatos");
         this.btnVolver = this.crearHTMLElement("Volver");
-      
+
         this.configurarEventos();
     }
-   balanceGeneral() {
-    this.Estadisticas.innerHTML = "";
-    let datos = this.controlador?.balanceGeneral();
-   
+    balanceGeneral() {
+        this.Estadisticas.innerHTML = "";
+        let datos = this.controlador?.balanceGeneral();
 
-    if (datos) {
-        const { totalIngreso, totalEgresos, totalDisponible } = datos;
-        
-        
-        this.Estadisticas.innerHTML = `
+
+        if (datos) {
+            const { totalIngreso, totalEgresos, totalDisponible } = datos;
+
+
+            this.Estadisticas.innerHTML = `
             <div class="balance-content">
                 <div class="stats-text">
                     <p>Ingresos</p>
-                    <span class="ingreso-color">${totalIngreso.toFixed(2)}$</span>
+                    <span class="ingreso-color">${totalIngreso.toFixed(2)}Bs</span>
                     <p>Egresos</p>
-                    <span class="egreso-color">${totalEgresos.toFixed(2)}$</span>
+                    <span class="egreso-color">${totalEgresos.toFixed(2)}Bs</span>
                     <p>Total Disponible</p>
-                    <span class="disponible-color">${totalDisponible.toFixed(2)}$</span>
+                    <span class="disponible-color">${totalDisponible.toFixed(2)}Bs</span>
                 </div>
                 <div class="" style="position: relative; height:200px; width:200px">
                     <canvas id="canvasBalance"></canvas>
                 </div>
             </div>`;
 
-      
-        
-            this.generarGrafico({totalIngreso,totalEgresos});
-       
-    }
-}
-// Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html
 
-generarGrafico(datosBalance) {
-    const ctx = document.getElementById('canvasBalance').getContext('2d');
-    
-    if (this.miGrafico) {
-        this.miGrafico.destroy();
-    }
 
-    this.miGrafico = new Chart(ctx, {
-        type: 'doughnut', 
-        data: {
-            // Definimos las etiquetas manualmente basadas en el objeto recibido
-            labels: ['Ingresos', 'Egresos'],
-            datasets: [{
-                // Extraemos los valores del objeto datosBalance
-                data: [datosBalance.totalIngreso, datosBalance.totalEgresos],
-                backgroundColor: [
-                    '#2ecc71', // Verde para Ingresos
-                    '#e74c3c'  // Rojo para Egresos
-                ],
-                hoverOffset: 4,
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '0%', // Hace el centro más grande para un look más fino
-            plugins: {
-                legend: { display: false }
-            }
+            this.generarGrafico({ totalIngreso, totalEgresos });
+
         }
-    });
-}    categoriasDesglose() {
+    }
+    // Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html
+
+    generarGrafico(datosBalance) {
+        const ctx = document.getElementById('canvasBalance').getContext('2d');
+
+        if (this.miGrafico) {
+            this.miGrafico.destroy();
+        }
+
+        this.miGrafico = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                // Definimos las etiquetas manualmente basadas en el objeto recibido
+                labels: ['Ingresos', 'Egresos'],
+                datasets: [{
+                    // Extraemos los valores del objeto datosBalance
+                    data: [datosBalance.totalIngreso, datosBalance.totalEgresos],
+                    backgroundColor: [
+                        '#2ecc71', // Verde para Ingresos
+                        '#e74c3c'  // Rojo para Egresos
+                    ],
+                    hoverOffset: 4,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '0%', // Hace el centro más grande para un look más fino
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    } categoriasDesglose() {
 
         this.categoriaEspecift.innerHTML = ""
 
@@ -94,11 +94,11 @@ generarGrafico(datosBalance) {
         console.log(categoriasList)
         if (!categoriasList) return;
         categoriasList.forEach(item => {
-           if(item.total == 0){
-            
-           }else{
-             this.categoriaEspecift.innerHTML +=
-                `<div class="category-card">
+            if (item.total == 0) {
+
+            } else {
+                this.categoriaEspecift.innerHTML +=
+                    `<div class="category-card">
     <div class="card-header">
         <span class="category-name">${item.categoria}</span>
         <span class="category-amount">${item.total.toFixed(2)}<small>Bs</small></span>
@@ -107,7 +107,7 @@ generarGrafico(datosBalance) {
     
 </div>`
 
-           }
+            }
         });
 
 

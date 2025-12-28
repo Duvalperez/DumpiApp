@@ -375,8 +375,10 @@ percentage-text {
     align-items: center;
     justify-self: start;
 }
-
-#newCategoria h1, #listCategoria h1{
+#BalanceGeneral h2{
+    font-weight: bold;
+}
+#newCategoria h1, #listCategoria h1, #BalanceGeneral h2{
     animation: fadeIn 1s ease-out;
     text-align: center;
     padding: 20px 0;

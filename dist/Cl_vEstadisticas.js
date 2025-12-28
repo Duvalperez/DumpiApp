@@ -14,7 +14,8 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         let datos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.balanceGeneral();
         if (datos) {
             const { totalIngreso, totalEgresos, totalDisponible } = datos;
-            this.Estadisticas.innerHTML = `
+            if (totalDisponible) {
+                this.Estadisticas.innerHTML = `
             <div class="balance-content">
                 <div class="stats-text">
                     <p>Ingresos</p>
@@ -28,7 +29,8 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
                     <canvas id="canvasBalance"></canvas>
                 </div>
             </div>`;
-            this.generarGrafico({ totalIngreso, totalEgresos });
+                this.generarGrafico({ totalIngreso, totalEgresos });
+            }
         }
     }
     // Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html

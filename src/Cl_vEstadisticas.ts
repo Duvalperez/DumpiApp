@@ -31,7 +31,8 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             const { totalIngreso, totalEgresos, totalDisponible } = datos;
 
 
-            this.Estadisticas.innerHTML = `
+            if(totalDisponible){
+                this.Estadisticas.innerHTML = `
             <div class="balance-content">
                 <div class="stats-text">
                     <p>Ingresos</p>
@@ -50,6 +51,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
 
             this.generarGrafico({ totalIngreso, totalEgresos });
 
+            }
         }
     }
     // Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html

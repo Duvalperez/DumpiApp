@@ -1,4 +1,5 @@
 import { iMovimientos } from "./Cl_mMovimientos.js";
+import { movimientoBanco } from "./Cl_mRegistros.js";
 import Cl_vGeneral from "./tools/Cl_vGeneral.js";
 
 export default class Cl_vNewRegistro extends Cl_vGeneral {
@@ -40,10 +41,10 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
 
         this.configurarEventos();
         this.btnAceptarRegistro.hidden = false;
-        this.labelTipoMetodo .innerText = "Nuevo Registro";
+        this.labelTipoMetodo.innerText = "Nuevo Registro";
     }
 
-  
+
     private get formData() {
         return {
             referencia: this.inReferencia.value,
@@ -63,7 +64,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
                 this.refresh();
             }
         });
-        
+
         this.controlador?.vistaRegistros();
         this.limpiarFormulario();
     }
@@ -80,6 +81,18 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         this.limpiarFormulario();
         if (this.onNavRegistroList) this.onNavRegistroList();
     }
+    register(datMovimientos: movimientoBanco) {
+        this.labelTipoMetodo.innerText = "Registrar Movimiento";
+        this.inReferencia.value = datMovimientos.referencia;
+        this.inConcepto.value = datMovimientos.descripcion;
+        this.inCategoria.value = datMovimientos.categoria;
+        this.inMonto.value = datMovimientos.monto.toString();
+        this.inTipoIngreso.value = datMovimientos.tipo;
+        this.inFecha.value = datMovimientos.fecha;
+        this.btnAceptarRegistro.hidden = false;
+        this.editMoviemiento.hidden = true;
+
+    }
 
     edit(datMovimientos: iMovimientos) {
         this.labelTipoMetodo.innerText = "Editar Movimiento";
@@ -90,7 +103,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         this.inMonto.value = datMovimientos.monto.toString();
         this.inTipoIngreso.value = datMovimientos.tipo;
         this.inFecha.value = datMovimientos.fecha;
-        
+
         this.btnAceptarRegistro.hidden = true;
         this.editMoviemiento.hidden = false;
     }

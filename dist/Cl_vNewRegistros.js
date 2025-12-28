@@ -59,6 +59,17 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         if (this.onNavRegistroList)
             this.onNavRegistroList();
     }
+    register(datMovimientos) {
+        this.labelTipoMetodo.innerText = "Registrar Movimiento";
+        this.inReferencia.value = datMovimientos.referencia;
+        this.inConcepto.value = datMovimientos.descripcion;
+        this.inCategoria.value = datMovimientos.categoria;
+        this.inMonto.value = datMovimientos.monto.toString();
+        this.inTipoIngreso.value = datMovimientos.tipo;
+        this.inFecha.value = datMovimientos.fecha;
+        this.btnAceptarRegistro.hidden = false;
+        this.editMoviemiento.hidden = true;
+    }
     edit(datMovimientos) {
         this.labelTipoMetodo.innerText = "Editar Movimiento";
         this.inReferencia.readOnly = true;

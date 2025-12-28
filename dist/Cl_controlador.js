@@ -17,6 +17,7 @@ export default class Cl_controlador {
         this.categoriaLista = () => this.modelo.listar();
         this.categoriDesg = () => this.modelo.categoriasDesgolse();
         this.obtenerMovimiento = (ref) => this.modelo.movimiento(ref);
+        this.obtenerMovimientoBanco = (ref) => this.modelo.movimientoBanco(ref);
         // --- Control de UI ---
         this.cargarCategoriasNuevas = () => this.vRegistro.datalist();
         this.configuracionVis = () => this.VConfiguraciones.SeccionCategoria();
@@ -48,7 +49,7 @@ export default class Cl_controlador {
         this.categoriaLista();
         this.cargarCategoriasNuevas();
         this.vistaRegistros();
-        this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), 0);
+        this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), this.modelo.OperacionesConciliadas());
         this.movimientosLista();
         this.cargarEstadisticas();
     }
@@ -61,6 +62,7 @@ export default class Cl_controlador {
         // Navegación de Formularios y Listas
         this.vRegistro.onNavNewRegistro = () => this.mostrarUnaVista(this.vNewRegistro);
         this.vNewRegistro.onNavRegistroList = () => this.mostrarUnaVista(this.vRegistro);
+        this.vCargarDatos.onNavNewRegistro = () => this.mostrarUnaVista(this.vNewRegistro);
         this.VConfiguraciones.onNavNewCategoria = () => this.mostrarUnaVista(this.vNewCategori);
         this.vNewCategori.onNavConfiguraciones = () => this.mostrarUnaVista(this.VConfiguraciones);
         // Carga de Datos

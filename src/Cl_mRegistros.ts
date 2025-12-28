@@ -6,7 +6,7 @@ export interface iFiltros {
   monto?: number;
   fecha?: string;
 }
-interface movimientoBanco {
+export interface movimientoBanco {
   referencia: string;
   descripcion: string;
   categoria: string;
@@ -20,24 +20,29 @@ export default class Cl_mRegistros {
   private categorias: Cl_mCategoria[] = [];
   private movimien: movimientoBanco[] = [];
 
- agregarMovimientoBanco(dato: movimientoBanco[]) { 
+  agregarMovimientoBanco(dato: movimientoBanco[]) {
+
     this.movimien = dato.map((item) => {
-      const existe = this.movimientos.some((m) => m.referencia === item.referencia);
-      //reparar status para que se puedea modificar la vista despues y se pueda aplicar el metodo de conciliacion
-      //agrega el metodo de no conciliado para que de la opcion de registro de operacion desde el boton editar
-        return {
-            referencia: item.referencia,
-            descripcion: item.descripcion,
-            categoria: item.categoria,
-            monto: item.monto, 
-            tipo: item.tipo,
-            fecha: item.fecha,
-            estatus: existe ? "CONCILIADO" : "PENDIENTE"
-        };
+      const existe = this.movimientos.find((e) => e.referencia.toLocaleLowerCase() == item.referencia.toLocaleLowerCase())
+      let valor
+      if (existe != null) {
+        valor = "CONCILIADO"
+      } else {
+        valor = "PENDIENTE"
+      }
+      return {
+        referencia: item.referencia,
+        descripcion: item.descripcion,
+        categoria: item.categoria,
+        monto: item.monto,
+        tipo: item.tipo,
+        fecha: item.fecha,
+        estatus: valor
+      };
     });
-    
-    console.log("Datos agregados al modelo:", this.movimien);
-}
+
+
+  }
   agregarMovimientos({
     datMovimientos,
     callback,
@@ -75,10 +80,10 @@ export default class Cl_mRegistros {
       callback(error);
       return;
     }
-    // Validar que no se repita el teléfono
+
     let existe = this.categorias.find((c) => c.nombre === nombre.nombre);
     if (existe) {
-      callback("El número de teléfono ya está registrado.");
+      callback("Categoria ya Registrada");
       return;
     }
     this.categorias.push(nombre);
@@ -87,6 +92,11 @@ export default class Cl_mRegistros {
   }
   movimiento(referencia: string): Cl_mMovimientos | null {
     let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+    return movimiento ? movimiento : null;
+
+  }
+  movimientoBanco(referencia: string): movimientoBanco | null {
+    let movimiento = this.movimien.find((m) => m.referencia === referencia);
     return movimiento ? movimiento : null;
 
   }
@@ -100,7 +110,7 @@ export default class Cl_mRegistros {
     callback: (error: string | false) => void;
   }): void {
     let movimiento = this.movimientos.find((m) => m.referencia === referencia);
-    
+
     if (!movimiento) {
       callback("Movimiento no encontrado");
       return;
@@ -157,20 +167,21 @@ export default class Cl_mRegistros {
 
   }) {
     let filtrosAplicados = (this.movimientos.filter((e) => e.referencia.includes(datMovimientos.referencia?.toLocaleLowerCase() || ""))
-                                            .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || ""))
-                                            .filter((e) => datMovimientos.categoria == "" ? true : e.categoria === datMovimientos.categoria)
-                                            .filter((e) => e.monto > datMovimientos.monto! - 1 || !datMovimientos.monto)
-                                            .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || "")) 
+      .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || ""))
+      .filter((e) => datMovimientos.categoria == "" ? true : e.categoria === datMovimientos.categoria)
+      .filter((e) => e.monto > datMovimientos.monto! - 1 || !datMovimientos.monto)
+      .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || ""))
     )
     callback(false)
     console.log("actividad de los filtros", filtrosAplicados)
     return filtrosAplicados
   }
-  listarMovimientosBanco(): iMovimientos[] {
-    let lista: iMovimientos[] = [];
+  listarMovimientosBanco(): movimientoBanco[] {
+    let lista: movimientoBanco[] = [];
     this.movimien.forEach((movimientos) => {
-      lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha,status:movimientos.estatus });
+      lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha, estatus: movimientos.estatus });
     });
+    console.log(lista)
     return lista
   }
   listarMovimientos(): iMovimientos[] {
@@ -193,18 +204,18 @@ export default class Cl_mRegistros {
 
     const categoriasUnicas = [...new Set(this.movimientos.map((e) => e.categoria))];
 
-    const resultado = categoriasUnicas.map((nombreCategoria) => {
+    const resultado = categoriasUnicas.map((nombresegoria) => {
 
 
       const totalCargo = this.movimientos
-        .filter((e) => e.categoria === nombreCategoria)
+        .filter((e) => e.categoria === nombresegoria)
         .filter((e) => e.tipo === "CARGO")
         .map((e) => e.monto)
         .reduce((total, montoActual) => total + montoActual, 0);
 
 
       return {
-        categoria: nombreCategoria,
+        categoria: nombresegoria,
         total: totalCargo
       };
     });
@@ -232,12 +243,23 @@ export default class Cl_mRegistros {
     };
   }
 
-  OperRegistradas() {
-    return this.movimientos.length
+
+  OperacionesConciliadas(): number {
+    let numero = 0;
+
+    this.movimientos.forEach((item: iMovimientos) => {
+
+      const existe = this.movimien.find((e) => e.referencia === item.referencia);
+
+      if (existe) {
+        numero++;
+      }
+    });
+
+    return numero;
   }
-  registroInteligente() {
-  
-    
-  }
+ registroInteligente() {
+  // en trabajo 
+ }
 
 }

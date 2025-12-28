@@ -6,9 +6,14 @@ export default class Cl_mRegistros {
     }
     agregarMovimientoBanco(dato) {
         this.movimien = dato.map((item) => {
-            const existe = this.movimientos.some((m) => m.referencia === item.referencia);
-            //reparar status para que se puedea modificar la vista despues y se pueda aplicar el metodo de conciliacion
-            //agrega el metodo de no conciliado para que de la opcion de registro de operacion desde el boton editar
+            const existe = this.movimientos.find((e) => e.referencia.toLocaleLowerCase() == item.referencia.toLocaleLowerCase());
+            let valor;
+            if (existe != null) {
+                valor = "CONCILIADO";
+            }
+            else {
+                valor = "PENDIENTE";
+            }
             return {
                 referencia: item.referencia,
                 descripcion: item.descripcion,
@@ -16,10 +21,9 @@ export default class Cl_mRegistros {
                 monto: item.monto,
                 tipo: item.tipo,
                 fecha: item.fecha,
-                estatus: existe ? "CONCILIADO" : "PENDIENTE"
+                estatus: valor
             };
         });
-        console.log("Datos agregados al modelo:", this.movimien);
     }
     agregarMovimientos({ datMovimientos, callback, }) {
         let error = datMovimientos.error();
@@ -43,10 +47,9 @@ export default class Cl_mRegistros {
             callback(error);
             return;
         }
-        // Validar que no se repita el teléfono
         let existe = this.categorias.find((c) => c.nombre === nombre.nombre);
         if (existe) {
-            callback("El número de teléfono ya está registrado.");
+            callback("Categoria ya Registrada");
             return;
         }
         this.categorias.push(nombre);
@@ -55,6 +58,10 @@ export default class Cl_mRegistros {
     }
     movimiento(referencia) {
         let movimiento = this.movimientos.find((m) => m.referencia === referencia);
+        return movimiento ? movimiento : null;
+    }
+    movimientoBanco(referencia) {
+        let movimiento = this.movimien.find((m) => m.referencia === referencia);
         return movimiento ? movimiento : null;
     }
     editarMovimiento({ referencia, datMovimientos, callback, }) {
@@ -104,8 +111,9 @@ export default class Cl_mRegistros {
     listarMovimientosBanco() {
         let lista = [];
         this.movimien.forEach((movimientos) => {
-            lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha, status: movimientos.estatus });
+            lista.push({ referencia: movimientos.referencia, descripcion: movimientos.descripcion, categoria: movimientos.categoria, monto: movimientos.monto, tipo: movimientos.tipo, fecha: movimientos.fecha, estatus: movimientos.estatus });
         });
+        console.log(lista);
         return lista;
     }
     listarMovimientos() {
@@ -125,14 +133,14 @@ export default class Cl_mRegistros {
     }
     categoriasDesgolse() {
         const categoriasUnicas = [...new Set(this.movimientos.map((e) => e.categoria))];
-        const resultado = categoriasUnicas.map((nombreCategoria) => {
+        const resultado = categoriasUnicas.map((nombresegoria) => {
             const totalCargo = this.movimientos
-                .filter((e) => e.categoria === nombreCategoria)
+                .filter((e) => e.categoria === nombresegoria)
                 .filter((e) => e.tipo === "CARGO")
                 .map((e) => e.monto)
                 .reduce((total, montoActual) => total + montoActual, 0);
             return {
-                categoria: nombreCategoria,
+                categoria: nombresegoria,
                 total: totalCargo
             };
         });
@@ -154,9 +162,17 @@ export default class Cl_mRegistros {
             totalDisponible
         };
     }
-    OperRegistradas() {
-        return this.movimientos.length;
+    OperacionesConciliadas() {
+        let numero = 0;
+        this.movimientos.forEach((item) => {
+            const existe = this.movimien.find((e) => e.referencia === item.referencia);
+            if (existe) {
+                numero++;
+            }
+        });
+        return numero;
     }
     registroInteligente() {
+        // en trabajo 
     }
 }

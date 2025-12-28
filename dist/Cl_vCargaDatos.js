@@ -9,9 +9,6 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
         this.btnCargarDatos = this.crearHTMLButtonElement("Carga", {
             onclick: () => {
                 this.datosCarga();
-                setTimeout(() => {
-                    this.mostarDatosCargados("");
-                }, 1000);
             }
         });
         this.inputArchivo = this.crearHTMLInputElement("inputArchivoDatos");
@@ -31,28 +28,56 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
                 this.onNavHome();
         };
     }
-    mostarDatosCargados(datos) {
+    mostarDatosCargados() {
         var _a;
-        this.datosCargados.innerText = "";
-        const movimientos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.movimientosBancoLista();
-        movimientos === null || movimientos === void 0 ? void 0 : movimientos.forEach((movimiento) => {
-            this.datosCargados.innerHTML += `
+        if (!this.datosCargados)
+            return;
+        this.datosCargados.innerHTML = "";
+        const movimientos = ((_a = this.controlador) === null || _a === void 0 ? void 0 : _a.movimientosBancoLista()) || [];
+        let htmlTemplate = "";
+        movimientos.forEach((movimiento, index) => {
+            const esConciliado = movimiento.estatus === "CONCILIADO";
+            htmlTemplate += `
             <tr class="card-row">
-            <td data-label="Categoria">${movimiento.categoria}</td>
-            <td data-label="Referencia">${movimiento.referencia}</td>
-            <td data-label="Descripcion">${movimiento.descripcion}</td>
-            <td data-label="Tipo">${movimiento.tipo}</td>
-            <td data-label="Monto" class="amount-negative">${movimiento.monto.toFixed(2)}</td>
-            <td data-label="Fecha">${movimiento.fecha}</td>
-            <td >
-              ${movimiento.estatus === "CONCILIADO" ?
-                `<button class="btn-conciliar">CONCILIADO</button>` :
-                `<button class="btn-conciliar-red">PENDIENTE</button>`}
-               
-            </td>
-        </tr>
-            `;
+                <td data-label="Categoria">${movimiento.categoria || ''}</td>
+                <td data-label="Referencia">${movimiento.referencia}</td>
+                <td data-label="Descripcion">${movimiento.descripcion || ''}</td>
+                <td data-label="Tipo">${movimiento.tipo}</td>
+                <td data-label="Monto" class="${movimiento.tipo === 'Cargo' ? 'amount-negative' : 'amount-positive'}">
+                    ${movimiento.monto}
+                </td>
+                <td data-label="Fecha">${movimiento.fecha}</td>
+                <td>
+                    <button id="btnAction__${index}" 
+                            class="${esConciliado ? 'btn-conciliar' : 'btn-conciliar-red'}">
+                        ${movimiento.estatus}
+                    </button>
+                </td>
+            </tr>`;
         });
+        this.datosCargados.innerHTML = htmlTemplate;
+        movimientos.forEach((movimiento, index) => {
+            const btn = document.getElementById(`btnAction__${index}`);
+            if (btn) {
+                btn.onclick = () => {
+                    if (movimiento.estatus !== "CONCILIADO") {
+                        this.cargarRegistro(movimiento.referencia);
+                    }
+                    else {
+                    }
+                };
+            }
+        });
+    }
+    cargarRegistro(referencia) {
+        var _a, _b;
+        let movimiento = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.obtenerMovimientoBanco(referencia);
+        if (movimiento) {
+            (_b = this.controlador) === null || _b === void 0 ? void 0 : _b.vNewRegistro.register(movimiento);
+            if (this.onNavNewRegistro) {
+                this.onNavNewRegistro();
+            }
+        }
     }
     datosCarga() {
         const inputArchivo = this.inputArchivo;
@@ -77,6 +102,7 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
             else {
                 (_b = this.controlador) === null || _b === void 0 ? void 0 : _b.agregarMovimientoBanco(datos);
                 console.log("Datos cargados correctamente:", datos);
+                this.mostarDatosCargados();
             }
         };
         lector.readAsText(archivo);

@@ -1,3 +1,4 @@
+import { iMovimientos } from "./Cl_mMovimientos.js";
 import Cl_vGeneral from "./tools/Cl_vGeneral.js";
 
 export default class Cl_vCargaDatos extends Cl_vGeneral {
@@ -9,9 +10,10 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
     private labelArchivo: HTMLLabelElement;
     private readonly textoLabelBase: string = "Ingrese Datos Externos"; // Texto base para la etiqueta
 
-    // --- DEFINICIÓN DE CALLBACKS ---
+
     public onNavVolver?: () => void;
     public onNavHome?: () => void;
+    public onNavNewRegistro?: () => void;
 
     /**
      * Callback que se ejecuta cuando el usuario presiona 'Cargar Datos Nuevos'.
@@ -28,9 +30,8 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
         this.btnCargarDatos = this.crearHTMLButtonElement("Carga", {
             onclick: () => {
                 this.datosCarga()
-                setTimeout(() => {
-                    this.mostarDatosCargados("")
-                }, 1000);
+
+
             }
         });
         this.inputArchivo = this.crearHTMLInputElement("inputArchivoDatos");
@@ -39,6 +40,7 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
 
         // 2. Configuración de Eventos
         this.configurarEventos();
+        
     }
 
     private configurarEventos() {
@@ -50,35 +52,76 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
         this.btnHome.onclick = () => {
             if (this.onNavHome) this.onNavHome();
         };
+        
 
 
     }
-    mostarDatosCargados(datos: string) {
-        this.datosCargados.innerText = "";
-        const movimientos = this.controlador?.movimientosBancoLista();
-        movimientos?.forEach((movimiento) => {
-            
-            this.datosCargados.innerHTML += `
+    mostarDatosCargados() {
+
+        if (!this.datosCargados) return;
+        this.datosCargados.innerHTML = "";
+
+        const movimientos = this.controlador?.movimientosBancoLista() || [];
+
+
+        let htmlTemplate = "";
+        movimientos.forEach((movimiento: iMovimientos, index: number) => {
+            const esConciliado = movimiento.estatus === "CONCILIADO";
+
+            htmlTemplate += `
             <tr class="card-row">
-            <td data-label="Categoria">${movimiento.categoria}</td>
-            <td data-label="Referencia">${movimiento.referencia}</td>
-            <td data-label="Descripcion">${movimiento.descripcion}</td>
-            <td data-label="Tipo">${movimiento.tipo}</td>
-            <td data-label="Monto" class="amount-negative">${movimiento.monto.toFixed(2)}</td>
-            <td data-label="Fecha">${movimiento.fecha}</td>
-            <td >
-              ${movimiento.estatus === "CONCILIADO" ?
-                `<button class="btn-conciliar">CONCILIADO</button>` :
-                `<button class="btn-conciliar-red">PENDIENTE</button>`}
-               
-            </td>
-        </tr>
-            `;
+                <td data-label="Categoria">${movimiento.categoria || ''}</td>
+                <td data-label="Referencia">${movimiento.referencia}</td>
+                <td data-label="Descripcion">${movimiento.descripcion || ''}</td>
+                <td data-label="Tipo">${movimiento.tipo}</td>
+                <td data-label="Monto" class="${movimiento.tipo === 'Cargo' ? 'amount-negative' : 'amount-positive'}">
+                    ${movimiento.monto}
+                </td>
+                <td data-label="Fecha">${movimiento.fecha}</td>
+                <td>
+                    <button id="btnAction__${index}" 
+                            class="${esConciliado ? 'btn-conciliar' : 'btn-conciliar-red'}">
+                        ${movimiento.estatus}
+                    </button>
+                </td>
+            </tr>`;
+        });
+
+        this.datosCargados.innerHTML = htmlTemplate;
+
+
+        movimientos.forEach((movimiento: iMovimientos, index: number) => {
+            const btn = document.getElementById(`btnAction__${index}`);
+            if (btn) {
+                btn.onclick = () => {
+                    if (movimiento.estatus !== "CONCILIADO") {
+                        this.cargarRegistro(movimiento.referencia)
+
+                    } else {
+
+                    }
+                };
+            }
         });
     }
 
-   
-    datosCarga()  {
+    cargarRegistro(referencia: string) {
+
+        let movimiento = this.controlador?.obtenerMovimientoBanco(referencia)
+        if (movimiento) {
+            this.controlador?.vNewRegistro.register(movimiento);
+
+                if (this.onNavNewRegistro) {
+                this.onNavNewRegistro();
+            }
+             
+        }
+
+
+
+    }
+
+    datosCarga() {
 
         const inputArchivo = this.inputArchivo;
         const archivo = inputArchivo.files ? inputArchivo.files[0] : null;
@@ -87,25 +130,28 @@ export default class Cl_vCargaDatos extends Cl_vGeneral {
             return;
         }
         const lector = new FileReader();
-         let datos: any = [];
+        let datos: any = [];
         lector.onload = (event) => {
-           
+
             const contenido = event.target?.result;
             try {
-                 datos = JSON.parse(contenido as string);
+                datos = JSON.parse(contenido as string);
 
-                
+
             } catch (error) {
                 console.error("Error al cargar los datos:", error);
             }
-            if(!datos){
+            if (!datos) {
 
             }
-            else{
+            else {
                 this.controlador?.agregarMovimientoBanco(datos);
                 console.log("Datos cargados correctamente:", datos);
+                this.mostarDatosCargados()
             }
         };
         lector.readAsText(archivo);
+
     }
+
 }

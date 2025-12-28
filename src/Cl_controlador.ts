@@ -50,7 +50,7 @@ export default class Cl_controlador {
     this.categoriaLista()
     this.cargarCategoriasNuevas();
     this.vistaRegistros();
-    this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), 0);
+    this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), this.modelo.OperacionesConciliadas());
     this.movimientosLista();
     this.cargarEstadisticas();
   }
@@ -65,12 +65,14 @@ export default class Cl_controlador {
     // Navegación de Formularios y Listas
     this.vRegistro.onNavNewRegistro = () => this.mostrarUnaVista(this.vNewRegistro);
     this.vNewRegistro.onNavRegistroList = () => this.mostrarUnaVista(this.vRegistro);
+    this.vCargarDatos.onNavNewRegistro = () => this.mostrarUnaVista(this.vNewRegistro);
     this.VConfiguraciones.onNavNewCategoria = () => this.mostrarUnaVista(this.vNewCategori);
     this.vNewCategori.onNavConfiguraciones = () => this.mostrarUnaVista(this.VConfiguraciones);
     
     // Carga de Datos
     this.vEstadisticas.onNavCargaDatos = () => this.mostrarUnaVista(this.vCargarDatos);
     this.vCargarDatos.onNavVolver = () => this.mostrarUnaVista(this.vEstadisticas);
+    
 
     // Retornos al Home (Dashboard) centralizados
     const irHome = () => this.mostrarUnaVista(this.vistaDashboard);
@@ -128,6 +130,7 @@ export default class Cl_controlador {
   categoriaLista = () => this.modelo.listar();
   categoriDesg = () => this.modelo.categoriasDesgolse();
   obtenerMovimiento = (ref: string) => this.modelo.movimiento(ref);
+  obtenerMovimientoBanco = (ref:string) =>this.modelo.movimientoBanco(ref)
 
   // --- Control de UI ---
   cargarCategoriasNuevas = () => this.vRegistro.datalist();

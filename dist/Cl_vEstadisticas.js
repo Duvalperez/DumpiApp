@@ -67,7 +67,6 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         var _a;
         this.categoriaEspecift.innerHTML = "";
         let categoriasList = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.categoriDesg();
-        console.log(categoriasList);
         if (!categoriasList)
             return;
         categoriasList.forEach(item => {

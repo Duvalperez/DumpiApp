@@ -101,7 +101,7 @@ export default class Cl_mRegistros {
     filtros({ datMovimientos, callback }) {
         let filtrosAplicados = (this.movimientos.filter((e) => { var _a; return e.referencia.includes(((_a = datMovimientos.referencia) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) || ""); })
             .filter((e) => { var _a; return e.fecha.includes(((_a = datMovimientos.fecha) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) || ""); })
-            .filter((e) => datMovimientos.categoria == "" ? true : e.categoria === datMovimientos.categoria)
+            .filter((e) => { var _a, _b; return ((_a = e.categoria) === null || _a === void 0 ? void 0 : _a.toLowerCase().trim()) === ((_b = datMovimientos.categoria) === null || _b === void 0 ? void 0 : _b.toLowerCase().trim()); })
             .filter((e) => e.monto > datMovimientos.monto - 1 || !datMovimientos.monto)
             .filter((e) => { var _a; return e.fecha.includes(((_a = datMovimientos.fecha) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) || ""); }));
         callback(false);

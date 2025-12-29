@@ -82,7 +82,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '70%', // Hace el centro más grande para un look más fino
+                cutout: '70s%', // Hace el centro más grande para un look más fino
                 plugins: {
                     legend: { display: false }
                 }

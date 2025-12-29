@@ -168,7 +168,7 @@ export default class Cl_mRegistros {
   }) {
     let filtrosAplicados = (this.movimientos.filter((e) => e.referencia.includes(datMovimientos.referencia?.toLocaleLowerCase() || ""))
       .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || ""))
-      .filter((e) => datMovimientos.categoria == "" ? true : e.categoria === datMovimientos.categoria)
+      .filter((e) => e.categoria?.toLowerCase().trim() === datMovimientos.categoria?.toLowerCase().trim())
       .filter((e) => e.monto > datMovimientos.monto! - 1 || !datMovimientos.monto)
       .filter((e) => e.fecha.includes(datMovimientos.fecha?.toLocaleLowerCase() || ""))
     )

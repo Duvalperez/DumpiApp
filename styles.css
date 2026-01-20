@@ -6,7 +6,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-//Modificaciones de hoy 6/01/2026 vista escritorio
+
 @media screen and (min-width:800px) {
     #vistaEscritorio {
         display: flex;
@@ -400,6 +400,9 @@ percentage-text {
     flex-direction: column;
     align-items: center;
     justify-self: start;
+}
+#BalanceGeneral {
+    width: 100%;
 }
 
 #BalanceGeneral h2 {
@@ -1188,6 +1191,7 @@ td {
 }
 #contenedorHistorial select {
     width: 100%;
+    
     height: 40px;
     margin: 10px;
     border-radius: 10px;
@@ -1197,8 +1201,8 @@ td {
 #contenedorHistorial {
     display: flex;
     flex: 1 1;
-    
-    padding-right: 1px;
+  
+  
     height: 70px;
     border-radius: 20px;
     width: 350px;

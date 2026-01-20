@@ -5,6 +5,8 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
     private btnCargarDatos: HTMLElement;
     private Estadisticas: HTMLElement;
     private categoriaEspecift: HTMLElement;
+    private btnRegistros: HTMLButtonElement;
+    private sectionRegistrosActivos: HTMLElement;
 
     // Callback para avisar al controlador que queremos regresar
     public onNavHome?: () => void;
@@ -18,29 +20,37 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         this.categoriaEspecift = this.crearHTMLElement("categoriasRegistroMoney")
         this.Estadisticas = this.crearHTMLElement("balanceGn");
         this.btnCargarDatos = this.crearHTMLElement("CargarDatos");
+        this.sectionRegistrosActivos = this.crearHTMLElement("historiasDisponibles");
+        this.btnRegistros = this.crearHTMLButtonElement('ButtonStilo', {
+            onclick: () => {
+                
+                this.controlador?.busqueda()
+            }
+        })
         this.btnVolver = this.crearHTMLElement("Volver");
 
         this.configurarEventos();
+
     }
     balanceGeneral() {
         this.Estadisticas.innerHTML = "";
         let datos = this.controlador?.balanceGeneral();
-
+        //quedamos en hacer la funcion que actualiza el select de la app me acoste a dormir porq tenia sueno ademas no hago videCodinng y pues que lala
 
         if (datos) {
             const { totalIngreso, totalEgresos, totalDisponible } = datos;
 
 
-            if(totalDisponible){
+            if (totalDisponible) {
                 this.Estadisticas.innerHTML = `
             <div class="balance-content">
                 <div class="stats-text">
                     <p>Ingresos</p>
-                    <span class="ingreso-color">${totalIngreso.toFixed(2)}Bs</span>
+                    <span class="ingreso-color">${totalIngreso.toFixed(2)}<sub>Bs</sub></span>
                     <p>Egresos</p>
-                    <span class="egreso-color">${totalEgresos.toFixed(2)}Bs</span>
+                    <span class="egreso-color">${totalEgresos.toFixed(2)}<sub>Bs</sub></span>
                     <p>Total Disponible</p>
-                    <span class="disponible-color">${totalDisponible.toFixed(2)}Bs</span>
+                    <span class="disponible-color">${totalDisponible.toFixed(2)}<sub>Bs</sub></span>
                 </div>
                 <div class="" style="position: relative; height:200px; width:200px">
                     <canvas id="canvasBalance"></canvas>
@@ -49,12 +59,30 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
 
 
 
-            this.generarGrafico({ totalIngreso, totalEgresos });
+                this.generarGrafico({ totalIngreso, totalEgresos });
 
             }
         }
     }
-    // Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html
+    registrosMes() {
+        let textoDat = (this.sectionRegistrosActivos.value)
+        let fechaBusqueda = textoDat.split(" ")[1]
+        console.log(fechaBusqueda)
+        return (fechaBusqueda)
+        
+        
+    }
+    registrosDisponibles() {
+        const registros = this.controlador?.fechasActivas() || [];
+
+
+        this.sectionRegistrosActivos.innerHTML = registros
+            .reverse()
+            .map(fecha => `<option value="${fecha}">${fecha}</option>`)
+            .join('');
+
+    }
+    // Estos errores son completamente  normales dado que la libreria de grafica se exporta desde el html
 
     generarGrafico(datosBalance) {
         const ctx = document.getElementById('canvasBalance').getContext('2d');
@@ -82,7 +110,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '70s%', // Hace el centro más grande para un look más fino
+                cutout: '0%', // Hace el centro más grande para un look más fino
                 plugins: {
                     legend: { display: false }
                 }
@@ -93,7 +121,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         this.categoriaEspecift.innerHTML = ""
 
         let categoriasList = this.controlador?.categoriDesg();
-        
+
         if (!categoriasList) return;
         categoriasList.forEach(item => {
             if (item.total == 0) {
@@ -103,7 +131,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
                     `<div class="category-card">
     <div class="card-header">
         <span class="category-name">${item.categoria}</span>
-        <span class="category-amount">${item.total.toFixed(2)}<small>Bs</small></span>
+        <span class="category-amount">${item.total.toFixed(2)}<sub>Bs</sub></span>
     </div>
     
     
@@ -114,6 +142,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
 
 
     }
+
 
     private configurarEventos() {
         // Ambos botones navegan al Home

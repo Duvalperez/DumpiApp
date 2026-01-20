@@ -1,5 +1,7 @@
 import Cl_mCategoria, { iCategoria } from "./Cl_mCategoria.js";
 import Cl_mMovimientos, { iMovimientos } from "./Cl_mMovimientos.js";
+import Cl_dolarApi from "./services/Cl_dolarApi.js";
+
 export interface iFiltros {
   referencia?: string;
   categoria?: string;
@@ -16,6 +18,7 @@ export interface movimientoBanco {
   estatus: string;
 }
 export default class Cl_mRegistros {
+  private tasa = new Cl_dolarApi();
   private movimientos: Cl_mMovimientos[] = [];
   private categorias: Cl_mCategoria[] = [];
   private movimien: movimientoBanco[] = [];
@@ -200,9 +203,12 @@ export default class Cl_mRegistros {
     });
     return lista;
   }
-  categoriasDesgolse() {
-
-    const categoriasUnicas = [...new Set(this.movimientos.map((e) => e.categoria))];
+  movimientosFechas() {
+    let fechas = this.movimien.map
+  }
+  categoriasDesgolse(fecha:string) {
+   let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha))
+    const categoriasUnicas = [...new Set(datosFiltrados.map((e) => e.categoria))];
 
     const resultado = categoriasUnicas.map((nombresegoria) => {
 
@@ -222,14 +228,16 @@ export default class Cl_mRegistros {
 
 
     return resultado
+    
   }
-  totales() {
-    const totalIngreso = this.movimientos
+  totales(fecha: string) {
+    let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha))
+    const totalIngreso = datosFiltrados
       .filter(e => e.tipo === "ABONO")
       .map(e => e.monto)
       .reduce((total, actual) => total + actual, 0);
 
-    const totalEgresos = this.movimientos
+    const totalEgresos = datosFiltrados
       .filter(e => e.tipo === "CARGO")
       .map(e => e.monto)
       .reduce((total, actual) => total + actual, 0);
@@ -258,8 +266,77 @@ export default class Cl_mRegistros {
 
     return numero;
   }
- registroInteligente() {
-  // en trabajo 
- }
+  registroInteligente() {
+    // en trabajo 
+    const registradas: { nombre: string, cantidadRepet: number }[] = [];
+    let numero = 0
+    const datFiltrado = this.movimientos.map((e) => e.categoria)
+    for (let i = 0; i < datFiltrado.length; i++) {
+      for (let x = 0; x < datFiltrado.length; x++) {
+        if (datFiltrado[i] == datFiltrado[x]) {
+          numero = numero + 1
+        }
 
+      }
+      if (!registradas.map((e) => e.nombre).includes(datFiltrado[i])) {
+        registradas.push({ nombre: datFiltrado[i], cantidadRepet: numero })
+      }
+      numero = 0
+
+    }
+    for (let i = 0; i < registradas.length; i++) {
+      if (this.categorias.includes(registradas[i].nombre as unknown as Cl_mCategoria)) {
+        if (registradas[i].cantidadRepet > 5) {
+          this.categorias.push((registradas[i].nombre.toUpperCase() as unknown as Cl_mCategoria))
+        }
+      }
+
+    }
+
+  }
+  fechasActivas() {
+    const fechas = this.movimientos.map((e) => e.fecha)
+    let registrosArchivados: string[] = []
+    const meses = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+    let registrosDisponibles: String[] = []
+
+    for (var i = 0; i < fechas.length; i++) {
+      let hoy = fechas[i].split("-")
+      let registros = `${hoy[0]}-${hoy[1]}`
+      if (!registrosArchivados.includes(registros))
+        registrosArchivados.push(registros)
+    }
+    for (var i = 0; i < registrosArchivados.sort().length; i++) {
+      let mes = Number(registrosArchivados[i].slice(5, 7))
+
+      let mesLts = meses[mes - 1]
+      registrosDisponibles.push(`${mesLts} ${registrosArchivados[i]}`)
+
+    }
+    console.log(registrosDisponibles)
+    return registrosDisponibles
+
+
+  }
+  //ConversionMonto Bs -> $
+  async conversionMonto(monto: number) {
+
+    const valor = await this.tasa.obtenerDatos()
+    console.log(valor)
+    return monto * Number(valor)
+
+  }
 }

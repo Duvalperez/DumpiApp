@@ -14,6 +14,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
     private inTipoIngreso: HTMLInputElement;
     private labelTipoMetodo: HTMLLabelElement;
     private btnAceptarRegistro: HTMLButtonElement;
+    private btnReconversion: HTMLButtonElement;
 
     public onNavHome?: () => void;
     public onNavRegistroList?: () => void;
@@ -32,7 +33,9 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         this.editMoviemiento = this.crearHTMLButtonElement("editarMovimiento", {
             onclick: () => this.editarMovimiento()
         }) as HTMLButtonElement;
-
+        this.btnReconversion = this.crearHTMLButtonElement("dolares",{
+            onclick: ()=> this.obtensionMonto()
+        })
         this.btnHome = this.crearHTMLElement("home");
         this.btnVolver = this.crearHTMLElement("volver");
         this.btnAceptarRegistro = this.crearHTMLButtonElement("agregar", {
@@ -107,6 +110,17 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         this.btnAceptarRegistro.hidden = true;
         this.editMoviemiento.hidden = false;
     }
+    async obtensionMonto() {
+        const monto = Number(this.inMonto.value)
+        if(monto > 0){
+           const  Result  = await this.controlador?.ConversionMonto(monto)
+           this.inMonto.value = String(Result)
+
+        }
+
+    }
+  
+
 
     limpiarFormulario() {
         this.inReferencia.value = "";

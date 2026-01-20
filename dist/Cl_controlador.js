@@ -10,16 +10,21 @@ import Cl_mMovimientos from "./Cl_mMovimientos.js";
 export default class Cl_controlador {
     constructor(modelo) {
         // --- Métodos de Consulta (GET) ---
+        this.fechasActivas = () => this.modelo.fechasActivas();
         this.cantMovimientos = () => this.modelo.cantMovimientos();
-        this.balanceGeneral = () => this.modelo.totales();
+        this.balanceGeneral = () => this.modelo.totales(this.registroMes());
         this.movimientosBancoLista = () => this.modelo.listarMovimientosBanco();
         this.movimientosLista = () => this.modelo.listarMovimientos();
         this.categoriaLista = () => this.modelo.listar();
-        this.categoriDesg = () => this.modelo.categoriasDesgolse();
+        this.busqueda = () => { this.cargarEstadisticas(); };
+        this.categoriDesg = () => this.modelo.categoriasDesgolse(this.registroMes());
         this.obtenerMovimiento = (ref) => this.modelo.movimiento(ref);
         this.obtenerMovimientoBanco = (ref) => this.modelo.movimientoBanco(ref);
+        this.ConversionMonto = (mont) => this.modelo.conversionMonto(mont);
         // --- Control de UI ---
         this.cargarCategoriasNuevas = () => this.vRegistro.datalist();
+        this.registrosActivos = () => this.vEstadisticas.registrosDisponibles();
+        this.registroMes = () => this.vEstadisticas.registrosMes();
         this.configuracionVis = () => this.VConfiguraciones.SeccionCategoria();
         this.vistaRegistros = () => this.vRegistro.datRegistros();
         this.mostrarVistaFiltrada = () => this.vRegistro.movFiltrados();
@@ -46,12 +51,14 @@ export default class Cl_controlador {
     // --- Actualización de Datos ---
     ActulizarDatosVistas() {
         this.configuracionVis();
+        this.registrosActivos();
         this.categoriaLista();
         this.cargarCategoriasNuevas();
         this.vistaRegistros();
         this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), this.modelo.OperacionesConciliadas());
         this.movimientosLista();
         this.cargarEstadisticas();
+        this.registroInteligente();
     }
     // --- Configuración de Rutas/Navegación ---
     configurarNavegacion() {
@@ -108,6 +115,9 @@ export default class Cl_controlador {
     }
     deleteCategoria(params) {
         this.modelo.deleteCategoria(params);
+    }
+    registroInteligente() {
+        this.modelo.registroInteligente();
     }
     cargarEstadisticas() {
         this.vEstadisticas.categoriasDesglose();

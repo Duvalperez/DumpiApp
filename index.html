@@ -46,7 +46,10 @@
 
             <div class="form-group">
                 <label for="transaccionMonto">Monto</label>
-                <input type="number" id="RegistroFormDat_monto" required>
+                <div id="contendorMonto">
+                    <input type="number" id="RegistroFormDat_monto" required>
+                    <button id="RegistroFormDat_dolares">$</button>
+                </div>
             </div>
 
             <div class="form-group">
@@ -83,16 +86,28 @@
 
 
             <div class="main-container">
+                <div id="contenedorHistorial">
+                <select name="" id="dashboardStadis_historiasDisponibles">
+                   <option value="" disabled selected>Historial Mensual</option>
+                    
+                </select>
+                <button id="dashboardStadis_ButtonStilo"><img src="./resources/vaso.png" alt="" style="width: 40px; height: 40px;"></button>
+            </div>
+               <section id="estadisticas-carrusel">
+                 <div class="balance-card">
 
-                <div class="balance-card">
                     <div id="BalanceGeneral">
                         <h2>Balance General</h2>
                     </div>
+                   
 
                     <section id="dashboardStadis_balanceGn">
 
                     </section>
                 </div>
+            
+                
+               </section>
 
                 <div class="details-outer-box" id="dashboardStadis_categoriasRegistroMoney">
 
@@ -104,7 +119,7 @@
 
 
 
-        </section>
+        </section>  
 
 
 
@@ -187,7 +202,7 @@
 
                     </tr>
                 </thead>
-                <tbody id="listCategoria_dataCatg" style="">
+                <tbody id="listCategoria_dataCatg">
                     <tr class="card-row">
 
                     </tr>
@@ -210,12 +225,15 @@
             <a id="dashboardPrincipal_btnConfiguracion"><img src="./resources/ajustes.png" alt=""
                     style="width: 50px; height: 50px;"></a>
         </nav>
-        <img src="./resources/Dumpia.jpg" alt="" style="width: 150px; height: 200px;">
-        <section id="dashboard">
-            <section id="dashboardPrincipal_contenedorS">
+        <section id="vistaEscritorio">
+            <img src="./resources/Dumpia.jpg" alt="" style="width: 150px; height: 200px;">
+            <section id="dashboard">
+                <section id="dashboardPrincipal_contenedorS">
 
+                </section>
+                <button id="dashboardPrincipal_nuevoRegistro">REGISTROS</button>
             </section>
-            <button id="dashboardPrincipal_nuevoRegistro">REGISTROS</button>
+
         </section>
 
     </section>
@@ -299,7 +317,7 @@
 
     <script type="module">
         import Cl_index from "./dist/Cl_index.js";
-        new Cl_index();
+    
     </script>
 </body>
 

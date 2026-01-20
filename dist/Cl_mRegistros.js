@@ -1,5 +1,16 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+import Cl_dolarApi from "./services/Cl_dolarApi.js";
 export default class Cl_mRegistros {
     constructor() {
+        this.tasa = new Cl_dolarApi();
         this.movimientos = [];
         this.categorias = [];
         this.movimien = [];
@@ -131,8 +142,12 @@ export default class Cl_mRegistros {
         });
         return lista;
     }
-    categoriasDesgolse() {
-        const categoriasUnicas = [...new Set(this.movimientos.map((e) => e.categoria))];
+    movimientosFechas() {
+        let fechas = this.movimien.map;
+    }
+    categoriasDesgolse(fecha) {
+        let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha));
+        const categoriasUnicas = [...new Set(datosFiltrados.map((e) => e.categoria))];
         const resultado = categoriasUnicas.map((nombresegoria) => {
             const totalCargo = this.movimientos
                 .filter((e) => e.categoria === nombresegoria)
@@ -146,12 +161,13 @@ export default class Cl_mRegistros {
         });
         return resultado;
     }
-    totales() {
-        const totalIngreso = this.movimientos
+    totales(fecha) {
+        let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha));
+        const totalIngreso = datosFiltrados
             .filter(e => e.tipo === "ABONO")
             .map(e => e.monto)
             .reduce((total, actual) => total + actual, 0);
-        const totalEgresos = this.movimientos
+        const totalEgresos = datosFiltrados
             .filter(e => e.tipo === "CARGO")
             .map(e => e.monto)
             .reduce((total, actual) => total + actual, 0);
@@ -174,5 +190,66 @@ export default class Cl_mRegistros {
     }
     registroInteligente() {
         // en trabajo 
+        const registradas = [];
+        let numero = 0;
+        const datFiltrado = this.movimientos.map((e) => e.categoria);
+        for (let i = 0; i < datFiltrado.length; i++) {
+            for (let x = 0; x < datFiltrado.length; x++) {
+                if (datFiltrado[i] == datFiltrado[x]) {
+                    numero = numero + 1;
+                }
+            }
+            if (!registradas.map((e) => e.nombre).includes(datFiltrado[i])) {
+                registradas.push({ nombre: datFiltrado[i], cantidadRepet: numero });
+            }
+            numero = 0;
+        }
+        for (let i = 0; i < registradas.length; i++) {
+            if (this.categorias.includes(registradas[i].nombre)) {
+                if (registradas[i].cantidadRepet > 5) {
+                    this.categorias.push(registradas[i].nombre.toUpperCase());
+                }
+            }
+        }
+    }
+    fechasActivas() {
+        const fechas = this.movimientos.map((e) => e.fecha);
+        let registrosArchivados = [];
+        const meses = [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre"
+        ];
+        let registrosDisponibles = [];
+        for (var i = 0; i < fechas.length; i++) {
+            let hoy = fechas[i].split("-");
+            let registros = `${hoy[0]}-${hoy[1]}`;
+            if (!registrosArchivados.includes(registros))
+                registrosArchivados.push(registros);
+        }
+        for (var i = 0; i < registrosArchivados.sort().length; i++) {
+            let mes = Number(registrosArchivados[i].slice(5, 7));
+            let mesLts = meses[mes - 1];
+            registrosDisponibles.push(`${mesLts} ${registrosArchivados[i]}`);
+        }
+        console.log(registrosDisponibles);
+        return registrosDisponibles;
+    }
+    //ConversionMonto Bs -> $
+    conversionMonto(monto) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const valor = yield this.tasa.obtenerDatos();
+            console.log(valor);
+            return monto * Number(valor);
+        });
     }
 }

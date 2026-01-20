@@ -1,9 +1,32 @@
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+//Modificaciones de hoy 6/01/2026 vista escritorio
+@media screen and (min-width:800px) {
+    #vistaEscritorio {
+        display: flex;
+
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1;
+
+    }
+
+    #vistaEscritorio img {
+
+        padding: 20px;
+        margin: 20px;
+    }
+
+    #vistaEscritorio section {}
+}
+
 
 /* Paleta estilo Fintech (Soberia y limpia) */
 :root {
@@ -14,9 +37,11 @@
     --text-secondary: #8E8E93;
     --border-gray: #D1D1D6;
 }
-#detailsFiltro input{
+
+#detailsFiltro input {
     width: 50%;
 }
+
 /* Contenedor principal tipo Tarjeta */
 details {
     position: absolute;
@@ -27,15 +52,16 @@ details {
     background: var(--card-bg);
     padding: 10px;
     border-radius: 14px;
-     overflow: hidden;
+    overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
 details[open] {
-   width: 100%;
-   height: 100%;
-   display: flex;
-   flex-direction: column;
-   padding: 30px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
 }
 
 
@@ -352,7 +378,7 @@ percentage-text {
 }
 
 .descripcion {
-   
+
     overflow: hidden;
     text-overflow: ellipsis;
     width: 70%;
@@ -375,10 +401,14 @@ percentage-text {
     align-items: center;
     justify-self: start;
 }
-#BalanceGeneral h2{
+
+#BalanceGeneral h2 {
     font-weight: bold;
 }
-#newCategoria h1, #listCategoria h1, #BalanceGeneral h2{
+
+#newCategoria h1,
+#listCategoria h1,
+#BalanceGeneral h2 {
     animation: fadeIn 1s ease-out;
     text-align: center;
     padding: 20px 0;
@@ -434,22 +464,66 @@ button {
 
     height: 100px;
 }
-#listCategoria h1{
-    
+
+#listCategoria h1 {}
+
+.categoriaSeccion table {
+    padding: 20px;
 }
 
-.categoriaSeccion table{
-   padding: 20px;
+#contendorMonto {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+
+
+
 }
+
+#RegistroFormDat_monto {
+    text-align: right;
+    width: 77%;
+}
+
+#RegistroFormDat_dolares {
+    background-color: #008000;
+    border: none;
+    margin: 0px;
+    padding: 2px;
+    height: 47px;
+    width: 20%;
+    margin-left: 10px;
+
+}
+
+#RegistroFormDat_dolares:hover {
+    animation: buttonDolares 4s ease-out;
+}
+
+@keyframes buttonDolares {
+    from {
+
+        transform: translateY(2px);
+
+    }
+
+    to {
+
+        transform: translateY(0);
+    }
+}
+
 
 .categoriaSeccion {
     width: 96%;
     border-radius: 20px;
     display: flex;
-    
+
     flex-direction: column;
     align-items: center;
-    
+
     justify-items: center;
     height: 410px;
     overflow-y: auto;
@@ -930,7 +1004,61 @@ td {
 /* ---------------------------------------------------- */
 @media screen and (max-width: 600px) {
 
-    /* 1. Ocultar la Cabecera (thead) en móvil */
+.contenedorFecha {
+    border: 1px solid black; /* Corregido: solid black */
+    width: 100%;
+    height: 8vh;
+    min-height: 45px; /* Altura mínima para que no se colapse */
+    border-radius: 20px;
+    display: flex;
+    overflow: hidden; /* Importante para que los hijos respeten el redondeo del borde */
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.contenedorFecha select {
+    flex: 1; /* Toma el espacio disponible */
+    border: none;
+    padding: 0 15px;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+/* Línea divisoria opcional entre select y botón */
+.contenedorFecha select {
+    border-right: 1px solid #ccc;
+}
+
+#dashboardStadis_botonBUsqueda {
+    flex: 0.4; /* Un poco más pequeño que el select */
+    height:100% ;
+    border: none;
+    margin: 0px;
+    border-radius: 0px;
+    background-color: #000; /* Color negro para combinar con el borde */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.contenedorFecha button:hover {
+    background-color: #333;
+}
+
+    #vistaEscritorio {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+    }
+
     thead {
         display: none;
     }
@@ -1054,10 +1182,47 @@ td {
 
     border: 1px solid #333;
     border-radius: 25px;
-    width: 350px;
-
-    margin: 20px;
+    width: 600px;
+    
+    margin: 0px 0px 0px 0px;
 }
+#contenedorHistorial select {
+    width: 100%;
+    height: 40px;
+   
+    margin: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+#contenedorHistorial {
+    display: flex;
+    flex: 1 1;
+ 
+    height: 70px;
+    border-radius: 20px;
+    width: 350px;
+}
+#estadisticas-carrusel{
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+}
+#dashboardStadis_ButtonStilo{
+
+
+    border: none;
+    background-color: rgb(255, 255, 255);
+    margin: 5px;
+    width: 40%;
+    height: 40px;
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    margin-top: 10px;
+}  
+
+
 
 .balance-card h2 {
     margin: 0 0 15px 10px;
@@ -1099,7 +1264,8 @@ td {
 .details-outer-box {
     background-color: #ffffff;
     overflow-y: auto;
-    height: 290px;
+    height: 220px;
+    
     border-radius: 20px;
     width: 400px;
     padding: 15px;

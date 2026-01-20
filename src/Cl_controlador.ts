@@ -47,12 +47,15 @@ export default class Cl_controlador {
   // --- Actualización de Datos ---
   public ActulizarDatosVistas() {
     this.configuracionVis();
+    this.registrosActivos()
     this.categoriaLista()
     this.cargarCategoriasNuevas();
     this.vistaRegistros();
     this.vistaDashboard.actualizarTotales(this.modelo.cantMovimientos(), this.modelo.OperacionesConciliadas());
     this.movimientosLista();
     this.cargarEstadisticas();
+    this.registroInteligente()
+
   }
 
   // --- Configuración de Rutas/Navegación ---
@@ -123,21 +126,29 @@ export default class Cl_controlador {
   }
 
   // --- Métodos de Consulta (GET) ---
+  
+  fechasActivas =() => this.modelo.fechasActivas()
   cantMovimientos = () => this.modelo.cantMovimientos();
-  balanceGeneral = () => this.modelo.totales();
+  balanceGeneral = () => this.modelo.totales(this.registroMes());
   movimientosBancoLista = () => this.modelo.listarMovimientosBanco();
   movimientosLista = () => this.modelo.listarMovimientos();
   categoriaLista = () => this.modelo.listar();
-  categoriDesg = () => this.modelo.categoriasDesgolse();
+  busqueda=()=>{this.cargarEstadisticas()}
+  categoriDesg = () => this.modelo.categoriasDesgolse(this.registroMes());
   obtenerMovimiento = (ref: string) => this.modelo.movimiento(ref);
   obtenerMovimientoBanco = (ref:string) =>this.modelo.movimientoBanco(ref)
+  ConversionMonto =(mont:number) => this.modelo.conversionMonto(mont)
 
   // --- Control de UI ---
   cargarCategoriasNuevas = () => this.vRegistro.datalist();
+  registrosActivos = () => this.vEstadisticas.registrosDisponibles()
+  registroMes =() => this.vEstadisticas.registrosMes()
   configuracionVis = () => this.VConfiguraciones.SeccionCategoria();
   vistaRegistros = () => this.vRegistro.datRegistros();
   mostrarVistaFiltrada = () => this.vRegistro.movFiltrados();
-  
+  registroInteligente(){
+    this.modelo.registroInteligente()
+  }
   cargarEstadisticas() {
     this.vEstadisticas.categoriasDesglose();
     this.vEstadisticas.balanceGeneral();

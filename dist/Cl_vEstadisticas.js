@@ -5,6 +5,13 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         this.categoriaEspecift = this.crearHTMLElement("categoriasRegistroMoney");
         this.Estadisticas = this.crearHTMLElement("balanceGn");
         this.btnCargarDatos = this.crearHTMLElement("CargarDatos");
+        this.sectionRegistrosActivos = this.crearHTMLElement("historiasDisponibles");
+        this.btnRegistros = this.crearHTMLButtonElement('ButtonStilo', {
+            onclick: () => {
+                var _a;
+                (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.busqueda();
+            }
+        });
         this.btnVolver = this.crearHTMLElement("Volver");
         this.configurarEventos();
     }
@@ -12,6 +19,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
         var _a;
         this.Estadisticas.innerHTML = "";
         let datos = (_a = this.controlador) === null || _a === void 0 ? void 0 : _a.balanceGeneral();
+        //quedamos en hacer la funcion que actualiza el select de la app me acoste a dormir porq tenia sueno ademas no hago videCodinng y pues que lala
         if (datos) {
             const { totalIngreso, totalEgresos, totalDisponible } = datos;
             if (totalDisponible) {
@@ -19,11 +27,11 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             <div class="balance-content">
                 <div class="stats-text">
                     <p>Ingresos</p>
-                    <span class="ingreso-color">${totalIngreso.toFixed(2)}Bs</span>
+                    <span class="ingreso-color">${totalIngreso.toFixed(2)}<sub>Bs</sub></span>
                     <p>Egresos</p>
-                    <span class="egreso-color">${totalEgresos.toFixed(2)}Bs</span>
+                    <span class="egreso-color">${totalEgresos.toFixed(2)}<sub>Bs</sub></span>
                     <p>Total Disponible</p>
-                    <span class="disponible-color">${totalDisponible.toFixed(2)}Bs</span>
+                    <span class="disponible-color">${totalDisponible.toFixed(2)}<sub>Bs</sub></span>
                 </div>
                 <div class="" style="position: relative; height:200px; width:200px">
                     <canvas id="canvasBalance"></canvas>
@@ -33,7 +41,21 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             }
         }
     }
-    // Estos errores son completamente normales dado que la libreria de grafica se exporta desde el html
+    registrosMes() {
+        let textoDat = (this.sectionRegistrosActivos.value);
+        let fechaBusqueda = textoDat.split(" ")[1];
+        console.log(fechaBusqueda);
+        return (fechaBusqueda);
+    }
+    registrosDisponibles() {
+        var _a;
+        const registros = ((_a = this.controlador) === null || _a === void 0 ? void 0 : _a.fechasActivas()) || [];
+        this.sectionRegistrosActivos.innerHTML = registros
+            .reverse()
+            .map(fecha => `<option value="${fecha}">${fecha}</option>`)
+            .join('');
+    }
+    // Estos errores son completamente  normales dado que la libreria de grafica se exporta desde el html
     generarGrafico(datosBalance) {
         const ctx = document.getElementById('canvasBalance').getContext('2d');
         if (this.miGrafico) {
@@ -58,7 +80,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '70s%', // Hace el centro más grande para un look más fino
+                cutout: '0%', // Hace el centro más grande para un look más fino
                 plugins: {
                     legend: { display: false }
                 }
@@ -79,7 +101,7 @@ export default class cl_vEstadisticas extends Cl_vGeneral {
                     `<div class="category-card">
     <div class="card-header">
         <span class="category-name">${item.categoria}</span>
-        <span class="category-amount">${item.total.toFixed(2)}<small>Bs</small></span>
+        <span class="category-amount">${item.total.toFixed(2)}<sub>Bs</sub></span>
     </div>
     
     

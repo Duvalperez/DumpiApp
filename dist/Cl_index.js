@@ -1,3 +1,16 @@
+window.onload = function () {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+        // Opción A: Redirigir a una página de error
+        // window.location.href = "error-computadora.html";
+        // Opción B: Borrar el contenido y mostrar un mensaje
+        document.body.innerHTML = `
+            <div style="text-align:center; padding-top:100px; font-family:sans-serif;">
+                <h1>📱 Acceso restringido</h1>
+                <p>Por favor, abre esta aplicación desde tu dispositivo móvil.</p>
+            </div>`;
+    }
+};
 import Cl_controlador from "./Cl_controlador.js";
 import Cl_mCategoria from "./Cl_mCategoria.js";
 import Cl_mMovimientos from "./Cl_mMovimientos.js";

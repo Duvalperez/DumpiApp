@@ -1198,7 +1198,7 @@ td {
 #contenedorHistorial {
     display: flex;
     flex: 1 1;
- 
+    margin: 1;
     height: 70px;
     border-radius: 20px;
     width: 350px;

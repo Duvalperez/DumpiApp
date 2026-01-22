@@ -100,7 +100,7 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
             const monto = Number(this.inMonto.value);
             if (monto > 0) {
                 const Result = yield ((_a = this.controlador) === null || _a === void 0 ? void 0 : _a.ConversionMonto(monto));
-                this.inMonto.value = String(Result);
+                this.inMonto.value = Number(Result).toFixed(2);
             }
         });
     }

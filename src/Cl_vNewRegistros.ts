@@ -114,7 +114,8 @@ export default class Cl_vNewRegistro extends Cl_vGeneral {
         const monto = Number(this.inMonto.value)
         if(monto > 0){
            const  Result  = await this.controlador?.ConversionMonto(monto)
-           this.inMonto.value = String(Result)
+           this.inMonto.value = Number(Result).toFixed(2)
+          
 
         }
 

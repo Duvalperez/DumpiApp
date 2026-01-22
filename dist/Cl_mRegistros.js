@@ -14,6 +14,7 @@ export default class Cl_mRegistros {
         this.movimientos = [];
         this.categorias = [];
         this.movimien = [];
+        this.antDlsConversion = 0;
     }
     agregarMovimientoBanco(dato) {
         this.movimien = dato.map((item) => {
@@ -248,8 +249,11 @@ export default class Cl_mRegistros {
     conversionMonto(monto) {
         return __awaiter(this, void 0, void 0, function* () {
             const valor = yield this.tasa.obtenerDatos();
-            console.log(valor);
-            return monto * Number(valor);
+            if (monto != this.antDlsConversion) {
+                const conversion = monto * Number(valor);
+                this.antDlsConversion = conversion;
+                return conversion;
+            }
         });
     }
 }

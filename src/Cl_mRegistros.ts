@@ -22,7 +22,7 @@ export default class Cl_mRegistros {
   private movimientos: Cl_mMovimientos[] = [];
   private categorias: Cl_mCategoria[] = [];
   private movimien: movimientoBanco[] = [];
-
+  private antDlsConversion: number = 0
   agregarMovimientoBanco(dato: movimientoBanco[]) {
 
     this.movimien = dato.map((item) => {
@@ -206,8 +206,8 @@ export default class Cl_mRegistros {
   movimientosFechas() {
     let fechas = this.movimien.map
   }
-  categoriasDesgolse(fecha:string) {
-   let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha))
+  categoriasDesgolse(fecha: string) {
+    let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha))
     const categoriasUnicas = [...new Set(datosFiltrados.map((e) => e.categoria))];
 
     const resultado = categoriasUnicas.map((nombresegoria) => {
@@ -228,7 +228,7 @@ export default class Cl_mRegistros {
 
 
     return resultado
-    
+
   }
   totales(fecha: string) {
     let datosFiltrados = this.movimientos.filter((e) => e.fecha.includes(fecha))
@@ -335,8 +335,15 @@ export default class Cl_mRegistros {
   async conversionMonto(monto: number) {
 
     const valor = await this.tasa.obtenerDatos()
-    console.log(valor)
-    return monto * Number(valor)
 
+    if (monto != this.antDlsConversion) {
+
+
+      const conversion = monto * Number(valor)
+      this.antDlsConversion = conversion
+      
+      return conversion
+
+
+    }
   }
-}
